@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Motivation 4 — COMBSS in one page – COMBSS @ StatFest</title>
+<title>COMBSS (our method) – COMBSS @ StatFest</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -156,10 +156,6 @@ window.Quarto = {
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
-  <li class="nav-item">
-    <a class="nav-link" href="../index.html"> 
-<span class="menu-text">Demo</span></a>
-  </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-motivation" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Motivation</span>
@@ -179,7 +175,7 @@ window.Quarto = {
   </li>  
         <li>
     <a class="dropdown-item" href="../motivation/04-combss.html">
- <span class="dropdown-text">4. COMBSS preview</span></a>
+ <span class="dropdown-text">4. COMBSS (our method)</span></a>
   </li>  
     </ul>
   </li>
@@ -260,7 +256,8 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#the-bridge" id="toc-the-bridge" class="nav-link active" data-scroll-target="#the-bridge">The bridge</a></li>
+  <li><a href="#where-combss-fits" id="toc-where-combss-fits" class="nav-link active" data-scroll-target="#where-combss-fits">Where COMBSS fits</a></li>
+  <li><a href="#the-bridge-side-by-side" id="toc-the-bridge-side-by-side" class="nav-link" data-scroll-target="#the-bridge-side-by-side">The bridge — side by side</a></li>
   <li><a href="#in-one-sentence" id="toc-in-one-sentence" class="nav-link" data-scroll-target="#in-one-sentence">In one sentence</a></li>
   <li><a href="#preview-of-the-rest-of-the-talk" id="toc-preview-of-the-rest-of-the-talk" class="nav-link" data-scroll-target="#preview-of-the-rest-of-the-talk">Preview of the rest of the talk</a></li>
   </ul>
@@ -271,7 +268,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<div class="quarto-title-block"><div><h1 class="title">Motivation 4 — COMBSS in one page</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+<div class="quarto-title-block"><div><h1 class="title">COMBSS (our method)</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
 <p class="subtitle lead">Where it sits between lasso and MIO</p>
 </div>
 
@@ -289,18 +286,37 @@ window.Quarto = {
 </header>
 
 
-<div class="callout callout-style-simple callout-note no-icon">
-<div class="callout-body d-flex">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
+<section id="where-combss-fits" class="level2">
+<h2 class="anchored" data-anchor-id="where-combss-fits">Where COMBSS fits</h2>
+<p>Three properties we want a method to have:</p>
+<ol type="1">
+<li><strong>Continuous / smooth optimisation</strong> — tractable, gradient-based, scalable.</li>
+<li><strong>Targets the <span class="math inline">\(\ell_0\)</span>-constrained problem</strong> — faithful to the original sparse selection task.</li>
+<li><strong>Returns exactly <span class="math inline">\(k\)</span> features</strong> — gives the user direct control over model size.</li>
+</ol>
+<div class="venn-wrap">
+<svg viewbox="-40 -30 620 470" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Venn diagram showing COMBSS at the centre of three properties.">
+  <circle cx="270" cy="120" r="125" fill="#2a9d8f" fill-opacity="0.22" stroke="#1f7a70" stroke-width="1.6"></circle>
+  <circle cx="190" cy="230" r="125" fill="#e76f51" fill-opacity="0.22" stroke="#b04a31" stroke-width="1.6"></circle>
+  <circle cx="350" cy="230" r="125" fill="#e9c46a" fill-opacity="0.28" stroke="#9c7d22" stroke-width="1.6"></circle>
+  <text x="270" y="-12" font-size="18" font-weight="700" fill="#1f7a70" text-anchor="middle">Returns exactly k features</text>
+  <text x="140" y="378" font-size="18" font-weight="700" fill="#b04a31" text-anchor="middle">Continuous /</text>
+  <text x="140" y="400" font-size="18" font-weight="700" fill="#b04a31" text-anchor="middle">smooth optimisation</text>
+  <text x="400" y="378" font-size="18" font-weight="700" fill="#9c7d22" text-anchor="middle">Targets ℓ₀-</text>
+  <text x="400" y="400" font-size="18" font-weight="700" fill="#9c7d22" text-anchor="middle">constrained problem</text>
+  <text x="130" y="290" font-size="19" font-style="italic" fill="#0b3a35" text-anchor="middle">Lasso</text>
+  <text x="340" y="148" font-size="19" font-style="italic" fill="#0b3a35" text-anchor="middle">MIO</text>
+  <text x="270" y="227" font-size="24" font-weight="700" fill="#0b3a35" text-anchor="middle">COMBSS</text>
+</svg>
 </div>
-<div class="callout-body-container">
-<p><em>Draft outline — content to come.</em></p>
-</div>
-</div>
-</div>
-<section id="the-bridge" class="level2">
-<h2 class="anchored" data-anchor-id="the-bridge">The bridge</h2>
+<ul>
+<li><strong>Lasso</strong> sits only in the <em>smooth optimisation</em> circle — convex and scalable, but doesn’t target <span class="math inline">\(\ell_0\)</span> and doesn’t directly control <span class="math inline">\(k\)</span>.</li>
+<li><strong>MIO</strong> sits in <em>targets <span class="math inline">\(\ell_0\)</span></em> and <em>returns <span class="math inline">\(k\)</span></em> — exact but not a smooth optimisation, and not scalable.</li>
+<li><strong>COMBSS</strong> sits in all three — the only method in the centre.</li>
+</ul>
+</section>
+<section id="the-bridge-side-by-side" class="level2">
+<h2 class="anchored" data-anchor-id="the-bridge-side-by-side">The bridge — side by side</h2>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 25%">
@@ -319,9 +335,9 @@ window.Quarto = {
 <tbody>
 <tr class="odd">
 <td>Variable type</td>
-<td><span class="math inline">\(\beta \in \mathbb{R}^p\)</span></td>
-<td><span class="math inline">\(z \in \{0,1\}^p\)</span></td>
-<td><span class="math inline">\(t \in [0,1]^p\)</span></td>
+<td><span class="math inline">\(\boldsymbol{\beta} \in \mathbb{R}^p\)</span></td>
+<td><span class="math inline">\(\boldsymbol{z} \in \{0,1\}^p\)</span></td>
+<td><span class="math inline">\(\boldsymbol{t} \in [0,1]^p\)</span></td>
 </tr>
 <tr class="even">
 <td>Sparsity by</td>
@@ -352,7 +368,7 @@ window.Quarto = {
 </section>
 <section id="in-one-sentence" class="level2">
 <h2 class="anchored" data-anchor-id="in-one-sentence">In one sentence</h2>
-<p>COMBSS relaxes the discrete support indicator <span class="math inline">\(z \in \{0,1\}^p\)</span> to a continuous <span class="math inline">\(t \in [0,1]^p\)</span> on the cardinality polytope, fits a ridge GLM in the relaxed space, and runs a Frank-Wolfe homotopy that drives <span class="math inline">\(t\)</span> to a vertex of the polytope — recovering an integer subset of size exactly <span class="math inline">\(k\)</span>.</p>
+<p>COMBSS relaxes the discrete support indicator <span class="math inline">\(\boldsymbol{z} \in \{0,1\}^p\)</span> to a continuous <span class="math inline">\(\boldsymbol{t} \in [0,1]^p\)</span> on the cardinality polytope, fits a ridge GLM in the relaxed space, and runs a Frank-Wolfe homotopy that drives <span class="math inline">\(\boldsymbol{t}\)</span> to a vertex of the polytope — recovering an integer subset of size exactly <span class="math inline">\(k\)</span>.</p>
 </section>
 <section id="preview-of-the-rest-of-the-talk" class="level2">
 <h2 class="anchored" data-anchor-id="preview-of-the-rest-of-the-talk">Preview of the rest of the talk</h2>
@@ -821,36 +837,62 @@ window.Quarto = {
   });
   </script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Motivation 4 — COMBSS in one page"</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "COMBSS (our method)"</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="an">subtitle:</span><span class="co"> "Where it sits between lasso and MIO"</span></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>::: {.callout-note appearance="minimal"}</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>*Draft outline — content to come.*</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">## Where COMBSS fits</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>Three properties we want a method to have:</span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">## The bridge</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="pp">|</span> **Lasso** | **MIO** | **COMBSS** <span class="pp">|</span></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="pp">|---|---|---|---|</span></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Variable type <span class="pp">|</span> $\beta \in \mathbb{R}^p$ <span class="pp">|</span> $z \in <span class="sc">\{</span>0,1<span class="sc">\}</span>^p$ <span class="pp">|</span> $t \in <span class="co">[</span><span class="ot">0,1</span><span class="co">]</span>^p$ <span class="pp">|</span></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Sparsity by <span class="pp">|</span> $\ell_1$ penalty <span class="pp">|</span> hard $\ell_0$ + Big-$M$ <span class="pp">|</span> continuous relaxation on the support indicator <span class="pp">|</span></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Selection size <span class="pp">|</span> indexed by $\lambda$ <span class="pp">|</span> $k$ via constraint <span class="pp">|</span> $k$ via polytope <span class="pp">|</span></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Scales to $p \gg n$ <span class="pp">|</span> yes <span class="pp">|</span> barely <span class="pp">|</span> yes <span class="pp">|</span></span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Biased coefficients <span class="pp">|</span> yes <span class="pp">|</span> no <span class="pp">|</span> no (envelope) <span class="pp">|</span></span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="fu">## In one sentence</span></span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>COMBSS relaxes the discrete support indicator $z \in <span class="sc">\{</span>0,1<span class="sc">\}</span>^p$ to a continuous $t \in <span class="co">[</span><span class="ot">0,1</span><span class="co">]</span>^p$ on the cardinality polytope, fits a ridge GLM in the relaxed space, and runs a Frank-Wolfe homotopy that drives $t$ to a vertex of the polytope — recovering an integer subset of size exactly $k$.</span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="fu">## Preview of the rest of the talk</span></span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Methodology** — how the relaxation works, the Frank-Wolfe step, the curvature homotopy.</span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Demos** — five runnable demos showing the method in action.</span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">← MIO</span><span class="co">](03-mio.qmd)</span> · <span class="co">[</span><span class="ot">Methodology → Boolean relaxation</span><span class="co">](../methodology/01-relaxation.qmd)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Continuous / smooth optimisation** — tractable, gradient-based, scalable.</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Targets the $\ell_0$-constrained problem** — faithful to the original sparse selection task.</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Returns exactly $k$ features** — gives the user direct control over model size.</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="in">```{=html}</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;div class="venn-wrap"&gt;</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;svg viewBox="-40 -30 620 470" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Venn diagram showing COMBSS at the centre of three properties."&gt;</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;circle cx="270" cy="120" r="125" fill="#2a9d8f" fill-opacity="0.22" stroke="#1f7a70" stroke-width="1.6"/&gt;</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;circle cx="190" cy="230" r="125" fill="#e76f51" fill-opacity="0.22" stroke="#b04a31" stroke-width="1.6"/&gt;</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;circle cx="350" cy="230" r="125" fill="#e9c46a" fill-opacity="0.28" stroke="#9c7d22" stroke-width="1.6"/&gt;</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="270" y="-12" font-size="18" font-weight="700" fill="#1f7a70" text-anchor="middle"&gt;Returns exactly k features&lt;/text&gt;</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="140" y="378" font-size="18" font-weight="700" fill="#b04a31" text-anchor="middle"&gt;Continuous /&lt;/text&gt;</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="140" y="400" font-size="18" font-weight="700" fill="#b04a31" text-anchor="middle"&gt;smooth optimisation&lt;/text&gt;</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="400" y="378" font-size="18" font-weight="700" fill="#9c7d22" text-anchor="middle"&gt;Targets ℓ₀-&lt;/text&gt;</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="400" y="400" font-size="18" font-weight="700" fill="#9c7d22" text-anchor="middle"&gt;constrained problem&lt;/text&gt;</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="130" y="290" font-size="19" font-style="italic" fill="#0b3a35" text-anchor="middle"&gt;Lasso&lt;/text&gt;</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="340" y="148" font-size="19" font-style="italic" fill="#0b3a35" text-anchor="middle"&gt;MIO&lt;/text&gt;</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;text x="270" y="227" font-size="24" font-weight="700" fill="#0b3a35" text-anchor="middle"&gt;COMBSS&lt;/text&gt;</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;/svg&gt;</span></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;/div&gt;</span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Lasso** sits only in the *smooth optimisation* circle — convex and scalable, but doesn't target $\ell_0$ and doesn't directly control $k$.</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**MIO** sits in *targets $\ell_0$* and *returns $k$* — exact but not a smooth optimisation, and not scalable.</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**COMBSS** sits in all three — the only method in the centre.</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a><span class="fu">## The bridge — side by side</span></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="pp">|</span> **Lasso** | **MIO** | **COMBSS** <span class="pp">|</span></span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a><span class="pp">|---|---|---|---|</span></span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Variable type <span class="pp">|</span> $\boldsymbol{\beta} \in \mathbb{R}^p$ <span class="pp">|</span> $\boldsymbol{z} \in <span class="sc">\{</span>0,1<span class="sc">\}</span>^p$ <span class="pp">|</span> $\boldsymbol{t} \in <span class="co">[</span><span class="ot">0,1</span><span class="co">]</span>^p$ <span class="pp">|</span></span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Sparsity by <span class="pp">|</span> $\ell_1$ penalty <span class="pp">|</span> hard $\ell_0$ + Big-$M$ <span class="pp">|</span> continuous relaxation on the support indicator <span class="pp">|</span></span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Selection size <span class="pp">|</span> indexed by $\lambda$ <span class="pp">|</span> $k$ via constraint <span class="pp">|</span> $k$ via polytope <span class="pp">|</span></span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Scales to $p \gg n$ <span class="pp">|</span> yes <span class="pp">|</span> barely <span class="pp">|</span> yes <span class="pp">|</span></span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Biased coefficients <span class="pp">|</span> yes <span class="pp">|</span> no <span class="pp">|</span> no (envelope) <span class="pp">|</span></span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a><span class="fu">## In one sentence</span></span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>COMBSS relaxes the discrete support indicator $\boldsymbol{z} \in <span class="sc">\{</span>0,1<span class="sc">\}</span>^p$ to a continuous $\boldsymbol{t} \in <span class="co">[</span><span class="ot">0,1</span><span class="co">]</span>^p$ on the cardinality polytope, fits a ridge GLM in the relaxed space, and runs a Frank-Wolfe homotopy that drives $\boldsymbol{t}$ to a vertex of the polytope — recovering an integer subset of size exactly $k$.</span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a><span class="fu">## Preview of the rest of the talk</span></span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Methodology** — how the relaxation works, the Frank-Wolfe step, the curvature homotopy.</span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Demos** — five runnable demos showing the method in action.</span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">← MIO</span><span class="co">](03-mio.qmd)</span> · <span class="co">[</span><span class="ot">Methodology → Boolean relaxation</span><span class="co">](../methodology/01-relaxation.qmd)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 

@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Motivation 2 — Lasso: convex relaxation – COMBSS @ StatFest</title>
+<title>Lasso: convex relaxation – COMBSS @ StatFest</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -156,10 +156,6 @@ window.Quarto = {
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
-  <li class="nav-item">
-    <a class="nav-link" href="../index.html"> 
-<span class="menu-text">Demo</span></a>
-  </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-motivation" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Motivation</span>
@@ -179,7 +175,7 @@ window.Quarto = {
   </li>  
         <li>
     <a class="dropdown-item" href="../motivation/04-combss.html">
- <span class="dropdown-text">4. COMBSS preview</span></a>
+ <span class="dropdown-text">4. COMBSS (our method)</span></a>
   </li>  
     </ul>
   </li>
@@ -260,9 +256,9 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#the-convex-relaxation-idea" id="toc-the-convex-relaxation-idea" class="nav-link active" data-scroll-target="#the-convex-relaxation-idea">The convex relaxation idea</a></li>
-  <li><a href="#why-people-use-it" id="toc-why-people-use-it" class="nav-link" data-scroll-target="#why-people-use-it">Why people use it</a></li>
-  <li><a href="#what-it-gives-up" id="toc-what-it-gives-up" class="nav-link" data-scroll-target="#what-it-gives-up">What it gives up</a></li>
+  <li><a href="#from-hard-ell_0-to-soft-ell_1" id="toc-from-hard-ell_0-to-soft-ell_1" class="nav-link active" data-scroll-target="#from-hard-ell_0-to-soft-ell_1">From hard <span class="math inline">\(\ell_0\)</span> to soft <span class="math inline">\(\ell_1\)</span></a></li>
+  <li><a href="#the-penalised-form" id="toc-the-penalised-form" class="nav-link" data-scroll-target="#the-penalised-form">The penalised form</a></li>
+  <li><a href="#what-lasso-gives-up" id="toc-what-lasso-gives-up" class="nav-link" data-scroll-target="#what-lasso-gives-up">What lasso gives up</a></li>
   </ul>
 <div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="02-lasso.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
     </div>
@@ -271,7 +267,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<div class="quarto-title-block"><div><h1 class="title">Motivation 2 — Lasso: convex relaxation</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+<div class="quarto-title-block"><div><h1 class="title">Lasso: convex relaxation</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
 <p class="subtitle lead">The standard <span class="math inline">\(\ell_1\)</span> surrogate</p>
 </div>
 
@@ -289,38 +285,45 @@ window.Quarto = {
 </header>
 
 
-<div class="callout callout-style-simple callout-note no-icon">
-<div class="callout-body d-flex">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-body-container">
-<p><em>Draft outline — content to come.</em></p>
-</div>
-</div>
-</div>
-<section id="the-convex-relaxation-idea" class="level2">
-<h2 class="anchored" data-anchor-id="the-convex-relaxation-idea">The convex relaxation idea</h2>
-<p>Replace <span class="math inline">\(\|\beta\|_0\)</span> with <span class="math inline">\(\|\beta\|_1\)</span>:</p>
+<section id="from-hard-ell_0-to-soft-ell_1" class="level2">
+<h2 class="anchored" data-anchor-id="from-hard-ell_0-to-soft-ell_1">From hard <span class="math inline">\(\ell_0\)</span> to soft <span class="math inline">\(\ell_1\)</span></h2>
+<p>The sparse-constrained GLM problem from the <a href="../motivation/01-sparse-glm.html">previous page</a> is</p>
 <p><span class="math display">\[
-\min_{\beta_0,\,\beta} \;\; -\tfrac{1}{n}\,\ell(\beta_0, \beta) \;+\; \lambda \|\beta\|_1.
+\min_{\beta_0,\,\boldsymbol{\beta}}\; -\tfrac{1}{n}\,\ell(\beta_0, \boldsymbol{\beta})
+\quad \text{subject to}\quad \|\boldsymbol{\beta}\|_0 \le k.
 \]</span></p>
-</section>
-<section id="why-people-use-it" class="level2">
-<h2 class="anchored" data-anchor-id="why-people-use-it">Why people use it</h2>
+<p>The combinatorial pain comes entirely from the <span class="math inline">\(\ell_0\)</span>-norm in the constraint. <strong>Lasso replaces it with the <span class="math inline">\(\ell_1\)</span>-norm</strong>:</p>
+<p><span class="math display">\[
+\boxed{\;\;
+\min_{\beta_0,\,\boldsymbol{\beta}}\; -\tfrac{1}{n}\,\ell(\beta_0, \boldsymbol{\beta})
+\quad \text{subject to}\quad \|\boldsymbol{\beta}\|_1 \le \tau.
+\;\;}
+\]</span></p>
+<p>Three things changed:</p>
 <ul>
-<li>Convex → solvable at scale (coordinate descent, ADMM).</li>
-<li>Implicit sparsity through soft-thresholding.</li>
-<li>Mature implementations (<code>glmnet</code>).</li>
+<li>The constraint set is now convex (the <span class="math inline">\(\ell_1\)</span>-ball), and the objective is convex.</li>
+<li>The budget <span class="math inline">\(\tau \ge 0\)</span> is <strong>real-valued</strong>, not an integer count. The smaller <span class="math inline">\(\tau\)</span>, the more shrunken (and therefore sparser) the solution.</li>
+<li>The whole problem is a <strong>convex optimisation</strong> — every local optimum is global, and there are mature solvers.</li>
 </ul>
 </section>
-<section id="what-it-gives-up" class="level2">
-<h2 class="anchored" data-anchor-id="what-it-gives-up">What it gives up</h2>
+<section id="the-penalised-form" class="level2">
+<h2 class="anchored" data-anchor-id="the-penalised-form">The penalised form</h2>
+<p>Because the constrained lasso is convex, <strong>Lagrangian duality</strong> lets us rewrite it as an unconstrained penalised problem:</p>
+<p><span class="math display">\[
+\min_{\beta_0,\,\boldsymbol{\beta}}\; -\tfrac{1}{n}\,\ell(\beta_0, \boldsymbol{\beta}) \;+\; \lambda \|\boldsymbol{\beta}\|_1.
+\]</span></p>
+<p>The link is exact: for every budget <span class="math inline">\(\tau\)</span> in the constrained problem, there exists a <span class="math inline">\(\lambda^\star(\tau) \ge 0\)</span> such that the penalised problem with <span class="math inline">\(\lambda = \lambda^\star(\tau)\)</span> has the <strong>same minimiser</strong> as the constrained form. The two are different parameterisations of the same solution path.</p>
+<p>In practice, almost everyone solves the <strong>penalised form</strong> — it is unconstrained, smooth in <span class="math inline">\(\lambda\)</span>, and admits efficient algorithms (coordinate descent, ADMM, ISTA/FISTA). <code>glmnet</code> returns the whole regularisation path in one call.</p>
+</section>
+<section id="what-lasso-gives-up" class="level2">
+<h2 class="anchored" data-anchor-id="what-lasso-gives-up">What lasso gives up</h2>
+<p>The relaxation is fast and well understood, but it pays three prices:</p>
 <ul>
-<li>Biased coefficients (shrinkage hits the truly active ones).</li>
-<li><span class="math inline">\(\lambda\)</span>-indexed, not <span class="math inline">\(k\)</span>-indexed — the user picks a penalty, not a subset size.</li>
-<li>In correlated designs, tends to overshoot in selected size or pick “the wrong twin”.</li>
+<li><strong>Biased coefficients.</strong> The <span class="math inline">\(\ell_1\)</span> penalty shrinks every coefficient — including the truly active ones — toward zero, so the recovered <span class="math inline">\(\hat{\boldsymbol{\beta}}\)</span> is biased even when the support is correct.</li>
+<li><strong>No direct control over <span class="math inline">\(k\)</span>.</strong> The user picks <span class="math inline">\(\lambda\)</span> (or equivalently the <span class="math inline">\(\ell_1\)</span> budget <span class="math inline">\(\tau\)</span>); neither maps directly to the number of active features <span class="math inline">\(k\)</span>. The selected size depends on the data, the design correlation, and <span class="math inline">\(\lambda\)</span>.</li>
+<li><strong>Twin instability.</strong> In correlated designs, two near-duplicate predictors compete, and lasso typically picks one and shrinks the other arbitrarily, or splits the coefficient between them. The recovered subset is unstable across resamples.</li>
 </ul>
+<p>These issues are not fatal — lasso remains the workhorse — but they motivate looking for methods that handle the <span class="math inline">\(\ell_0\)</span> constraint more faithfully. That brings us to the next option.</p>
 <hr>
 <p><a href="../motivation/01-sparse-glm.html">← Sparse GLM</a> · <a href="../motivation/03-mio.html">Next → MIO</a></p>
 
@@ -782,37 +785,59 @@ window.Quarto = {
   });
   </script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Motivation 2 — Lasso: convex relaxation"</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Lasso: convex relaxation"</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="an">subtitle:</span><span class="co"> "The standard $\\ell_1$ surrogate"</span></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>::: {.callout-note appearance="minimal"}</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>*Draft outline — content to come.*</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">## From hard $\ell_0$ to soft $\ell_1$</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>The sparse-constrained GLM problem from the <span class="co">[</span><span class="ot">previous page</span><span class="co">](01-sparse-glm.qmd)</span> is</span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">## The convex relaxation idea</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>Replace $<span class="sc">\|</span>\beta<span class="sc">\|</span>_0$ with $<span class="sc">\|</span>\beta<span class="sc">\|</span>_1$:</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>\min_{\beta_0,\,\beta} \;\; -\tfrac{1}{n}\,\ell(\beta_0, \beta) \;+\; \lambda <span class="sc">\|</span>\beta<span class="sc">\|</span>_1.</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="fu">## Why people use it</span></span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Convex → solvable at scale (coordinate descent, ADMM).</span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Implicit sparsity through soft-thresholding.</span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Mature implementations (<span class="in">`glmnet`</span>).</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>\min_{\beta_0,\,\boldsymbol{\beta}}\; -\tfrac{1}{n}\,\ell(\beta_0, \boldsymbol{\beta})</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>\quad \text{subject to}\quad <span class="sc">\|</span>\boldsymbol{\beta}<span class="sc">\|</span>_0 \le k.</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>The combinatorial pain comes entirely from the $\ell_0$-norm in the constraint. **Lasso replaces it with the $\ell_1$-norm**:</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>\boxed{\;\;</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>\min_{\beta_0,\,\boldsymbol{\beta}}\; -\tfrac{1}{n}\,\ell(\beta_0, \boldsymbol{\beta})</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>\quad \text{subject to}\quad <span class="sc">\|</span>\boldsymbol{\beta}<span class="sc">\|</span>_1 \le \tau.</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>\;\;}</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="fu">## What it gives up</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>Three things changed:</span>
 <span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Biased coefficients (shrinkage hits the truly active ones).</span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>$\lambda$-indexed, not $k$-indexed — the user picks a penalty, not a subset size.</span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>In correlated designs, tends to overshoot in selected size or pick "the wrong twin".</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The constraint set is now convex (the $\ell_1$-ball), and the objective is convex.</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The budget $\tau \ge 0$ is **real-valued**, not an integer count. The smaller $\tau$, the more shrunken (and therefore sparser) the solution.</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The whole problem is a **convex optimisation** — every local optimum is global, and there are mature solvers.</span>
 <span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="fu">## The penalised form</span></span>
 <span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">← Sparse GLM</span><span class="co">](01-sparse-glm.qmd)</span> · <span class="co">[</span><span class="ot">Next → MIO</span><span class="co">](03-mio.qmd)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>Because the constrained lasso is convex, **Lagrangian duality** lets us rewrite it as an unconstrained penalised problem:</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>\min_{\beta_0,\,\boldsymbol{\beta}}\; -\tfrac{1}{n}\,\ell(\beta_0, \boldsymbol{\beta}) \;+\; \lambda <span class="sc">\|</span>\boldsymbol{\beta}<span class="sc">\|</span>_1.</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>The link is exact: for every budget $\tau$ in the constrained problem, there exists a $\lambda^\star(\tau) \ge 0$ such that the penalised problem with $\lambda = \lambda^\star(\tau)$ has the **same minimiser** as the constrained form. The two are different parameterisations of the same solution path.</span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>In practice, almost everyone solves the **penalised form** — it is unconstrained, smooth in $\lambda$, and admits efficient algorithms (coordinate descent, ADMM, ISTA/FISTA). <span class="in">`glmnet`</span> returns the whole regularisation path in one call.</span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a><span class="fu">## What lasso gives up</span></span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>The relaxation is fast and well understood, but it pays three prices:</span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Biased coefficients.** The $\ell_1$ penalty shrinks every coefficient — including the truly active ones — toward zero, so the recovered $\hat{\boldsymbol{\beta}}$ is biased even when the support is correct.</span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**No direct control over $k$.** The user picks $\lambda$ (or equivalently the $\ell_1$ budget $\tau$); neither maps directly to the number of active features $k$. The selected size depends on the data, the design correlation, and $\lambda$.</span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Twin instability.** In correlated designs, two near-duplicate predictors compete, and lasso typically picks one and shrinks the other arbitrarily, or splits the coefficient between them. The recovered subset is unstable across resamples.</span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>These issues are not fatal — lasso remains the workhorse — but they motivate looking for methods that handle the $\ell_0$ constraint more faithfully. That brings us to the next option.</span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">← Sparse GLM</span><span class="co">](01-sparse-glm.qmd)</span> · <span class="co">[</span><span class="ot">Next → MIO</span><span class="co">](03-mio.qmd)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 

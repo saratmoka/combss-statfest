@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Motivation 3 — MIO: exact best subset – COMBSS @ StatFest</title>
+<title>MIO: exact best subset – COMBSS @ StatFest</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -156,10 +156,6 @@ window.Quarto = {
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
-  <li class="nav-item">
-    <a class="nav-link" href="../index.html"> 
-<span class="menu-text">Demo</span></a>
-  </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-motivation" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Motivation</span>
@@ -179,7 +175,7 @@ window.Quarto = {
   </li>  
         <li>
     <a class="dropdown-item" href="../motivation/04-combss.html">
- <span class="dropdown-text">4. COMBSS preview</span></a>
+ <span class="dropdown-text">4. COMBSS (our method)</span></a>
   </li>  
     </ul>
   </li>
@@ -271,7 +267,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<div class="quarto-title-block"><div><h1 class="title">Motivation 3 — MIO: exact best subset</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+<div class="quarto-title-block"><div><h1 class="title">MIO: exact best subset</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
 <p class="subtitle lead">Solve the discrete problem directly</p>
 </div>
 
@@ -302,7 +298,7 @@ window.Quarto = {
 <section id="the-mixed-integer-formulation" class="level2">
 <h2 class="anchored" data-anchor-id="the-mixed-integer-formulation">The mixed-integer formulation</h2>
 <p><span class="math display">\[
-\min_{\beta_0,\,\beta,\,z}\; -\tfrac{1}{n}\,\ell(\beta_0, \beta) \quad
+\min_{\beta_0,\,\boldsymbol{\beta},\,\boldsymbol{z}}\; -\tfrac{1}{n}\,\ell(\beta_0, \boldsymbol{\beta}) \quad
 \text{s.t.}\;\; z_j \in \{0,1\},\;\; \textstyle\sum_j z_j \le k,\;\; |\beta_j| \le M z_j.
 \]</span></p>
 </section>
@@ -783,7 +779,7 @@ window.Quarto = {
   });
   </script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Motivation 3 — MIO: exact best subset"</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "MIO: exact best subset"</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="an">subtitle:</span><span class="co"> "Solve the discrete problem directly"</span></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
@@ -794,7 +790,7 @@ window.Quarto = {
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">## The mixed-integer formulation</span></span>
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>\min_{\beta_0,\,\beta,\,z}\; -\tfrac{1}{n}\,\ell(\beta_0, \beta) \quad</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>\min_{\beta_0,\,\boldsymbol{\beta},\,\boldsymbol{z}}\; -\tfrac{1}{n}\,\ell(\beta_0, \boldsymbol{\beta}) \quad</span>
 <span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>\text{s.t.}\;\; z_j \in <span class="sc">\{</span>0,1<span class="sc">\}</span>,\;\; \textstyle\sum_j z_j \le k,\;\; |\beta_j| \le M z_j.</span>
 <span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
