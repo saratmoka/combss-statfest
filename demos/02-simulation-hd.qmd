@@ -1,5 +1,5 @@
 ---
-title: "Demo 2 — High-dimensional logistic regression"
+title: "High-dimensional logistic regression"
 subtitle: "$n = 200$, $p = 1000$, ten truly active predictors with correlated design"
 ---
 

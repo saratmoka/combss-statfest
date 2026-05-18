@@ -1,5 +1,5 @@
 ---
-title: "Methodology 3 — Homotopy in $\\delta$"
+title: "Homotopy in $\\delta$"
 subtitle: "Why the final iterate lands at a vertex"
 ---
 

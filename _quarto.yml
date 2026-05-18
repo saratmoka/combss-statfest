@@ -9,8 +9,6 @@ website:
     background: "#2a9d8f"
     foreground: light
     left:
-      - href: index.qmd
-        text: Demo
       - text: Motivation
         menu:
           - href: motivation/01-sparse-glm.qmd
@@ -20,7 +18,7 @@ website:
           - href: motivation/03-mio.qmd
             text: "3. MIO"
           - href: motivation/04-combss.qmd
-            text: "4. COMBSS preview"
+            text: "4. COMBSS (our method)"
       - text: Methodology
         menu:
           - href: methodology/01-relaxation.qmd

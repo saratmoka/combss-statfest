@@ -1,5 +1,5 @@
 ---
-title: "Motivation 1 — Sparse-constrained GLM"
+title: "Sparse-constrained GLM"
 subtitle: "The problem we want to solve"
 ---
 
@@ -45,8 +45,8 @@ The same question arises whenever the response is well modelled by a generalised
 In every case, fitting the model amounts to maximising a log-likelihood:
 
 $$
-\ell(\beta_0, \beta)
-\;=\; \sum_{i=1}^n \log p(y_i \mid x_i; \beta_0, \beta).
+\ell(\beta_0, \boldsymbol{\beta})
+\;=\; \sum_{i=1}^n \log p(y_i \mid x_i; \beta_0, \boldsymbol{\beta}).
 $$
 
 For Gaussian, this reduces to least squares; for Bernoulli, to logistic regression; and so on. The unifying framework lets one method handle them all — provided it can deal with the **sparsity constraint** we are about to add.
@@ -57,19 +57,20 @@ For a prescribed model size $k$, find the $k$ predictors that best fit the data:
 
 $$
 \boxed{\;\;
-\min_{\beta_0 \in \mathbb{R},\; \beta \in \mathbb{R}^p}\;
-\Bigl\{\, -\tfrac{1}{n}\,\ell(\beta_0, \beta) \;+\; \lambda\,\|\beta\|_2^2 \,\Bigr\}
+\min_{\beta_0 \in \mathbb{R},\; \boldsymbol{\beta} \in \mathbb{R}^p}\;
+\;-\tfrac{1}{n}\,\ell(\beta_0, \boldsymbol{\beta})
 \quad
 \text{subject to}\quad
-\|\beta\|_0 \le k.
+\|\boldsymbol{\beta}\|_0 \le k.
 \;\;}
 $$
 
-Three things to notice:
+Two things to notice:
 
-- The objective is the **negative GLM log-likelihood**, optionally stabilised with a small ridge term $\lambda \|\beta\|_2^2$.
+- The objective is the **negative GLM log-likelihood**.
 - The constraint is the **$\ell_0$-norm cardinality**: count the non-zero entries, keep at most $k$.
-- The user supplies $k$. Output: which $k$ features, and their fitted coefficients.
+
+The user supplies $k$. Output: which $k$ features, and their fitted coefficients.
 
 This is the problem COMBSS solves.
 
@@ -113,10 +114,10 @@ Every one of these calls for a sparsity-constrained GLM, not just a regularised 
 
 How do existing methods cope with the NP-hard constraint? Two main strategies:
 
-- **Lasso** ([next page](02-lasso.qmd)) — relax $\|\beta\|_0$ to the convex $\|\beta\|_1$. Fast and popular, but biased and indexed by $\lambda$, not $k$.
+- **Lasso** ([next page](02-lasso.qmd)) — relax $\|\boldsymbol{\beta}\|_0$ to the convex $\|\boldsymbol{\beta}\|_1$. Fast and popular, but biased and indexed by $\lambda$, not $k$.
 - **MIO** ([page after](03-mio.qmd)) — solve the discrete problem directly with mixed-integer optimisation. Exact, but does not scale.
 
-COMBSS sits between the two: continuous like the lasso, but on the *support indicator* rather than on $\beta$ itself — and explicitly $k$-indexed.
+COMBSS sits between the two: continuous like the lasso, but on the *support indicator* rather than on $\boldsymbol{\beta}$ itself — and explicitly $k$-indexed.
 
 ---
 

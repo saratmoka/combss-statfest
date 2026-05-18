@@ -1,5 +1,5 @@
 ---
-title: "Demo 2 — Khan SRBCT cancer classification"
+title: "Khan SRBCT cancer classification"
 subtitle: "$p = 2308$ genes, 4 cancer types, $n = 83$ — and the answer is twelve genes"
 ---
 

@@ -1,5 +1,5 @@
 ---
-title: "Demo 3 — Head-to-head with the lasso"
+title: "Head-to-head with the lasso"
 subtitle: "Same data, same train/validation split, three numbers each"
 ---
 

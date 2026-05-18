@@ -1,5 +1,5 @@
 ---
-title: "Demo 1 — A simulation you can trust"
+title: "A simulation you can trust"
 subtitle: "Linear regression with five truly active predictors among thirty"
 ---
 

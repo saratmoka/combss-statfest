@@ -1,5 +1,5 @@
 ---
-title: "Motivation 3 — MIO: exact best subset"
+title: "MIO: exact best subset"
 subtitle: "Solve the discrete problem directly"
 ---
 
@@ -10,7 +10,7 @@ subtitle: "Solve the discrete problem directly"
 ## The mixed-integer formulation
 
 $$
-\min_{\beta_0,\,\beta,\,z}\; -\tfrac{1}{n}\,\ell(\beta_0, \beta) \quad
+\min_{\beta_0,\,\boldsymbol{\beta},\,\boldsymbol{z}}\; -\tfrac{1}{n}\,\ell(\beta_0, \boldsymbol{\beta}) \quad
 \text{s.t.}\;\; z_j \in \{0,1\},\;\; \textstyle\sum_j z_j \le k,\;\; |\beta_j| \le M z_j.
 $$
 

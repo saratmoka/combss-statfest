@@ -30,7 +30,7 @@ This site is the talk. Each section below has its own page; navigate via the top
 
 | Section | Pages |
 |---|---|
-| **Motivation** — what sparse-constrained GLM is, and why lasso / MIO are not the last word | [Sparse GLM](motivation/01-sparse-glm.qmd){target="_blank"} → [Lasso](motivation/02-lasso.qmd){target="_blank"} → [MIO](motivation/03-mio.qmd){target="_blank"} → [COMBSS preview](motivation/04-combss.qmd){target="_blank"} |
+| **Motivation** — what sparse-constrained GLM is, and why lasso / MIO are not the last word | [Sparse GLM](motivation/01-sparse-glm.qmd){target="_blank"} → [Lasso](motivation/02-lasso.qmd){target="_blank"} → [MIO](motivation/03-mio.qmd){target="_blank"} → [COMBSS (our method)](motivation/04-combss.qmd){target="_blank"} |
 | **Methodology** — Boolean relaxation, Frank-Wolfe iterates, homotopy in the curvature parameter | [Relaxation](methodology/01-relaxation.qmd){target="_blank"} → [Frank-Wolfe](methodology/02-frank-wolfe.qmd){target="_blank"} → [Homotopy](methodology/03-homotopy.qmd){target="_blank"} |
 | **Demos** — five runnable demos in R and Python | [Linear sim](demos/01-simulation.qmd){target="_blank"} · [HD logistic](demos/02-simulation-hd.qmd){target="_blank"} · [Khan SRBCT](demos/03-khan.qmd){target="_blank"} · [Rice GWAS](demos/04-rice.qmd){target="_blank"} · [Comparisons](demos/05-comparisons.qmd){target="_blank"} |
 | **Use it yourself** | [Install](install.qmd){target="_blank"} · [References](references.qmd){target="_blank"} |
@@ -40,6 +40,7 @@ This site is the talk. Each section below has its own page; navigate via the top
 - **R** — [combss on CRAN](https://cran.r-project.org/web/packages/combss/index.html){target="_blank"} — `install.packages("combss")`
 - **Python** — [combss on PyPI](https://pypi.org/project/combss/){target="_blank"} — `pip install combss`
 
-## Source
+## Links
 
-All code and slides for this presentation are at <https://github.com/saratmoka/combss-statfest>.
+- **Live site** — <https://saratmoka.github.io/combss-statfest/>
+- **Source code** — <https://github.com/saratmoka/combss-statfest>

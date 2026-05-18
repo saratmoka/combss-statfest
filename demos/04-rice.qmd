@@ -1,5 +1,5 @@
 ---
-title: "Demo 4 — Rice GWAS"
+title: "Rice GWAS"
 subtitle: "$p \\approx 158{,}000$ SNPs, $n = 1{,}155$ rice accessions, a known grain-length locus"
 ---
 

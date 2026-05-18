@@ -1,5 +1,5 @@
 ---
-title: "Methodology 1 — Boolean relaxation"
+title: "Boolean relaxation"
 subtitle: "From discrete subsets to the cardinality polytope"
 ---
 

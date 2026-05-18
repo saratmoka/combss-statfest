@@ -1,17 +1,43 @@
 ---
-title: "Motivation 4 — COMBSS in one page"
+title: "COMBSS (our method)"
 subtitle: "Where it sits between lasso and MIO"
 ---
 
-::: {.callout-note appearance="minimal"}
-*Draft outline — content to come.*
-:::
+## Where COMBSS fits
 
-## The bridge
+Three properties we want a method to have:
+
+1. **Continuous / smooth optimisation** — tractable, gradient-based, scalable.
+2. **Targets the $\ell_0$-constrained problem** — faithful to the original sparse selection task.
+3. **Returns exactly $k$ features** — gives the user direct control over model size.
+
+```{=html}
+<div class="venn-wrap">
+<svg viewBox="-40 -30 620 470" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Venn diagram showing COMBSS at the centre of three properties.">
+  <circle cx="270" cy="120" r="125" fill="#2a9d8f" fill-opacity="0.22" stroke="#1f7a70" stroke-width="1.6"/>
+  <circle cx="190" cy="230" r="125" fill="#e76f51" fill-opacity="0.22" stroke="#b04a31" stroke-width="1.6"/>
+  <circle cx="350" cy="230" r="125" fill="#e9c46a" fill-opacity="0.28" stroke="#9c7d22" stroke-width="1.6"/>
+  <text x="270" y="-12" font-size="18" font-weight="700" fill="#1f7a70" text-anchor="middle">Returns exactly k features</text>
+  <text x="140" y="378" font-size="18" font-weight="700" fill="#b04a31" text-anchor="middle">Continuous /</text>
+  <text x="140" y="400" font-size="18" font-weight="700" fill="#b04a31" text-anchor="middle">smooth optimisation</text>
+  <text x="400" y="378" font-size="18" font-weight="700" fill="#9c7d22" text-anchor="middle">Targets ℓ₀-</text>
+  <text x="400" y="400" font-size="18" font-weight="700" fill="#9c7d22" text-anchor="middle">constrained problem</text>
+  <text x="130" y="290" font-size="19" font-style="italic" fill="#0b3a35" text-anchor="middle">Lasso</text>
+  <text x="340" y="148" font-size="19" font-style="italic" fill="#0b3a35" text-anchor="middle">MIO</text>
+  <text x="270" y="227" font-size="24" font-weight="700" fill="#0b3a35" text-anchor="middle">COMBSS</text>
+</svg>
+</div>
+```
+
+- **Lasso** sits only in the *smooth optimisation* circle — convex and scalable, but doesn't target $\ell_0$ and doesn't directly control $k$.
+- **MIO** sits in *targets $\ell_0$* and *returns $k$* — exact but not a smooth optimisation, and not scalable.
+- **COMBSS** sits in all three — the only method in the centre.
+
+## The bridge — side by side
 
 | | **Lasso** | **MIO** | **COMBSS** |
 |---|---|---|---|
-| Variable type | $\beta \in \mathbb{R}^p$ | $z \in \{0,1\}^p$ | $t \in [0,1]^p$ |
+| Variable type | $\boldsymbol{\beta} \in \mathbb{R}^p$ | $\boldsymbol{z} \in \{0,1\}^p$ | $\boldsymbol{t} \in [0,1]^p$ |
 | Sparsity by | $\ell_1$ penalty | hard $\ell_0$ + Big-$M$ | continuous relaxation on the support indicator |
 | Selection size | indexed by $\lambda$ | $k$ via constraint | $k$ via polytope |
 | Scales to $p \gg n$ | yes | barely | yes |
@@ -19,7 +45,7 @@ subtitle: "Where it sits between lasso and MIO"
 
 ## In one sentence
 
-COMBSS relaxes the discrete support indicator $z \in \{0,1\}^p$ to a continuous $t \in [0,1]^p$ on the cardinality polytope, fits a ridge GLM in the relaxed space, and runs a Frank-Wolfe homotopy that drives $t$ to a vertex of the polytope — recovering an integer subset of size exactly $k$.
+COMBSS relaxes the discrete support indicator $\boldsymbol{z} \in \{0,1\}^p$ to a continuous $\boldsymbol{t} \in [0,1]^p$ on the cardinality polytope, fits a ridge GLM in the relaxed space, and runs a Frank-Wolfe homotopy that drives $\boldsymbol{t}$ to a vertex of the polytope — recovering an integer subset of size exactly $k$.
 
 ## Preview of the rest of the talk
 

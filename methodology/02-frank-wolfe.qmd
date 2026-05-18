@@ -1,5 +1,5 @@
 ---
-title: "Methodology 2 — Frank-Wolfe on the polytope"
+title: "Frank-Wolfe on the polytope"
 subtitle: "Linear minimisation oracle, no projections"
 ---
 
