@@ -1,0 +1,32 @@
+---
+title: "Motivation 2 — Lasso: convex relaxation"
+subtitle: "The standard $\\ell_1$ surrogate"
+---
+
+::: {.callout-note appearance="minimal"}
+*Draft outline — content to come.*
+:::
+
+## The convex relaxation idea
+
+Replace $\|\beta\|_0$ with $\|\beta\|_1$:
+
+$$
+\min_\beta \;\; -\tfrac{1}{n}\,\ell(X\beta;\,y) \;+\; \lambda \|\beta\|_1.
+$$
+
+## Why people use it
+
+- Convex → solvable at scale (coordinate descent, ADMM).
+- Implicit sparsity through soft-thresholding.
+- Mature implementations (`glmnet`).
+
+## What it gives up
+
+- Biased coefficients (shrinkage hits the truly active ones).
+- $\lambda$-indexed, not $k$-indexed — the user picks a penalty, not a subset size.
+- In correlated designs, tends to overshoot in selected size or pick "the wrong twin".
+
+---
+
+[← Sparse GLM](01-sparse-glm.qmd) · [Next → MIO](03-mio.qmd)

@@ -1,0 +1,145 @@
+---
+title: "Demo 2 — Khan SRBCT cancer classification"
+subtitle: "$p = 2308$ genes, 4 cancer types, $n = 83$ — and the answer is twelve genes"
+---
+
+::: {.callout-note appearance="minimal"}
+R code is executed; outputs below are real. Click the **Python** tab for the equivalent script.
+:::
+
+## The data
+
+Khan et al. (2001) profiled gene expression for small round blue-cell tumours, a family of four childhood cancers that look nearly identical under a microscope:
+
+- **BL** — Burkitt lymphoma
+- **EWS** — Ewing's sarcoma
+- **NB** — neuroblastoma
+- **RMS** — rhabdomyosarcoma
+
+Each tumour is described by **2308 cDNA microarray probes**. The training set has 63 samples; the test set has 20. The classical version of the question is: *can you train a classifier that distinguishes the four tumour types using only a handful of genes?*
+
+The CSVs in `data/` are formatted with the class label in the first column (`y`) and the 2308 probes in columns `X1`–`X2308`.
+
+## Load the data
+
+::: {.panel-tabset group="lang"}
+
+## R
+
+```{r}
+#| label: khan-load-r
+train <- read.csv("../data/Khan_train.csv")
+test  <- read.csv("../data/Khan_test.csv")
+
+x_train <- as.matrix(train[, -1]); y_train <- train$y
+x_test  <- as.matrix(test[, -1]);  y_test  <- test$y
+
+dim(x_train); table(y_train)
+```
+
+## Python
+
+```python
+import pandas as pd
+
+train = pd.read_csv("../data/Khan_train.csv")
+test  = pd.read_csv("../data/Khan_test.csv")
+
+X_train = train.drop(columns="y").to_numpy()
+y_train = train["y"].to_numpy()
+X_test  = test.drop(columns="y").to_numpy()
+y_test  = test["y"].to_numpy()
+
+print(X_train.shape)
+print(pd.Series(y_train).value_counts())
+```
+
+:::
+
+## Fit COMBSS
+
+Run COMBSS for $k = 1, \ldots, 20$ with multinomial logistic loss and the test set as validation:
+
+::: {.panel-tabset group="lang"}
+
+## R
+
+```{r}
+#| label: khan-fit-r
+library(combss)
+fit_khan <- combss(x_train, y_train,
+                   x_val = x_test, y_val = y_test,
+                   family = "multinomial", q = 20)
+fit_khan
+```
+
+## Python
+
+```python
+from combss import combss
+
+fit_khan = combss(X_train, y_train,
+                  X_val=X_test, y_val=y_test,
+                  family="multinomial", q=20)
+print(fit_khan)
+```
+
+:::
+
+## How many genes does COMBSS pick?
+
+::: {.panel-tabset group="lang"}
+
+## R
+
+```{r}
+#| label: khan-best-r
+fit_khan$best_k
+fit_khan$subset_list[[ fit_khan$best_k ]]
+```
+
+## Python
+
+```python
+print(fit_khan.best_k)
+print(fit_khan.subset_list[fit_khan.best_k - 1])
+```
+
+:::
+
+## Test-set accuracy at each $k$
+
+::: {.panel-tabset group="lang"}
+
+## R
+
+```{r}
+#| label: khan-acc-r
+#| fig-cap: "Accuracy as a function of the number of selected genes."
+plot(seq_along(fit_khan$accuracy_path), fit_khan$accuracy_path, type = "b", pch = 19,
+     xlab = "k (number of selected genes)", ylab = "Test accuracy")
+abline(v = fit_khan$best_k, lty = 2)
+```
+
+## Python
+
+```python
+import matplotlib.pyplot as plt
+plt.plot(range(1, len(fit_khan.accuracy_path) + 1), fit_khan.accuracy_path, "o-")
+plt.axvline(fit_khan.best_k, ls="--")
+plt.xlabel("k (number of selected genes)")
+plt.ylabel("Test accuracy")
+plt.show()
+```
+
+:::
+
+## The headline
+
+Twelve genes are enough to separate the four tumour types — perfect classification on the held-out 20 samples, drawn from 2308 candidates. The R and Python implementations agree on the same twelve genes.
+
+A lasso baseline on the same training data selects an order of magnitude more genes for comparable accuracy (see [Comparisons](05-comparisons.qmd)).
+
+## Reference
+
+Khan, J. et al. (2001). *Classification and diagnostic prediction of cancers using gene expression profiling and artificial neural networks*. **Nature Medicine** 7, 673–679.

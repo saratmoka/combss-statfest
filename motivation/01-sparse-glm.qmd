@@ -1,0 +1,35 @@
+---
+title: "Motivation 1 — Sparse-constrained GLM"
+subtitle: "The problem we want to solve"
+---
+
+::: {.callout-note appearance="minimal"}
+*Draft outline — content to come.*
+:::
+
+## What sparse-constrained GLM is
+
+- The GLM setup: response $y$, design $X$, log-likelihood $\ell(\beta_0, \beta; \mathcal{D})$.
+- The cardinality constraint: $\|\beta\|_0 \le k$.
+- Why this problem appears everywhere: GWAS, gene-expression classification, bodyfat-style applied regression.
+
+## The optimisation we are trying to solve
+
+$$
+\min_{\beta_0,\,\beta}\;
+-\frac{1}{n}\,\ell(\beta_0, \beta;\,\mathcal{D})
+\;+\;
+\lambda\,\|\beta\|_2^2
+\qquad
+\text{subject to}\quad \|\beta\|_0 \le k.
+$$
+
+## Why this is hard
+
+- Combinatorial in $\binom{p}{k}$.
+- NP-hard in general.
+- Existing approaches: lasso (next page), MIO (page after).
+
+---
+
+[Next → Lasso](02-lasso.qmd)

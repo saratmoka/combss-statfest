@@ -1,0 +1,73 @@
+---
+title: "Install"
+subtitle: "Set up R and Python to follow along live"
+---
+
+If you would like to run the demos on your laptop, install one or both of the `combss` packages below. The same demos exist in R and Python with matching results, so either language is fine.
+
+## R
+
+```r
+install.packages("combss")
+```
+
+That's it — `combss` is on CRAN. The only run-time dependency is `glmnet`, which CRAN will install automatically. Tested with R 4.3 and 4.4 on macOS, Linux, and Windows.
+
+### Quick check
+
+```r
+library(combss)
+set.seed(1)
+x <- matrix(rnorm(100 * 20), 100, 20)
+y <- as.numeric(x %*% c(2, -1, 1, rep(0, 17)) + rnorm(100) * 0.3)
+fit <- combss(x, y, family = "gaussian", q = 5)
+fit$subset_list[1:5]
+```
+
+Expected output: nested supports building up to `{1, 2, 3}` at $k = 3$.
+
+## Python
+
+```bash
+pip install combss
+```
+
+Python 3.9 or newer. Dependencies (`numpy`, `scipy`, `scikit-learn`, `pandas`) install automatically.
+
+### Quick check
+
+```python
+import numpy as np
+from combss import combss
+
+rng = np.random.default_rng(1)
+X = rng.standard_normal((100, 20))
+beta = np.r_[2, -1, 1, np.zeros(17)]
+y = X @ beta + 0.3 * rng.standard_normal(100)
+fit = combss(X, y, family="gaussian", q=5)
+print(fit.subset_list[:5])
+```
+
+Expected output: nested supports building up to `{1, 2, 3}` at $k = 3$.
+
+## Editor recommendations
+
+Either of these makes running the demos chunk-by-chunk smooth:
+
+- **RStudio** — open the `.qmd` file, click the green ▶ on each chunk.
+- **VS Code** with the *Quarto* and *Jupyter* extensions — same idea, language-aware.
+
+## Cloning the demo repository
+
+```bash
+git clone https://github.com/saratmoka/combss-statfest.git
+cd combss-statfest
+```
+
+All the data (Khan SRBCT and the simulation seeds) lives under `data/`. No external downloads are needed at run time.
+
+## Trouble?
+
+- R cannot find the package: make sure you are on R ≥ 4.0 and check `available.packages()` lists `combss`. If not, your CRAN mirror may be stale; pick another with `chooseCRANmirror()`.
+- Python `pip install` fails on `combss`: confirm you are on Python ≥ 3.9 with `python --version`; older versions are unsupported.
+- Anything else: open an issue at <https://github.com/saratmoka/combss-statfest/issues>.

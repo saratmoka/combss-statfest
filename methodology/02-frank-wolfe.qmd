@@ -1,0 +1,46 @@
+---
+title: "Methodology 2 — Frank-Wolfe on the polytope"
+subtitle: "Linear minimisation oracle, no projections"
+---
+
+::: {.callout-note appearance="minimal"}
+*Draft outline — content to come.*
+:::
+
+## The Frank-Wolfe iteration
+
+At iterate $\bm t^{(r)}$:
+
+1. **Linear minimisation oracle (LMO)**:
+
+$$
+\bm s^{(r)} \;\in\;
+\arg\min_{\bm u \in \mathcal{T}_k}
+\langle \bm g(\bm t^{(r)}),\,\bm u\rangle
+\;\;\Longleftrightarrow\;\;
+\bm s^{(r)} = \text{vertex with the $k$ smallest entries of $\bm g(\bm t^{(r)})$.}
+$$
+
+2. **Step**: $\bm t^{(r+1)} = (1 - \alpha)\,\bm t^{(r)} + \alpha\,\bm s^{(r)}.$
+
+3. **Iterate** until $\bm t^{(r)}$ converges to a vertex.
+
+## Why no projections
+
+The cardinality polytope is a *combinatorial* set; projecting onto it is itself a hard problem. Frank-Wolfe avoids the projection — every step just requires the LMO, which is a sort.
+
+## Vertex-approach guarantee
+
+$$
+\|\bm t^{(r)} - \bm s^*\|_\infty
+\;\le\;
+(1 - \alpha)^r \,\|\bm t^{(0)} - \bm s^*\|_\infty.
+$$
+
+Linear convergence to the chosen vertex once the LMO direction settles.
+
+> Placeholder for visual: a small 3D figure of FW iterates marching toward a vertex of the polytope.
+
+---
+
+[← Boolean relaxation](01-relaxation.qmd) · [Next → Homotopy](03-homotopy.qmd)

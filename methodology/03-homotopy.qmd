@@ -1,0 +1,58 @@
+---
+title: "Methodology 3 — Homotopy in $\\delta$"
+subtitle: "Why the final iterate lands at a vertex"
+---
+
+::: {.callout-note appearance="minimal"}
+*Draft outline — content to come.*
+:::
+
+## The curvature parameter
+
+$\delta$ in the relaxed objective controls how strongly the envelope penalty pushes $\bm t$ toward vertices. Small $\delta$ → smooth, easy to optimise. Large $\delta$ → strongly concave on the polytope.
+
+## Homotopy schedule
+
+Start with small $\delta$, increase geometrically:
+
+$$
+\delta^{(0)} < \delta^{(1)} < \cdots < \delta^{(R)} \;\ge\; \delta_{\mathrm{conc}}.
+$$
+
+Warm-start each FW solve with the previous $\bm t$.
+
+## Theorem 1 — concavity threshold
+
+There exists an explicit $\delta_{\mathrm{conc}}$ (depending on the design and the model) above which $f_{\delta, \lambda}(\bm t)$ is concave on the cardinality polytope, and **every minimiser is a binary vertex**.
+
+For logistic regression:
+$$
+\delta_{\mathrm{conc}} \;=\; \frac{\nu_{\max}}{8n}.
+$$
+
+For multinomial:
+$$
+\delta_{\mathrm{conc}} \;=\; \frac{\nu_{\max}}{4n}.
+$$
+
+(where $\nu_{\max}$ is the largest eigenvalue of $X_u^\top X_u$.)
+
+## The $k$-sweep
+
+Loop over $k = 1, 2, \ldots, q$, warm-starting each $k$ from the previous solution. One sweep produces a full subset path $S_1, S_2, \ldots, S_q$.
+
+> Placeholder for visual: animation of the loss surface deforming with $\delta$ from smooth to spiky-at-corners; gif candidate.
+
+## Where to next
+
+See it work — in code, on real data:
+
+- [Linear simulation](../demos/01-simulation.qmd)
+- [HD logistic simulation](../demos/02-simulation-hd.qmd)
+- [Khan SRBCT](../demos/03-khan.qmd)
+- [Rice GWAS](../demos/04-rice.qmd)
+- [Comparisons](../demos/05-comparisons.qmd)
+
+---
+
+[← Frank-Wolfe](02-frank-wolfe.qmd)

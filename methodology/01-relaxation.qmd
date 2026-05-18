@@ -1,0 +1,57 @@
+---
+title: "Methodology 1 — Boolean relaxation"
+subtitle: "From discrete subsets to the cardinality polytope"
+---
+
+::: {.callout-note appearance="minimal"}
+*Draft outline — content to come.*
+:::
+
+## Reparameterising the support
+
+Replace the discrete indicator $z \in \{0,1\}^p$ by a continuous $t \in [0,1]^p$ and write
+
+$$
+\beta_j = t_j \, \xi_j,
+\qquad
+t_j \in [0, 1].
+$$
+
+- $t_j = 1$ means feature $j$ is **in**.
+- $t_j = 0$ means **out**.
+- Vertices of the hypercube ↔ discrete supports.
+
+The cardinality constraint $\sum z_j \le k$ becomes $\sum t_j \le k$ — a polytope.
+
+## The relaxed objective
+
+$$
+f_{\delta, \lambda}(\bm t)
+=
+\min_{\beta_0,\,\bm\xi}
+\Bigl\{
+-\tfrac{1}{n}\,\ell(\beta_0, T_{\bm t}\bm\xi;\,\mathcal{D})
++ \lambda\,\|\bm\xi\|_2^2
++ \delta\,\|\Gamma_{\bm t}\,\bm\xi\|_2^2
+\Bigr\}.
+$$
+
+- Inner problem in $\bm\xi$: **ridge GLM**, solved by `glmnet` in one call.
+- Outer problem in $\bm t$: smooth, defined on the cardinality polytope.
+- $\delta$ is a curvature parameter (homotopy schedule lives here).
+
+## Envelope gradient
+
+By Danskin's theorem, the gradient w.r.t. $\bm t$ has closed form:
+
+$$
+g_j(\bm t) \;=\; -\,\frac{2(\lambda + \delta)}{t_j^{\,3}}\,\hat\xi_j(\bm t)^2.
+$$
+
+This is the only thing the outer Frank-Wolfe step needs.
+
+> Placeholder for visual: the four-panel loss-landscape figure (discrete → smooth → smooth+$\ell_1$ → strongly penalised).
+
+---
+
+[← COMBSS preview](../motivation/04-combss.qmd) · [Next → Frank-Wolfe](02-frank-wolfe.qmd)

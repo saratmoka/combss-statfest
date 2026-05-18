@@ -1,0 +1,15 @@
+_site/
+_freeze/
+.quarto/
+**/*.quarto_ipynb
+
+# Local notes
+links.txt
+
+# Editor / OS
+.DS_Store
+.Rproj.user/
+.Rhistory
+__pycache__/
+*.pyc
+.ipynb_checkpoints/

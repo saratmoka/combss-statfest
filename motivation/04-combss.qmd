@@ -1,0 +1,31 @@
+---
+title: "Motivation 4 — COMBSS in one page"
+subtitle: "Where it sits between lasso and MIO"
+---
+
+::: {.callout-note appearance="minimal"}
+*Draft outline — content to come.*
+:::
+
+## The bridge
+
+| | **Lasso** | **MIO** | **COMBSS** |
+|---|---|---|---|
+| Variable type | $\beta \in \mathbb{R}^p$ | $z \in \{0,1\}^p$ | $t \in [0,1]^p$ |
+| Sparsity by | $\ell_1$ penalty | hard $\ell_0$ + Big-$M$ | continuous relaxation on the support indicator |
+| Selection size | indexed by $\lambda$ | $k$ via constraint | $k$ via polytope |
+| Scales to $p \gg n$ | yes | barely | yes |
+| Biased coefficients | yes | no | no (envelope) |
+
+## In one sentence
+
+COMBSS relaxes the discrete support indicator $z \in \{0,1\}^p$ to a continuous $t \in [0,1]^p$ on the cardinality polytope, fits a ridge GLM in the relaxed space, and runs a Frank-Wolfe homotopy that drives $t$ to a vertex of the polytope — recovering an integer subset of size exactly $k$.
+
+## Preview of the rest of the talk
+
+- **Methodology** — how the relaxation works, the Frank-Wolfe step, the curvature homotopy.
+- **Demos** — five runnable demos showing the method in action.
+
+---
+
+[← MIO](03-mio.qmd) · [Methodology → Boolean relaxation](../methodology/01-relaxation.qmd)

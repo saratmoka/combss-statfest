@@ -1,0 +1,32 @@
+---
+title: "Motivation 3 — MIO: exact best subset"
+subtitle: "Solve the discrete problem directly"
+---
+
+::: {.callout-note appearance="minimal"}
+*Draft outline — content to come.*
+:::
+
+## The mixed-integer formulation
+
+$$
+\min_{\beta, z}\; -\tfrac{1}{n}\,\ell(X\beta) \quad
+\text{s.t.}\;\; z_j \in \{0,1\},\;\; \textstyle\sum z_j \le k,\;\; |\beta_j| \le M z_j.
+$$
+
+## What MIO gets right
+
+- Exact solution of the original $\ell_0$ problem.
+- Branch-and-bound with modern solvers (Gurobi, CPLEX, `bestsubset`).
+- No relaxation bias.
+
+## Where MIO breaks down
+
+- **Computational cost** explodes beyond $p \gtrsim$ a few hundred.
+- **Overfits** because there is no shrinkage — every selected coefficient is fully fit.
+- Requires a careful Big-$M$ choice.
+- Multinomial / GLM extensions are even slower.
+
+---
+
+[← Lasso](02-lasso.qmd) · [Next → COMBSS preview](04-combss.qmd)

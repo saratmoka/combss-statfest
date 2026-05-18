@@ -1,0 +1,73 @@
+project:
+  type: website
+  output-dir: _site
+
+website:
+  title: "COMBSS @ StatFest"
+  description: "An interactive demonstration of scalable best subset selection for generalised linear models."
+  navbar:
+    left:
+      - href: index.qmd
+        text: Demo
+      - text: Motivation
+        menu:
+          - href: motivation/01-sparse-glm.qmd
+            text: "1. Sparse GLM"
+          - href: motivation/02-lasso.qmd
+            text: "2. Lasso"
+          - href: motivation/03-mio.qmd
+            text: "3. MIO"
+          - href: motivation/04-combss.qmd
+            text: "4. COMBSS preview"
+      - text: Methodology
+        menu:
+          - href: methodology/01-relaxation.qmd
+            text: "1. Boolean relaxation"
+          - href: methodology/02-frank-wolfe.qmd
+            text: "2. Frank-Wolfe"
+          - href: methodology/03-homotopy.qmd
+            text: "3. Homotopy"
+      - text: Demos
+        menu:
+          - href: demos/01-simulation.qmd
+            text: "1. Linear sim"
+          - href: demos/02-simulation-hd.qmd
+            text: "2. HD logistic"
+          - href: demos/03-khan.qmd
+            text: "3. Khan SRBCT"
+          - href: demos/04-rice.qmd
+            text: "4. Rice GWAS"
+          - href: demos/05-comparisons.qmd
+            text: "5. Comparisons"
+      - href: install.qmd
+        text: Install
+      - href: references.qmd
+        text: References
+    right:
+      - icon: github
+        href: https://github.com/saratmoka/combss-statfest
+        aria-label: GitHub
+
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+    toc: true
+    code-fold: false
+    code-tools: true
+    code-copy: true
+  pdf:
+    documentclass: scrartcl
+    toc: true
+    number-sections: false
+    geometry:
+      - margin=22mm
+
+execute:
+  freeze: auto
+  warning: false
+  message: false
+
+knitr:
+  opts_chunk:
+    python.reticulate: false
