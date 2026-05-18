@@ -9,7 +9,7 @@ subtitle: "Why the final iterate lands at a vertex"
 
 ## The curvature parameter
 
-$\delta$ in the relaxed objective controls how strongly the envelope penalty pushes $\bm t$ toward vertices. Small $\delta$ → smooth, easy to optimise. Large $\delta$ → strongly concave on the polytope.
+$\delta$ in the relaxed objective controls how strongly the envelope penalty pushes $\boldsymbol t$ toward vertices. Small $\delta$ → smooth, easy to optimise. Large $\delta$ → strongly concave on the polytope.
 
 ## Homotopy schedule
 
@@ -19,11 +19,11 @@ $$
 \delta^{(0)} < \delta^{(1)} < \cdots < \delta^{(R)} \;\ge\; \delta_{\mathrm{conc}}.
 $$
 
-Warm-start each FW solve with the previous $\bm t$.
+Warm-start each FW solve with the previous $\boldsymbol t$.
 
 ## Theorem 1 — concavity threshold
 
-There exists an explicit $\delta_{\mathrm{conc}}$ (depending on the design and the model) above which $f_{\delta, \lambda}(\bm t)$ is concave on the cardinality polytope, and **every minimiser is a binary vertex**.
+There exists an explicit $\delta_{\mathrm{conc}}$ (depending on the design and the model) above which $f_{\delta, \lambda}(\boldsymbol t)$ is concave on the cardinality polytope, and **every minimiser is a binary vertex**.
 
 For logistic regression:
 $$

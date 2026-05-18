@@ -26,26 +26,26 @@ The cardinality constraint $\sum z_j \le k$ becomes $\sum t_j \le k$ — a polyt
 ## The relaxed objective
 
 $$
-f_{\delta, \lambda}(\bm t)
+f_{\delta, \lambda}(\boldsymbol t)
 =
-\min_{\beta_0,\,\bm\xi}
+\min_{\beta_0,\,\boldsymbol\xi}
 \Bigl\{
--\tfrac{1}{n}\,\ell(\beta_0, T_{\bm t}\bm\xi)
-+ \lambda\,\|\bm\xi\|_2^2
-+ \delta\,\|\Gamma_{\bm t}\,\bm\xi\|_2^2
+-\tfrac{1}{n}\,\ell(\beta_0, T_{\boldsymbol t}\boldsymbol\xi)
++ \lambda\,\|\boldsymbol\xi\|_2^2
++ \delta\,\|\Gamma_{\boldsymbol t}\,\boldsymbol\xi\|_2^2
 \Bigr\}.
 $$
 
-- Inner problem in $\bm\xi$: **ridge GLM**, solved by `glmnet` in one call.
-- Outer problem in $\bm t$: smooth, defined on the cardinality polytope.
+- Inner problem in $\boldsymbol\xi$: **ridge GLM**, solved by `glmnet` in one call.
+- Outer problem in $\boldsymbol t$: smooth, defined on the cardinality polytope.
 - $\delta$ is a curvature parameter (homotopy schedule lives here).
 
 ## Envelope gradient
 
-By Danskin's theorem, the gradient w.r.t. $\bm t$ has closed form:
+By Danskin's theorem, the gradient w.r.t. $\boldsymbol t$ has closed form:
 
 $$
-g_j(\bm t) \;=\; -\,\frac{2(\lambda + \delta)}{t_j^{\,3}}\,\hat\xi_j(\bm t)^2.
+g_j(\boldsymbol t) \;=\; -\,\frac{2(\lambda + \delta)}{t_j^{\,3}}\,\hat\xi_j(\boldsymbol t)^2.
 $$
 
 This is the only thing the outer Frank-Wolfe step needs.

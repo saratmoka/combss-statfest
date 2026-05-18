@@ -9,21 +9,21 @@ subtitle: "Linear minimisation oracle, no projections"
 
 ## The Frank-Wolfe iteration
 
-At iterate $\bm t^{(r)}$:
+At iterate $\boldsymbol t^{(r)}$:
 
 1. **Linear minimisation oracle (LMO)**:
 
 $$
-\bm s^{(r)} \;\in\;
-\arg\min_{\bm u \in \mathcal{T}_k}
-\langle \bm g(\bm t^{(r)}),\,\bm u\rangle
+\boldsymbol s^{(r)} \;\in\;
+\arg\min_{\boldsymbol u \in \mathcal{T}_k}
+\langle \boldsymbol g(\boldsymbol t^{(r)}),\,\boldsymbol u\rangle
 \;\;\Longleftrightarrow\;\;
-\bm s^{(r)} = \text{vertex with the $k$ smallest entries of $\bm g(\bm t^{(r)})$.}
+\boldsymbol s^{(r)} = \text{vertex with the $k$ smallest entries of $\boldsymbol g(\boldsymbol t^{(r)})$.}
 $$
 
-2. **Step**: $\bm t^{(r+1)} = (1 - \alpha)\,\bm t^{(r)} + \alpha\,\bm s^{(r)}.$
+2. **Step**: $\boldsymbol t^{(r+1)} = (1 - \alpha)\,\boldsymbol t^{(r)} + \alpha\,\boldsymbol s^{(r)}.$
 
-3. **Iterate** until $\bm t^{(r)}$ converges to a vertex.
+3. **Iterate** until $\boldsymbol t^{(r)}$ converges to a vertex.
 
 ## Why no projections
 
@@ -32,9 +32,9 @@ The cardinality polytope is a *combinatorial* set; projecting onto it is itself 
 ## Vertex-approach guarantee
 
 $$
-\|\bm t^{(r)} - \bm s^*\|_\infty
+\|\boldsymbol t^{(r)} - \boldsymbol s^*\|_\infty
 \;\le\;
-(1 - \alpha)^r \,\|\bm t^{(0)} - \bm s^*\|_\infty.
+(1 - \alpha)^r \,\|\boldsymbol t^{(0)} - \boldsymbol s^*\|_\infty.
 $$
 
 Linear convergence to the chosen vertex once the LMO direction settles.
