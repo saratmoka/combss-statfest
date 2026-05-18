@@ -105,7 +105,7 @@ The setting $p \gg n$ with a sparse truth is the bread and butter of modern appl
 - **Genomics** — GWAS with $10^5$ SNPs, gene-expression panels with $10^3$–$10^4$ probes.
 - **Survey data** — patient registries with hundreds of recorded variables and a few hundred outcomes.
 - **Sensor data** — many channels, few labelled trials.
-- **Risk scoring** — interpretable models in medicine and insurance, where a 10-feature panel is deployable and a 500-feature panel is not.
+- **Financial markets** — predicting asset returns or default risk from hundreds of candidate factors (macroeconomic indicators, fundamentals, sentiment, technical signals); a small interpretable factor model is preferred over a dense black-box.
 
 Every one of these calls for a sparsity-constrained GLM, not just a regularised one.
 
