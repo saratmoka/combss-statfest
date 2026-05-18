@@ -12,7 +12,7 @@ subtitle: "The standard $\\ell_1$ surrogate"
 Replace $\|\beta\|_0$ with $\|\beta\|_1$:
 
 $$
-\min_\beta \;\; -\tfrac{1}{n}\,\ell(X\beta;\,y) \;+\; \lambda \|\beta\|_1.
+\min_{\beta_0,\,\beta} \;\; -\tfrac{1}{n}\,\ell(\beta_0, \beta) \;+\; \lambda \|\beta\|_1.
 $$
 
 ## Why people use it

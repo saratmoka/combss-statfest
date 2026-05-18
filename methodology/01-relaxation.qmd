@@ -30,7 +30,7 @@ f_{\delta, \lambda}(\bm t)
 =
 \min_{\beta_0,\,\bm\xi}
 \Bigl\{
--\tfrac{1}{n}\,\ell(\beta_0, T_{\bm t}\bm\xi;\,\mathcal{D})
+-\tfrac{1}{n}\,\ell(\beta_0, T_{\bm t}\bm\xi)
 + \lambda\,\|\bm\xi\|_2^2
 + \delta\,\|\Gamma_{\bm t}\,\bm\xi\|_2^2
 \Bigr\}.

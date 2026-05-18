@@ -45,7 +45,7 @@ The same question arises whenever the response is well modelled by a generalised
 In every case, fitting the model amounts to maximising a log-likelihood:
 
 $$
-\ell(\beta_0, \beta;\,\mathcal{D})
+\ell(\beta_0, \beta)
 \;=\; \sum_{i=1}^n \log p(y_i \mid x_i; \beta_0, \beta).
 $$
 
@@ -58,7 +58,7 @@ For a prescribed model size $k$, find the $k$ predictors that best fit the data:
 $$
 \boxed{\;\;
 \min_{\beta_0 \in \mathbb{R},\; \beta \in \mathbb{R}^p}\;
-\Bigl\{\, -\tfrac{1}{n}\,\ell(\beta_0, \beta;\,\mathcal{D}) \;+\; \lambda\,\|\beta\|_2^2 \,\Bigr\}
+\Bigl\{\, -\tfrac{1}{n}\,\ell(\beta_0, \beta) \;+\; \lambda\,\|\beta\|_2^2 \,\Bigr\}
 \quad
 \text{subject to}\quad
 \|\beta\|_0 \le k.

@@ -10,8 +10,8 @@ subtitle: "Solve the discrete problem directly"
 ## The mixed-integer formulation
 
 $$
-\min_{\beta, z}\; -\tfrac{1}{n}\,\ell(X\beta) \quad
-\text{s.t.}\;\; z_j \in \{0,1\},\;\; \textstyle\sum z_j \le k,\;\; |\beta_j| \le M z_j.
+\min_{\beta_0,\,\beta,\,z}\; -\tfrac{1}{n}\,\ell(\beta_0, \beta) \quad
+\text{s.t.}\;\; z_j \in \{0,1\},\;\; \textstyle\sum_j z_j \le k,\;\; |\beta_j| \le M z_j.
 $$
 
 ## What MIO gets right
