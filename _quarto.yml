@@ -6,6 +6,8 @@ website:
   title: "COMBSS @ StatFest"
   description: "An interactive demonstration of scalable best subset selection for generalised linear models."
   navbar:
+    background: "#2a9d8f"
+    foreground: light
     left:
       - href: index.qmd
         text: Demo
