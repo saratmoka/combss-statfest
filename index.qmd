@@ -18,11 +18,11 @@ This presentation walks through the framework for linear, logistic, and multinom
 | Name | Affiliation |
 |---|---|
 | **Sarat Moka** *(presenter)* | UNSW Sydney |
-| Anant Mathur | UNSW Sydney |
+| Zdravko Botev | UNSW Sydney |
 | Benoit Liquet | Université de Pau et des Pays de l'Adour & Macquarie University |
+| Anant Mathur | UNSW Sydney |
 | Samuel Muller | Macquarie University |
 | Houying Zhu | Macquarie University |
-| Zdravko Botev | UNSW Sydney |
 
 ## How this demonstration is structured
 
