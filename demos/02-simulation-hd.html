@@ -466,7 +466,7 @@ window.Quarto = {
 <span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">selected =</span> <span class="fu">length</span>(sel_l), <span class="at">true_pos =</span> tp_l, <span class="at">false_pos =</span> fp_l)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> selected  true_pos false_pos 
-       12         8         4 </code></pre>
+       16         8         8 </code></pre>
 </div>
 </div>
 </div>
@@ -498,9 +498,9 @@ window.Quarto = {
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">Lasso (cv.glmnet)</td>
-<td style="text-align: right;">12</td>
+<td style="text-align: right;">16</td>
 <td style="text-align: right;">8</td>
-<td style="text-align: right;">4</td>
+<td style="text-align: right;">8</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">COMBSS</td>
@@ -653,7 +653,7 @@ window.Quarto = {
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("https:\/\/saratmoka\.github\.io\/combss-statfest\/");
+        var filterRegex = new RegExp('/' + window.location.host + '/');
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }

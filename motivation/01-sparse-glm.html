@@ -520,7 +520,7 @@ window.Quarto = {
 <li><strong>Genomics</strong> — GWAS with <span class="math inline">\(10^5\)</span> SNPs, gene-expression panels with <span class="math inline">\(10^3\)</span>–<span class="math inline">\(10^4\)</span> probes.</li>
 <li><strong>Survey data</strong> — patient registries with hundreds of recorded variables and a few hundred outcomes.</li>
 <li><strong>Sensor data</strong> — many channels, few labelled trials.</li>
-<li><strong>Risk scoring</strong> — interpretable models in medicine and insurance, where a 10-feature panel is deployable and a 500-feature panel is not.</li>
+<li><strong>Financial markets</strong> — predicting asset returns or default risk from hundreds of candidate factors (macroeconomic indicators, fundamentals, sentiment, technical signals); a small interpretable factor model is preferred over a dense black-box.</li>
 </ul>
 <p>Every one of these calls for a sparsity-constrained GLM, not just a regularised one.</p>
 </section>
@@ -665,7 +665,7 @@ window.Quarto = {
     }
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp("https:\/\/saratmoka\.github\.io\/combss-statfest\/");
+        var filterRegex = new RegExp('/' + window.location.host + '/');
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
@@ -1099,7 +1099,7 @@ window.Quarto = {
 <span id="cb1-109"><a href="#cb1-109" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Genomics** — GWAS with $10^5$ SNPs, gene-expression panels with $10^3$–$10^4$ probes.</span>
 <span id="cb1-110"><a href="#cb1-110" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Survey data** — patient registries with hundreds of recorded variables and a few hundred outcomes.</span>
 <span id="cb1-111"><a href="#cb1-111" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Sensor data** — many channels, few labelled trials.</span>
-<span id="cb1-112"><a href="#cb1-112" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Risk scoring** — interpretable models in medicine and insurance, where a 10-feature panel is deployable and a 500-feature panel is not.</span>
+<span id="cb1-112"><a href="#cb1-112" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Financial markets** — predicting asset returns or default risk from hundreds of candidate factors (macroeconomic indicators, fundamentals, sentiment, technical signals); a small interpretable factor model is preferred over a dense black-box.</span>
 <span id="cb1-113"><a href="#cb1-113" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-114"><a href="#cb1-114" aria-hidden="true" tabindex="-1"></a>Every one of these calls for a sparsity-constrained GLM, not just a regularised one.</span>
 <span id="cb1-115"><a href="#cb1-115" aria-hidden="true" tabindex="-1"></a></span>
