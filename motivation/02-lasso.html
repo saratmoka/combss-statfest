@@ -303,7 +303,7 @@ window.Quarto = {
 <ul>
 <li>The constraint set is now convex (the <span class="math inline">\(\ell_1\)</span>-ball), and the objective is convex.</li>
 <li>The budget <span class="math inline">\(\tau \ge 0\)</span> is <strong>real-valued</strong>, not an integer count. The smaller <span class="math inline">\(\tau\)</span>, the more shrunken (and therefore sparser) the solution.</li>
-<li>The whole problem is a <strong>convex optimisation</strong> — every local optimum is global, and there are mature solvers.</li>
+<li>The whole problem is a <strong>convex optimisation</strong> — every local optimum is global, and there are mature solvers (i.e., <a href="https://cran.r-project.org/web/packages/glmnet/index.html" target="_blank">glmnet</a>).</li>
 </ul>
 </section>
 <section id="the-penalised-form" class="level2">
@@ -317,13 +317,16 @@ window.Quarto = {
 </section>
 <section id="what-lasso-gives-up" class="level2">
 <h2 class="anchored" data-anchor-id="what-lasso-gives-up">What lasso gives up</h2>
-<p>The relaxation is fast and well understood, but it pays three prices:</p>
+<p>The relaxation is fast and well understood, but it pays two prices that no choice of <span class="math inline">\(\lambda\)</span> can dodge simultaneously:</p>
 <ul>
-<li><strong>Biased coefficients.</strong> The <span class="math inline">\(\ell_1\)</span> penalty shrinks every coefficient — including the truly active ones — toward zero, so the recovered <span class="math inline">\(\hat{\boldsymbol{\beta}}\)</span> is biased even when the support is correct.</li>
-<li><strong>No direct control over <span class="math inline">\(k\)</span>.</strong> The user picks <span class="math inline">\(\lambda\)</span> (or equivalently the <span class="math inline">\(\ell_1\)</span> budget <span class="math inline">\(\tau\)</span>); neither maps directly to the number of active features <span class="math inline">\(k\)</span>. The selected size depends on the data, the design correlation, and <span class="math inline">\(\lambda\)</span>.</li>
-<li><strong>Twin instability.</strong> In correlated designs, two near-duplicate predictors compete, and lasso typically picks one and shrinks the other arbitrarily, or splits the coefficient between them. The recovered subset is unstable across resamples.</li>
+<li><strong>You can’t control <span class="math inline">\(k\)</span> directly.</strong> The user picks <span class="math inline">\(\lambda\)</span> (or equivalently the <span class="math inline">\(\ell_1\)</span> budget <span class="math inline">\(\tau\)</span>); neither maps directly to the number of active features <span class="math inline">\(k\)</span>. Cross-validation picks a <span class="math inline">\(\lambda\)</span> that optimises prediction, not selection size.</li>
+<li><strong>Either overselection or shrinkage.</strong>
+<ul>
+<li>A small <span class="math inline">\(\lambda\)</span> (e.g.&nbsp;<code>lambda.min</code>) gives near-OLS coefficients but typically grabs many spurious features.</li>
+<li>A larger <span class="math inline">\(\lambda\)</span> (e.g.&nbsp;<code>lambda.1se</code>) cuts the false positives but shrinks every coefficient, including the truly active ones, toward zero.</li>
+</ul></li>
 </ul>
-<p>These issues are not fatal — lasso remains the workhorse — but they motivate looking for methods that handle the <span class="math inline">\(\ell_0\)</span> constraint more faithfully. That brings us to the next option.</p>
+<p>Concrete numbers on a simple simulation appear on the <a href="../motivation/04-combss.html">next page</a> — they are the case for COMBSS rather than the case against lasso, so we save them for there.</p>
 <hr>
 <p><a href="../motivation/01-sparse-glm.html">← Sparse GLM</a> · <a href="../motivation/03-mio.html">Next → MIO</a></p>
 
@@ -811,7 +814,7 @@ window.Quarto = {
 <span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The constraint set is now convex (the $\ell_1$-ball), and the objective is convex.</span>
 <span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The budget $\tau \ge 0$ is **real-valued**, not an integer count. The smaller $\tau$, the more shrunken (and therefore sparser) the solution.</span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The whole problem is a **convex optimisation** — every local optimum is global, and there are mature solvers.</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The whole problem is a **convex optimisation** — every local optimum is global, and there are mature solvers (i.e., <span class="co">[</span><span class="ot">glmnet</span><span class="co">](https://cran.r-project.org/web/packages/glmnet/index.html)</span>{target="_blank"}).</span>
 <span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="fu">## The penalised form</span></span>
 <span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a></span>
@@ -827,17 +830,18 @@ window.Quarto = {
 <span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a><span class="fu">## What lasso gives up</span></span>
 <span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>The relaxation is fast and well understood, but it pays three prices:</span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>The relaxation is fast and well understood, but it pays two prices that no choice of $\lambda$ can dodge simultaneously:</span>
 <span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Biased coefficients.** The $\ell_1$ penalty shrinks every coefficient — including the truly active ones — toward zero, so the recovered $\hat{\boldsymbol{\beta}}$ is biased even when the support is correct.</span>
-<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**No direct control over $k$.** The user picks $\lambda$ (or equivalently the $\ell_1$ budget $\tau$); neither maps directly to the number of active features $k$. The selected size depends on the data, the design correlation, and $\lambda$.</span>
-<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Twin instability.** In correlated designs, two near-duplicate predictors compete, and lasso typically picks one and shrinks the other arbitrarily, or splits the coefficient between them. The recovered subset is unstable across resamples.</span>
-<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>These issues are not fatal — lasso remains the workhorse — but they motivate looking for methods that handle the $\ell_0$ constraint more faithfully. That brings us to the next option.</span>
-<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">← Sparse GLM</span><span class="co">](01-sparse-glm.qmd)</span> · <span class="co">[</span><span class="ot">Next → MIO</span><span class="co">](03-mio.qmd)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**You can't control $k$ directly.** The user picks $\lambda$ (or equivalently the $\ell_1$ budget $\tau$); neither maps directly to the number of active features $k$. Cross-validation picks a $\lambda$ that optimises prediction, not selection size.</span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Either overselection or shrinkage.**</span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>A small $\lambda$ (e.g. <span class="in">`lambda.min`</span>) gives near-OLS coefficients but typically grabs many spurious features.</span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a><span class="ss">  - </span>A larger $\lambda$ (e.g. <span class="in">`lambda.1se`</span>) cuts the false positives but shrinks every coefficient, including the truly active ones, toward zero.</span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>Concrete numbers on a simple simulation appear on the <span class="co">[</span><span class="ot">next page</span><span class="co">](04-combss.qmd)</span> — they are the case for COMBSS rather than the case against lasso, so we save them for there.</span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">← Sparse GLM</span><span class="co">](01-sparse-glm.qmd)</span> · <span class="co">[</span><span class="ot">Next → MIO</span><span class="co">](03-mio.qmd)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 
