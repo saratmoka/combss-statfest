@@ -4,14 +4,14 @@
     "href": "methodology/02-frank-wolfe.html",
     "title": "Frank-Wolfe on the polytope",
     "section": "",
-    "text": "Draft outline — content to come."
+    "text": "At iterate \\(\\boldsymbol t^{(r)}\\):\n\nLinear minimisation oracle (LMO):\n\n\\[\n\\boldsymbol s^{(r)} \\;\\in\\;\n\\arg\\min_{\\boldsymbol u \\in \\mathcal{T}_k}\n\\langle \\boldsymbol g(\\boldsymbol t^{(r)}),\\,\\boldsymbol u\\rangle\n\\;\\;\\Longleftrightarrow\\;\\;\n\\boldsymbol s^{(r)} = \\text{vertex with the $k$ smallest entries of $\\boldsymbol g(\\boldsymbol t^{(r)})$.}\n\\]\n\nStep: \\(\\boldsymbol t^{(r+1)} = (1 - \\alpha)\\,\\boldsymbol t^{(r)} + \\alpha\\,\\boldsymbol s^{(r)}.\\)\nIterate until \\(\\boldsymbol t^{(r)}\\) converges to a vertex."
   },
   {
     "objectID": "methodology/02-frank-wolfe.html#the-frank-wolfe-iteration",
     "href": "methodology/02-frank-wolfe.html#the-frank-wolfe-iteration",
     "title": "Frank-Wolfe on the polytope",
-    "section": "The Frank-Wolfe iteration",
-    "text": "The Frank-Wolfe iteration\nAt iterate \\(\\boldsymbol t^{(r)}\\):\n\nLinear minimisation oracle (LMO):\n\n\\[\n\\boldsymbol s^{(r)} \\;\\in\\;\n\\arg\\min_{\\boldsymbol u \\in \\mathcal{T}_k}\n\\langle \\boldsymbol g(\\boldsymbol t^{(r)}),\\,\\boldsymbol u\\rangle\n\\;\\;\\Longleftrightarrow\\;\\;\n\\boldsymbol s^{(r)} = \\text{vertex with the $k$ smallest entries of $\\boldsymbol g(\\boldsymbol t^{(r)})$.}\n\\]\n\nStep: \\(\\boldsymbol t^{(r+1)} = (1 - \\alpha)\\,\\boldsymbol t^{(r)} + \\alpha\\,\\boldsymbol s^{(r)}.\\)\nIterate until \\(\\boldsymbol t^{(r)}\\) converges to a vertex."
+    "section": "",
+    "text": "At iterate \\(\\boldsymbol t^{(r)}\\):\n\nLinear minimisation oracle (LMO):\n\n\\[\n\\boldsymbol s^{(r)} \\;\\in\\;\n\\arg\\min_{\\boldsymbol u \\in \\mathcal{T}_k}\n\\langle \\boldsymbol g(\\boldsymbol t^{(r)}),\\,\\boldsymbol u\\rangle\n\\;\\;\\Longleftrightarrow\\;\\;\n\\boldsymbol s^{(r)} = \\text{vertex with the $k$ smallest entries of $\\boldsymbol g(\\boldsymbol t^{(r)})$.}\n\\]\n\nStep: \\(\\boldsymbol t^{(r+1)} = (1 - \\alpha)\\,\\boldsymbol t^{(r)} + \\alpha\\,\\boldsymbol s^{(r)}.\\)\nIterate until \\(\\boldsymbol t^{(r)}\\) converges to a vertex."
   },
   {
     "objectID": "methodology/02-frank-wolfe.html#why-no-projections",
@@ -25,21 +25,21 @@
     "href": "methodology/02-frank-wolfe.html#vertex-approach-guarantee",
     "title": "Frank-Wolfe on the polytope",
     "section": "Vertex-approach guarantee",
-    "text": "Vertex-approach guarantee\n\\[\n\\|\\boldsymbol t^{(r)} - \\boldsymbol s^*\\|_\\infty\n\\;\\le\\;\n(1 - \\alpha)^r \\,\\|\\boldsymbol t^{(0)} - \\boldsymbol s^*\\|_\\infty.\n\\]\nLinear convergence to the chosen vertex once the LMO direction settles.\n\nPlaceholder for visual: a small 3D figure of FW iterates marching toward a vertex of the polytope.\n\n\n← Boolean relaxation · Next → Homotopy"
+    "text": "Vertex-approach guarantee\n\\[\n\\|\\boldsymbol t^{(r)} - \\boldsymbol s^*\\|_\\infty\n\\;\\le\\;\n(1 - \\alpha)^r \\,\\|\\boldsymbol t^{(0)} - \\boldsymbol s^*\\|_\\infty.\n\\]\nLinear convergence to the chosen vertex once the LMO direction settles.\n\nPlaceholder for visual: a small 3D figure of FW iterates marching toward a vertex of the polytope.\n\n\n← Previous: Boolean relaxation\nNext: Homotopy →"
   },
   {
     "objectID": "methodology/01-relaxation.html",
     "href": "methodology/01-relaxation.html",
     "title": "Boolean relaxation",
     "section": "",
-    "text": "Draft outline — content to come."
+    "text": "Replace the discrete indicator \\(z \\in \\{0,1\\}^p\\) by a continuous \\(t \\in [0,1]^p\\) and write\n\\[\n\\beta_j = t_j \\, \\xi_j,\n\\qquad\nt_j \\in [0, 1].\n\\]\n\n\\(t_j = 1\\) means feature \\(j\\) is in.\n\\(t_j = 0\\) means out.\nVertices of the hypercube ↔︎ discrete supports.\n\nThe cardinality constraint \\(\\sum z_j \\le k\\) becomes \\(\\sum t_j \\le k\\) — a polytope."
   },
   {
     "objectID": "methodology/01-relaxation.html#reparameterising-the-support",
     "href": "methodology/01-relaxation.html#reparameterising-the-support",
     "title": "Boolean relaxation",
-    "section": "Reparameterising the support",
-    "text": "Reparameterising the support\nReplace the discrete indicator \\(z \\in \\{0,1\\}^p\\) by a continuous \\(t \\in [0,1]^p\\) and write\n\\[\n\\beta_j = t_j \\, \\xi_j,\n\\qquad\nt_j \\in [0, 1].\n\\]\n\n\\(t_j = 1\\) means feature \\(j\\) is in.\n\\(t_j = 0\\) means out.\nVertices of the hypercube ↔︎ discrete supports.\n\nThe cardinality constraint \\(\\sum z_j \\le k\\) becomes \\(\\sum t_j \\le k\\) — a polytope."
+    "section": "",
+    "text": "Replace the discrete indicator \\(z \\in \\{0,1\\}^p\\) by a continuous \\(t \\in [0,1]^p\\) and write\n\\[\n\\beta_j = t_j \\, \\xi_j,\n\\qquad\nt_j \\in [0, 1].\n\\]\n\n\\(t_j = 1\\) means feature \\(j\\) is in.\n\\(t_j = 0\\) means out.\nVertices of the hypercube ↔︎ discrete supports.\n\nThe cardinality constraint \\(\\sum z_j \\le k\\) becomes \\(\\sum t_j \\le k\\) — a polytope."
   },
   {
     "objectID": "methodology/01-relaxation.html#the-relaxed-objective",
@@ -53,28 +53,28 @@
     "href": "methodology/01-relaxation.html#envelope-gradient",
     "title": "Boolean relaxation",
     "section": "Envelope gradient",
-    "text": "Envelope gradient\nBy Danskin’s theorem, the gradient w.r.t. \\(\\boldsymbol t\\) has closed form:\n\\[\ng_j(\\boldsymbol t) \\;=\\; -\\,\\frac{2(\\lambda + \\delta)}{t_j^{\\,3}}\\,\\hat\\xi_j(\\boldsymbol t)^2.\n\\]\nThis is the only thing the outer Frank-Wolfe step needs.\n\nPlaceholder for visual: the four-panel loss-landscape figure (discrete → smooth → smooth+\\(\\ell_1\\) → strongly penalised).\n\n\n← COMBSS preview · Next → Frank-Wolfe"
+    "text": "Envelope gradient\nBy Danskin’s theorem, the gradient w.r.t. \\(\\boldsymbol t\\) has closed form:\n\\[\ng_j(\\boldsymbol t) \\;=\\; -\\,\\frac{2(\\lambda + \\delta)}{t_j^{\\,3}}\\,\\hat\\xi_j(\\boldsymbol t)^2.\n\\]\nThis is the only thing the outer Frank-Wolfe step needs.\n\nPlaceholder for visual: the four-panel loss-landscape figure (discrete → smooth → smooth+\\(\\ell_1\\) → strongly penalised).\n\n\n← Previous: COMBSS (our method)\nNext: Frank-Wolfe →"
   },
   {
     "objectID": "motivation/04-combss.html",
     "href": "motivation/04-combss.html",
     "title": "COMBSS (our method)",
     "section": "",
-    "text": "Three properties we want a method to have:\n\nContinuous / smooth optimisation — tractable, gradient-based, scalable.\nTargets the \\(\\ell_0\\)-constrained problem — faithful to the original sparse selection task.\nReturns exactly \\(k\\) features — gives the user direct control over model size.\n\n\n\n  \n  \n  \n  Returns exactly k features\n  Continuous /\n  smooth optimisation\n  Targets ℓ₀-\n  constrained problem\n  Lasso\n  MIO\n  COMBSS\n\n\n\nLasso sits only in the smooth optimisation circle — convex and scalable, but doesn’t target \\(\\ell_0\\) and doesn’t directly control \\(k\\).\nMIO sits in targets \\(\\ell_0\\) and returns \\(k\\) — exact but not a smooth optimisation, and not scalable.\nCOMBSS sits in all three — the only method in the centre."
+    "text": "Three properties we want a method to have:\n\nContinuous / smooth optimisation — tractable, gradient-based, scalable.\nTargets the \\(\\ell_0\\)-constrained problem — faithful to the original sparse selection task.\nReturns exactly \\(k\\) features — gives the user direct control over model size.\n\n\n\n  \n  \n  \n  Returns exactly k features\n  Continuous /\n  smooth optimisation\n  Targets ℓ₀-\n  constrained problem\n  Lasso\n  MIO\n  COMBSS\n\n\n\nLasso sits only in the smooth optimisation circle — convex and scalable, but doesn’t target \\(\\ell_0\\) and doesn’t directly control \\(k\\).\nMIO sits in targets \\(\\ell_0\\) and returns \\(k\\) — exact but not a smooth optimisation, and not scalable.\nCOMBSS sits in all three."
   },
   {
     "objectID": "motivation/04-combss.html#where-combss-fits",
     "href": "motivation/04-combss.html#where-combss-fits",
     "title": "COMBSS (our method)",
     "section": "",
-    "text": "Three properties we want a method to have:\n\nContinuous / smooth optimisation — tractable, gradient-based, scalable.\nTargets the \\(\\ell_0\\)-constrained problem — faithful to the original sparse selection task.\nReturns exactly \\(k\\) features — gives the user direct control over model size.\n\n\n\n  \n  \n  \n  Returns exactly k features\n  Continuous /\n  smooth optimisation\n  Targets ℓ₀-\n  constrained problem\n  Lasso\n  MIO\n  COMBSS\n\n\n\nLasso sits only in the smooth optimisation circle — convex and scalable, but doesn’t target \\(\\ell_0\\) and doesn’t directly control \\(k\\).\nMIO sits in targets \\(\\ell_0\\) and returns \\(k\\) — exact but not a smooth optimisation, and not scalable.\nCOMBSS sits in all three — the only method in the centre."
+    "text": "Three properties we want a method to have:\n\nContinuous / smooth optimisation — tractable, gradient-based, scalable.\nTargets the \\(\\ell_0\\)-constrained problem — faithful to the original sparse selection task.\nReturns exactly \\(k\\) features — gives the user direct control over model size.\n\n\n\n  \n  \n  \n  Returns exactly k features\n  Continuous /\n  smooth optimisation\n  Targets ℓ₀-\n  constrained problem\n  Lasso\n  MIO\n  COMBSS\n\n\n\nLasso sits only in the smooth optimisation circle — convex and scalable, but doesn’t target \\(\\ell_0\\) and doesn’t directly control \\(k\\).\nMIO sits in targets \\(\\ell_0\\) and returns \\(k\\) — exact but not a smooth optimisation, and not scalable.\nCOMBSS sits in all three."
   },
   {
     "objectID": "motivation/04-combss.html#the-bridge-side-by-side",
     "href": "motivation/04-combss.html#the-bridge-side-by-side",
     "title": "COMBSS (our method)",
-    "section": "The bridge — side by side",
-    "text": "The bridge — side by side\n\n\n\n\n\n\n\n\n\n\nLasso\nMIO\nCOMBSS\n\n\n\n\nVariable type\n\\(\\boldsymbol{\\beta} \\in \\mathbb{R}^p\\)\n\\(\\boldsymbol{z} \\in \\{0,1\\}^p\\)\n\\(\\boldsymbol{t} \\in [0,1]^p\\)\n\n\nSparsity by\n\\(\\ell_1\\) penalty\nhard \\(\\ell_0\\) + Big-\\(M\\)\ncontinuous relaxation on the support indicator\n\n\nSelection size\nindexed by \\(\\lambda\\)\n\\(k\\) via constraint\n\\(k\\) via polytope\n\n\nScales to \\(p \\gg n\\)\nyes\nbarely\nyes\n\n\nBiased coefficients\nyes\nno\nno (envelope)"
+    "section": "The bridge: side by side",
+    "text": "The bridge: side by side\n\n\n\n\n\n\n\n\n\n\nLasso\nMIO\nCOMBSS\n\n\n\n\nVariable type\n\\(\\boldsymbol{\\beta} \\in \\mathbb{R}^p\\)\n\\(\\boldsymbol{z} \\in \\{0,1\\}^p\\)\n\\(\\boldsymbol{t} \\in [0,1]^p\\)\n\n\nSparsity by\n\\(\\ell_1\\) penalty\nhard \\(\\ell_0\\) + Big-\\(M\\)\ncontinuous relaxation on the support indicator\n\n\nSelection size\nindexed by \\(\\lambda\\)\n\\(k\\) via constraint\n\\(k\\) via polytope\n\n\nScales to \\(p \\gg n\\)\nyes\nbarely\nyes\n\n\nBiased coefficients\nyes\nno\nno"
   },
   {
     "objectID": "motivation/04-combss.html#in-one-sentence",
@@ -88,42 +88,42 @@
     "href": "motivation/04-combss.html#two-head-to-head-questions",
     "title": "COMBSS (our method)",
     "section": "Two head-to-head questions",
-    "text": "Two head-to-head questions\nThe simplest way to see what COMBSS buys you is to put it next to lasso on the same dataset and ask two questions.\n\n\n\n\n\n\nSetup: \\(n = 300\\) (\\(200\\) train + \\(100\\) validation), \\(p = 30\\), \\(\\sigma = 0.5\\), true coefficients \\(\\boldsymbol{\\beta} = (3,\\,2,\\,1.5,\\,1,\\,0.5,\\,0,\\,\\ldots,\\,0)\\), predictors i.i.d. standard normal. This is the same data used in Demo 1. Code hidden — the figures are the point.\n\n\n\n\n1. At a prescribed \\(k = 5\\), how biased are the coefficients?\n\n\n\n\n\nCoefficients at \\(k=5\\): True (grey), Lasso at the path-\\(\\lambda\\) that gives 5 features and minimises training MSE (coral), and COMBSS (teal, OLS-refit on its \\(k=5\\) subset). Squared \\(\\ell_2\\) error to the truth across all 30 dimensions: lasso 0.099, COMBSS 0.003 — ~35x smaller.\n\n\n\n\nCOMBSS’s recovered coefficients match the truth to within sampling noise. Lasso’s are all visibly shrunken, even though both methods are looking at exactly five features.\n\n\n2. For the same validation loss, how many features does each method need?\n\n\n\n\n\nValidation MSE as a function of the number of selected features. COMBSS (teal) drops below the dashed line — lasso’s best-ever validation MSE — at just \\(k = 5\\). Lasso (coral) needs to keep adding features and still never reaches COMBSS’s \\(k=5\\) performance.\n\n\n\n\nAt \\(k = 5\\), COMBSS reaches a validation MSE that lasso cannot match at any model size — even with 22 features, lasso’s MSE stays above COMBSS’s value at \\(k = 5\\)."
+    "text": "Two head-to-head questions\nThe simplest way to see what COMBSS buys you is to put it next to lasso on the same dataset and ask two questions.\n\n\n\n\n\n\nSetup: \\(n = 300\\) (\\(200\\) train + \\(100\\) validation), \\(p = 30\\), \\(\\sigma = 0.5\\), true coefficients \\(\\boldsymbol{\\beta} = (3,\\,2,\\,1.5,\\,1,\\,0.5,\\,0,\\,\\ldots,\\,0)\\), predictors (i.e., entries of the dataset) i.i.d. standard normal. \n\n\n\n\n1. At a prescribed \\(k = 5\\), how biased are the coefficients?\n\n\n\n\n\nCoefficients at \\(k=5\\): True (grey), Lasso at the path-\\(\\lambda\\) that gives 5 features and minimises training MSE (coral), and COMBSS (teal, OLS-refit on its \\(k=5\\) subset). Squared \\(\\ell_2\\) error to the truth across all 30 dimensions: lasso 0.099, COMBSS 0.003 — ~35x smaller.\n\n\n\n\nCOMBSS’s recovered coefficients match the truth to within sampling noise. Lasso’s are all visibly shrunken, even though both methods are looking at exactly five features.\n\n\n2. For the same validation loss, how many features does each method need?\n\n\n\n\n\nLeft: validation MSE as a function of the number of selected features (full range). Right: zoom into the region \\(k \\ge 4\\) where the two methods plateau. The dashed line marks lasso’s best-ever validation MSE. COMBSS at \\(k = 5\\) already sits below that line — lasso cannot match COMBSS’s \\(k=5\\) performance at any model size.\n\n\n\n\nAt \\(k = 5\\), COMBSS reaches a validation MSE that lasso cannot match at any model size — even with 22 features, lasso’s MSE stays above COMBSS’s value at \\(k = 5\\)."
   },
   {
     "objectID": "motivation/04-combss.html#preview-of-the-rest-of-the-talk",
     "href": "motivation/04-combss.html#preview-of-the-rest-of-the-talk",
     "title": "COMBSS (our method)",
     "section": "Preview of the rest of the talk",
-    "text": "Preview of the rest of the talk\n\nMethodology — how the relaxation works, the Frank-Wolfe step, the curvature homotopy.\nDemos — five runnable demos showing the method in action.\n\n\n← MIO · Methodology → Boolean relaxation"
+    "text": "Preview of the rest of the talk\n\nMethodology — how the relaxation works, the Frank-Wolfe step, the curvature homotopy.\nDemos — five runnable demos showing the method in action.\n\n\n← Previous: Lasso\nNext: Boolean relaxation →"
   },
   {
-    "objectID": "motivation/02-lasso.html",
-    "href": "motivation/02-lasso.html",
+    "objectID": "motivation/03-lasso.html",
+    "href": "motivation/03-lasso.html",
     "title": "Lasso: convex relaxation",
     "section": "",
     "text": "The sparse-constrained GLM problem from the previous page is\n\\[\n\\min_{\\beta_0,\\,\\boldsymbol{\\beta}}\\; -\\tfrac{1}{n}\\,\\ell(\\beta_0, \\boldsymbol{\\beta})\n\\quad \\text{subject to}\\quad \\|\\boldsymbol{\\beta}\\|_0 \\le k.\n\\]\nThe combinatorial pain comes entirely from the \\(\\ell_0\\)-norm in the constraint. Lasso replaces it with the \\(\\ell_1\\)-norm:\n\\[\n\\boxed{\\;\\;\n\\min_{\\beta_0,\\,\\boldsymbol{\\beta}}\\; -\\tfrac{1}{n}\\,\\ell(\\beta_0, \\boldsymbol{\\beta})\n\\quad \\text{subject to}\\quad \\|\\boldsymbol{\\beta}\\|_1 \\le \\tau.\n\\;\\;}\n\\]\nThree things changed:\n\nThe constraint set is now convex (the \\(\\ell_1\\)-ball), and the objective is convex.\nThe budget \\(\\tau \\ge 0\\) is real-valued, not an integer count. The smaller \\(\\tau\\), the more shrunken (and therefore sparser) the solution.\nThe whole problem is a convex optimisation — every local optimum is global, and there are mature solvers (i.e., glmnet)."
   },
   {
-    "objectID": "motivation/02-lasso.html#from-hard-ell_0-to-soft-ell_1",
-    "href": "motivation/02-lasso.html#from-hard-ell_0-to-soft-ell_1",
+    "objectID": "motivation/03-lasso.html#from-hard-ell_0-to-soft-ell_1",
+    "href": "motivation/03-lasso.html#from-hard-ell_0-to-soft-ell_1",
     "title": "Lasso: convex relaxation",
     "section": "",
     "text": "The sparse-constrained GLM problem from the previous page is\n\\[\n\\min_{\\beta_0,\\,\\boldsymbol{\\beta}}\\; -\\tfrac{1}{n}\\,\\ell(\\beta_0, \\boldsymbol{\\beta})\n\\quad \\text{subject to}\\quad \\|\\boldsymbol{\\beta}\\|_0 \\le k.\n\\]\nThe combinatorial pain comes entirely from the \\(\\ell_0\\)-norm in the constraint. Lasso replaces it with the \\(\\ell_1\\)-norm:\n\\[\n\\boxed{\\;\\;\n\\min_{\\beta_0,\\,\\boldsymbol{\\beta}}\\; -\\tfrac{1}{n}\\,\\ell(\\beta_0, \\boldsymbol{\\beta})\n\\quad \\text{subject to}\\quad \\|\\boldsymbol{\\beta}\\|_1 \\le \\tau.\n\\;\\;}\n\\]\nThree things changed:\n\nThe constraint set is now convex (the \\(\\ell_1\\)-ball), and the objective is convex.\nThe budget \\(\\tau \\ge 0\\) is real-valued, not an integer count. The smaller \\(\\tau\\), the more shrunken (and therefore sparser) the solution.\nThe whole problem is a convex optimisation — every local optimum is global, and there are mature solvers (i.e., glmnet)."
   },
   {
-    "objectID": "motivation/02-lasso.html#the-penalised-form",
-    "href": "motivation/02-lasso.html#the-penalised-form",
+    "objectID": "motivation/03-lasso.html#the-penalised-form",
+    "href": "motivation/03-lasso.html#the-penalised-form",
     "title": "Lasso: convex relaxation",
     "section": "The penalised form",
     "text": "The penalised form\nBecause the constrained lasso is convex, Lagrangian duality lets us rewrite it as an unconstrained penalised problem:\n\\[\n\\min_{\\beta_0,\\,\\boldsymbol{\\beta}}\\; -\\tfrac{1}{n}\\,\\ell(\\beta_0, \\boldsymbol{\\beta}) \\;+\\; \\lambda \\|\\boldsymbol{\\beta}\\|_1.\n\\]\nThe link is exact: for every budget \\(\\tau\\) in the constrained problem, there exists a \\(\\lambda^\\star(\\tau) \\ge 0\\) such that the penalised problem with \\(\\lambda = \\lambda^\\star(\\tau)\\) has the same minimiser as the constrained form. The two are different parameterisations of the same solution path.\nIn practice, almost everyone solves the penalised form — it is unconstrained, smooth in \\(\\lambda\\), and admits efficient algorithms (coordinate descent, ADMM, ISTA/FISTA). glmnet returns the whole regularisation path in one call."
   },
   {
-    "objectID": "motivation/02-lasso.html#what-lasso-gives-up",
-    "href": "motivation/02-lasso.html#what-lasso-gives-up",
+    "objectID": "motivation/03-lasso.html#what-lasso-gives-up",
+    "href": "motivation/03-lasso.html#what-lasso-gives-up",
     "title": "Lasso: convex relaxation",
     "section": "What lasso gives up",
-    "text": "What lasso gives up\nThe relaxation is fast and well understood, but it pays two prices that no choice of \\(\\lambda\\) can dodge simultaneously:\n\nYou can’t control \\(k\\) directly. The user picks \\(\\lambda\\) (or equivalently the \\(\\ell_1\\) budget \\(\\tau\\)); neither maps directly to the number of active features \\(k\\). Cross-validation picks a \\(\\lambda\\) that optimises prediction, not selection size.\nEither overselection or shrinkage.\n\nA small \\(\\lambda\\) (e.g. lambda.min) gives near-OLS coefficients but typically grabs many spurious features.\nA larger \\(\\lambda\\) (e.g. lambda.1se) cuts the false positives but shrinks every coefficient, including the truly active ones, toward zero.\n\n\nConcrete numbers on a simple simulation appear on the next page — they are the case for COMBSS rather than the case against lasso, so we save them for there.\n\n← Sparse GLM · Next → MIO"
+    "text": "What lasso gives up\nThe relaxation is fast and well understood, but it pays two prices that no choice of \\(\\lambda\\) can dodge simultaneously:\n\nYou can’t control \\(k\\) directly. The user picks \\(\\lambda\\) (or equivalently the \\(\\ell_1\\) budget \\(\\tau\\)); neither maps directly to the number of active features \\(k\\). Cross-validation picks a \\(\\lambda\\) that optimises prediction, not selection size.\nEither overselection or shrinkage.\n\nA small \\(\\lambda\\) (e.g. lambda.min) gives near-OLS coefficients but typically grabs many spurious features.\nA larger \\(\\lambda\\) (e.g. lambda.1se) cuts the false positives but shrinks every coefficient, including the truly active ones, toward zero.\n\n\nConcrete numbers on a simple simulation appear on the next page — they are the case for COMBSS rather than the case against lasso, so we save them for there.\n\n← Previous: MIO\nNext: COMBSS (our method) →"
   },
   {
     "objectID": "demos/02-simulation-hd.html",
@@ -508,35 +508,35 @@
     "href": "motivation/01-sparse-glm.html#the-plan-from-here",
     "title": "Sparse-constrained GLM",
     "section": "The plan from here",
-    "text": "The plan from here\nHow do existing methods cope with the NP-hard constraint? Two main strategies:\n\nLasso (next page) — relax \\(\\|\\boldsymbol{\\beta}\\|_0\\) to the convex \\(\\|\\boldsymbol{\\beta}\\|_1\\). Fast and popular, but biased and indexed by \\(\\lambda\\), not \\(k\\).\nMIO (page after) — solve the discrete problem directly with mixed-integer optimisation. Exact, but does not scale.\n\nCOMBSS sits between the two: continuous like the lasso, but on the support indicator rather than on \\(\\boldsymbol{\\beta}\\) itself — and explicitly \\(k\\)-indexed.\n\nNext → Lasso"
+    "text": "The plan from here\nHow do existing methods cope with the NP-hard constraint? Two main strategies:\n\nMIO (next page) — Mixed-Integer Optimisation: solve the discrete problem directly. Exact, but does not scale much beyond a few hundred predictors.\nLasso (page after) — relax \\(\\|\\boldsymbol{\\beta}\\|_0\\) to the convex \\(\\|\\boldsymbol{\\beta}\\|_1\\). Fast and popular, but biased and indexed by \\(\\lambda\\), not \\(k\\).\n\nCOMBSS sits between the two: continuous like the lasso, but on the support indicator rather than on \\(\\boldsymbol{\\beta}\\) itself — and explicitly \\(k\\)-indexed.\n\n Next: MIO →"
   },
   {
-    "objectID": "motivation/03-mio.html",
-    "href": "motivation/03-mio.html",
+    "objectID": "motivation/02-mio.html",
+    "href": "motivation/02-mio.html",
     "title": "MIO: exact best subset",
     "section": "",
-    "text": "Draft outline — content to come."
+    "text": "Mixed-Integer Optimisation (MIO) keeps the \\(\\ell_0\\) constraint discrete and casts the sparse-GLM problem as a mixed-integer program — the support indicator \\(\\boldsymbol{z} \\in \\{0,1\\}^p\\) is now an explicit decision variable, solved alongside \\(\\boldsymbol{\\beta}\\)."
   },
   {
-    "objectID": "motivation/03-mio.html#the-mixed-integer-formulation",
-    "href": "motivation/03-mio.html#the-mixed-integer-formulation",
+    "objectID": "motivation/02-mio.html#the-mixed-integer-formulation",
+    "href": "motivation/02-mio.html#the-mixed-integer-formulation",
     "title": "MIO: exact best subset",
     "section": "The mixed-integer formulation",
-    "text": "The mixed-integer formulation\n\\[\n\\min_{\\beta_0,\\,\\boldsymbol{\\beta},\\,\\boldsymbol{z}}\\; -\\tfrac{1}{n}\\,\\ell(\\beta_0, \\boldsymbol{\\beta}) \\quad\n\\text{s.t.}\\;\\; z_j \\in \\{0,1\\},\\;\\; \\textstyle\\sum_j z_j \\le k,\\;\\; |\\beta_j| \\le M z_j.\n\\]"
+    "text": "The mixed-integer formulation\n\\[\n\\min_{\\beta_0,\\,\\boldsymbol{\\beta},\\,\\boldsymbol{z}}\\; -\\tfrac{1}{n}\\,\\ell(\\beta_0, \\boldsymbol{\\beta}) \\quad\n\\text{s.t.}\\;\\; z_j \\in \\{0,1\\},\\;\\; \\textstyle\\sum_j z_j \\le k,\\;\\; |\\beta_j| \\le M z_j.\n\\]\nThe Big-\\(M\\) constraint \\(|\\beta_j| \\le M z_j\\) links the two: if \\(z_j = 0\\), then \\(\\beta_j\\) is forced to zero; if \\(z_j = 1\\), the coefficient is free up to magnitude \\(M\\)."
   },
   {
-    "objectID": "motivation/03-mio.html#what-mio-gets-right",
-    "href": "motivation/03-mio.html#what-mio-gets-right",
+    "objectID": "motivation/02-mio.html#what-mio-gets-right",
+    "href": "motivation/02-mio.html#what-mio-gets-right",
     "title": "MIO: exact best subset",
     "section": "What MIO gets right",
-    "text": "What MIO gets right\n\nExact solution of the original \\(\\ell_0\\) problem.\nBranch-and-bound with modern solvers (Gurobi, CPLEX, bestsubset).\nNo relaxation bias."
+    "text": "What MIO gets right\n\nExact — solves the original \\(\\ell_0\\)-constrained problem rather than a surrogate.\nNo relaxation bias — selected coefficients are fit to the data without shrinkage.\nMature commercial and open-source solvers (Gurobi, CPLEX, SCIP) implement branch-and-bound with strong cutting planes (Bertsimas, King, Mazumder 2016)."
   },
   {
-    "objectID": "motivation/03-mio.html#where-mio-breaks-down",
-    "href": "motivation/03-mio.html#where-mio-breaks-down",
+    "objectID": "motivation/02-mio.html#where-mio-breaks-down",
+    "href": "motivation/02-mio.html#where-mio-breaks-down",
     "title": "MIO: exact best subset",
     "section": "Where MIO breaks down",
-    "text": "Where MIO breaks down\n\nComputational cost explodes beyond \\(p \\gtrsim\\) a few hundred.\nOverfits because there is no shrinkage — every selected coefficient is fully fit.\nRequires a careful Big-\\(M\\) choice.\nMultinomial / GLM extensions are even slower.\n\n\n← Lasso · Next → COMBSS preview"
+    "text": "Where MIO breaks down\n\nComputational cost explodes beyond \\(p \\gtrsim\\) a few hundred. The problem is NP-hard; branch-and-bound visits an exponentially growing tree in the worst case.\nOverfits because there is no shrinkage — every selected coefficient is fully fit, and the method has no built-in mechanism to control variance from noisy estimates.\nRequires a careful Big-\\(M\\) choice: too small and the constraint becomes binding (biasing \\(\\boldsymbol{\\beta}\\)); too large and the LP relaxation becomes loose, slowing the solver.\nGLM extensions (logistic, multinomial) replace the quadratic with a transcendental loss; even fewer commercial solvers handle this well, and runtimes grow further.\n\nIn short, MIO is the theoretical gold standard for the \\(\\ell_0\\)-constrained problem — but practical reach stops well short of the high-dimensional biomedical settings we care about (Khan SRBCT at \\(p = 2308\\), rice GWAS at \\(p \\approx 158{,}000\\)).\n\n← Previous: Sparse GLM\nNext: Lasso →"
   },
   {
     "objectID": "index.html",
@@ -564,7 +564,7 @@
     "href": "index.html#how-this-demonstration-is-structured",
     "title": "COMBSS: Scalable Best Subset Selection for Generalised Linear Models",
     "section": "How this demonstration is structured",
-    "text": "How this demonstration is structured\nThis site is the talk. Each section below has its own page; navigate via the top menu or click through in order.\n\n\n\nSection\nPages\n\n\n\n\nMotivation — what sparse-constrained GLM is, and why lasso / MIO are not the last word\nSparse GLM → Lasso → MIO → COMBSS (our method)\n\n\nMethodology — Boolean relaxation, Frank-Wolfe iterates, homotopy in the curvature parameter\nRelaxation → Frank-Wolfe → Homotopy\n\n\nDemos — five runnable demos in R and Python\nLinear sim · HD logistic · Khan SRBCT · Rice GWAS · Comparisons\n\n\nUse it yourself\nInstall · References"
+    "text": "How this demonstration is structured\nThis site is the talk. Each section below has its own page; navigate via the top menu or click through in order.\n\n\n\nSection\nPages\n\n\n\n\nMotivation — what sparse-constrained GLM is, and why MIO / lasso are not the last word\nSparse GLM → MIO → Lasso → COMBSS (our method)\n\n\nMethodology — Boolean relaxation, Frank-Wolfe iterates, homotopy in the curvature parameter\nRelaxation → Frank-Wolfe → Homotopy\n\n\nDemos — five runnable demos in R and Python\nLinear sim · HD logistic · Khan SRBCT · Rice GWAS · Comparisons\n\n\nUse it yourself\nInstall · References"
   },
   {
     "objectID": "index.html#packages",
@@ -585,14 +585,14 @@
     "href": "methodology/03-homotopy.html",
     "title": "Homotopy in \\(\\delta\\)",
     "section": "",
-    "text": "Draft outline — content to come."
+    "text": "\\(\\delta\\) in the relaxed objective controls how strongly the envelope penalty pushes \\(\\boldsymbol t\\) toward vertices. Small \\(\\delta\\) → smooth, easy to optimise. Large \\(\\delta\\) → strongly concave on the polytope."
   },
   {
     "objectID": "methodology/03-homotopy.html#the-curvature-parameter",
     "href": "methodology/03-homotopy.html#the-curvature-parameter",
     "title": "Homotopy in \\(\\delta\\)",
-    "section": "The curvature parameter",
-    "text": "The curvature parameter\n\\(\\delta\\) in the relaxed objective controls how strongly the envelope penalty pushes \\(\\boldsymbol t\\) toward vertices. Small \\(\\delta\\) → smooth, easy to optimise. Large \\(\\delta\\) → strongly concave on the polytope."
+    "section": "",
+    "text": "\\(\\delta\\) in the relaxed objective controls how strongly the envelope penalty pushes \\(\\boldsymbol t\\) toward vertices. Small \\(\\delta\\) → smooth, easy to optimise. Large \\(\\delta\\) → strongly concave on the polytope."
   },
   {
     "objectID": "methodology/03-homotopy.html#homotopy-schedule",
@@ -620,6 +620,6 @@
     "href": "methodology/03-homotopy.html#where-to-next",
     "title": "Homotopy in \\(\\delta\\)",
     "section": "Where to next",
-    "text": "Where to next\nSee it work — in code, on real data:\n\nLinear simulation\nHD logistic simulation\nKhan SRBCT\nRice GWAS\nComparisons\n\n\n← Frank-Wolfe"
+    "text": "Where to next\nSee it work — in code, on real data:\n\nLinear simulation\nHD logistic simulation\nKhan SRBCT\nRice GWAS\nComparisons\n\n\n← Previous: Frank-Wolfe\nNext: Linear simulation →"
   }
 ]

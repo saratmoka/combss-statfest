@@ -13,9 +13,15 @@ body {
   line-height: 1.6;
 }
 
-/* Navbar — coloured top bar, white text, subtle hover */
+/* Navbar — teal bar with ink-coloured text (matches headings) */
 .navbar {
   border-bottom: 3px solid var(--combss-teal-dark);
+}
+.navbar .navbar-brand,
+.navbar .nav-link,
+.navbar .dropdown-toggle,
+.navbar .navbar-toggler {
+  color: var(--combss-ink) !important;
 }
 .navbar .navbar-brand {
   font-weight: 600;
@@ -23,20 +29,62 @@ body {
 }
 .navbar .nav-link:hover,
 .navbar .dropdown-toggle:hover {
-  background-color: rgba(255, 255, 255, 0.12);
+  background-color: rgba(11, 58, 53, 0.08);
   border-radius: 4px;
+}
+/* Tint the right-side icons (GitHub, search) to match */
+.navbar .navbar-nav .nav-link .bi,
+.navbar .quarto-navigation-tool .bi {
+  color: var(--combss-ink);
 }
 
 /* Dropdowns inherit the teal accent */
 .dropdown-menu .dropdown-item:hover,
 .dropdown-menu .dropdown-item:focus {
-  background-color: var(--combss-teal-soft);
+  background-color: var(--combss-teal-dark);
   color: var(--combss-ink);
 }
 
 /* Headings — teal-ink for a coherent palette */
 h1, h2, h3 {
   color: var(--combss-ink);
+}
+
+/* Right-margin sidebar ("On this page", "Other Formats") — match body size */
+#quarto-margin-sidebar,
+#quarto-margin-sidebar .nav-link,
+#quarto-margin-sidebar h2,
+#quarto-margin-sidebar .sidebar-section-item,
+#quarto-margin-sidebar .quarto-other-formats-link,
+#quarto-margin-sidebar .quarto-alternate-formats {
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+/* Page-nav footer (Previous / Next) — flex with space-between; stacks on phones */
+.page-nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.8em 3em;
+  margin-top: 2.5em;
+  padding-top: 1.2em;
+  border-top: 1px solid #ddd;
+}
+.page-nav p {
+  margin: 0;
+}
+.page-nav a {
+  color: var(--combss-teal-dark);
+  font-weight: 600;
+  text-decoration: none;
+}
+.page-nav a:hover { text-decoration: underline; }
+.page-nav .nav-spacer { flex: 1; }
+@media (max-width: 480px) {
+  .page-nav { flex-direction: column; align-items: stretch; }
+  .page-nav .nav-spacer { display: none; }
 }
 
 /* Tables */

@@ -77,7 +77,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-7e3b142278b8d8c585fb9025f69055b2.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-6b036390d69864662374c7b6a1877095.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -166,12 +166,12 @@ window.Quarto = {
  <span class="dropdown-text">1. Sparse GLM</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../motivation/02-lasso.html">
- <span class="dropdown-text">2. Lasso</span></a>
+    <a class="dropdown-item" href="../motivation/02-mio.html">
+ <span class="dropdown-text">2. MIO</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../motivation/03-mio.html">
- <span class="dropdown-text">3. MIO</span></a>
+    <a class="dropdown-item" href="../motivation/03-lasso.html">
+ <span class="dropdown-text">3. Lasso</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../motivation/04-combss.html">
@@ -198,6 +198,10 @@ window.Quarto = {
   </li>  
     </ul>
   </li>
+  <li class="nav-item">
+    <a class="nav-link" href="../install.html"> 
+<span class="menu-text">Install</span></a>
+  </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-demos" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Demos</span>
@@ -225,10 +229,6 @@ window.Quarto = {
   </li>  
     </ul>
   </li>
-  <li class="nav-item">
-    <a class="nav-link" href="../install.html"> 
-<span class="menu-text">Install</span></a>
-  </li>  
   <li class="nav-item">
     <a class="nav-link" href="../references.html"> 
 <span class="menu-text">References</span></a>
@@ -285,16 +285,6 @@ window.Quarto = {
 </header>
 
 
-<div class="callout callout-style-simple callout-note no-icon">
-<div class="callout-body d-flex">
-<div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
-</div>
-<div class="callout-body-container">
-<p><em>Draft outline — content to come.</em></p>
-</div>
-</div>
-</div>
 <section id="the-frank-wolfe-iteration" class="level2">
 <h2 class="anchored" data-anchor-id="the-frank-wolfe-iteration">The Frank-Wolfe iteration</h2>
 <p>At iterate <span class="math inline">\(\boldsymbol t^{(r)}\)</span>:</p>
@@ -328,8 +318,10 @@ window.Quarto = {
 <blockquote class="blockquote">
 <p>Placeholder for visual: a small 3D figure of FW iterates marching toward a vertex of the polytope.</p>
 </blockquote>
-<hr>
-<p><a href="../methodology/01-relaxation.html">← Boolean relaxation</a> · <a href="../methodology/03-homotopy.html">Next → Homotopy</a></p>
+<div class="page-nav">
+<p><a href="../methodology/01-relaxation.html">← Previous: Boolean relaxation</a></p>
+<p><a href="../methodology/03-homotopy.html">Next: Homotopy →</a></p>
+</div>
 
 
 <!-- -->
@@ -793,47 +785,45 @@ window.Quarto = {
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="an">subtitle:</span><span class="co"> "Linear minimisation oracle, no projections"</span></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>::: {.callout-note appearance="minimal"}</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>*Draft outline — content to come.*</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">## The Frank-Wolfe iteration</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>At iterate $\boldsymbol t^{(r)}$:</span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">## The Frank-Wolfe iteration</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Linear minimisation oracle (LMO)**:</span>
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>At iterate $\boldsymbol t^{(r)}$:</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Linear minimisation oracle (LMO)**:</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>\boldsymbol s^{(r)} \;\in\;</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>\arg\min_{\boldsymbol u \in \mathcal{T}_k}</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>\langle \boldsymbol g(\boldsymbol t^{(r)}),\,\boldsymbol u\rangle</span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>\;\;\Longleftrightarrow\;\;</span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>\boldsymbol s^{(r)} = \text{vertex with the $k$ smallest entries of $\boldsymbol g(\boldsymbol t^{(r)})$.}</span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>\boldsymbol s^{(r)} \;\in\;</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>\arg\min_{\boldsymbol u \in \mathcal{T}_k}</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>\langle \boldsymbol g(\boldsymbol t^{(r)}),\,\boldsymbol u\rangle</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>\;\;\Longleftrightarrow\;\;</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>\boldsymbol s^{(r)} = \text{vertex with the $k$ smallest entries of $\boldsymbol g(\boldsymbol t^{(r)})$.}</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Step**: $\boldsymbol t^{(r+1)} = (1 - \alpha)\,\boldsymbol t^{(r)} + \alpha\,\boldsymbol s^{(r)}.$</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Iterate** until $\boldsymbol t^{(r)}$ converges to a vertex.</span>
 <span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Step**: $\boldsymbol t^{(r+1)} = (1 - \alpha)\,\boldsymbol t^{(r)} + \alpha\,\boldsymbol s^{(r)}.$</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="fu">## Why no projections</span></span>
 <span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Iterate** until $\boldsymbol t^{(r)}$ converges to a vertex.</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>The cardinality polytope is a *combinatorial* set; projecting onto it is itself a hard problem. Frank-Wolfe avoids the projection — every step just requires the LMO, which is a sort.</span>
 <span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="fu">## Why no projections</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="fu">## Vertex-approach guarantee</span></span>
 <span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>The cardinality polytope is a *combinatorial* set; projecting onto it is itself a hard problem. Frank-Wolfe avoids the projection — every step just requires the LMO, which is a sort.</span>
-<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a><span class="fu">## Vertex-approach guarantee</span></span>
-<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a><span class="sc">\|</span>\boldsymbol t^{(r)} - \boldsymbol s^*<span class="sc">\|</span>_\infty</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>\;\le\;</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>(1 - \alpha)^r \,<span class="sc">\|</span>\boldsymbol t^{(0)} - \boldsymbol s^*<span class="sc">\|</span>_\infty.</span>
 <span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a><span class="sc">\|</span>\boldsymbol t^{(r)} - \boldsymbol s^*<span class="sc">\|</span>_\infty</span>
-<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>\;\le\;</span>
-<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>(1 - \alpha)^r \,<span class="sc">\|</span>\boldsymbol t^{(0)} - \boldsymbol s^*<span class="sc">\|</span>_\infty.</span>
-<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>Linear convergence to the chosen vertex once the LMO direction settles.</span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; Placeholder for visual: a small 3D figure of FW iterates marching toward a vertex of the polytope.</span></span>
 <span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>Linear convergence to the chosen vertex once the LMO direction settles.</span>
-<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; Placeholder for visual: a small 3D figure of FW iterates marching toward a vertex of the polytope.</span></span>
-<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>---</span>
-<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">← Boolean relaxation</span><span class="co">](01-relaxation.qmd)</span> · <span class="co">[</span><span class="ot">Next → Homotopy</span><span class="co">](03-homotopy.qmd)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>::: {.page-nav}</span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">← Previous: Boolean relaxation</span><span class="co">](01-relaxation.qmd)</span></span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">Next: Homotopy →</span><span class="co">](03-homotopy.qmd)</span></span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>:::</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 

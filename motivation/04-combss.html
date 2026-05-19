@@ -77,7 +77,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-7e3b142278b8d8c585fb9025f69055b2.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-6b036390d69864662374c7b6a1877095.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -166,12 +166,12 @@ window.Quarto = {
  <span class="dropdown-text">1. Sparse GLM</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../motivation/02-lasso.html">
- <span class="dropdown-text">2. Lasso</span></a>
+    <a class="dropdown-item" href="../motivation/02-mio.html">
+ <span class="dropdown-text">2. MIO</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../motivation/03-mio.html">
- <span class="dropdown-text">3. MIO</span></a>
+    <a class="dropdown-item" href="../motivation/03-lasso.html">
+ <span class="dropdown-text">3. Lasso</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../motivation/04-combss.html">
@@ -198,6 +198,10 @@ window.Quarto = {
   </li>  
     </ul>
   </li>
+  <li class="nav-item">
+    <a class="nav-link" href="../install.html"> 
+<span class="menu-text">Install</span></a>
+  </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-demos" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Demos</span>
@@ -226,10 +230,6 @@ window.Quarto = {
     </ul>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="../install.html"> 
-<span class="menu-text">Install</span></a>
-  </li>  
-  <li class="nav-item">
     <a class="nav-link" href="../references.html"> 
 <span class="menu-text">References</span></a>
   </li>  
@@ -257,7 +257,7 @@ window.Quarto = {
    
   <ul>
   <li><a href="#where-combss-fits" id="toc-where-combss-fits" class="nav-link active" data-scroll-target="#where-combss-fits">Where COMBSS fits</a></li>
-  <li><a href="#the-bridge-side-by-side" id="toc-the-bridge-side-by-side" class="nav-link" data-scroll-target="#the-bridge-side-by-side">The bridge — side by side</a></li>
+  <li><a href="#the-bridge-side-by-side" id="toc-the-bridge-side-by-side" class="nav-link" data-scroll-target="#the-bridge-side-by-side">The bridge: side by side</a></li>
   <li><a href="#in-one-sentence" id="toc-in-one-sentence" class="nav-link" data-scroll-target="#in-one-sentence">In one sentence</a></li>
   <li><a href="#two-head-to-head-questions" id="toc-two-head-to-head-questions" class="nav-link" data-scroll-target="#two-head-to-head-questions">Two head-to-head questions</a>
   <ul class="collapse">
@@ -317,11 +317,11 @@ window.Quarto = {
 <ul>
 <li><strong>Lasso</strong> sits only in the <em>smooth optimisation</em> circle — convex and scalable, but doesn’t target <span class="math inline">\(\ell_0\)</span> and doesn’t directly control <span class="math inline">\(k\)</span>.</li>
 <li><strong>MIO</strong> sits in <em>targets <span class="math inline">\(\ell_0\)</span></em> and <em>returns <span class="math inline">\(k\)</span></em> — exact but not a smooth optimisation, and not scalable.</li>
-<li><strong>COMBSS</strong> sits in all three — the only method in the centre.</li>
+<li><strong>COMBSS</strong> sits in all three.</li>
 </ul>
 </section>
 <section id="the-bridge-side-by-side" class="level2">
-<h2 class="anchored" data-anchor-id="the-bridge-side-by-side">The bridge — side by side</h2>
+<h2 class="anchored" data-anchor-id="the-bridge-side-by-side">The bridge: side by side</h2>
 <table class="caption-top table">
 <colgroup>
 <col style="width: 25%">
@@ -366,7 +366,7 @@ window.Quarto = {
 <td>Biased coefficients</td>
 <td>yes</td>
 <td>no</td>
-<td>no (envelope)</td>
+<td>no</td>
 </tr>
 </tbody>
 </table>
@@ -384,7 +384,7 @@ window.Quarto = {
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-body-container">
-<p>Setup: <span class="math inline">\(n = 300\)</span> (<span class="math inline">\(200\)</span> train + <span class="math inline">\(100\)</span> validation), <span class="math inline">\(p = 30\)</span>, <span class="math inline">\(\sigma = 0.5\)</span>, true coefficients <span class="math inline">\(\boldsymbol{\beta} = (3,\,2,\,1.5,\,1,\,0.5,\,0,\,\ldots,\,0)\)</span>, predictors i.i.d. standard normal. <em>This is the same data used in <a href="../demos/01-simulation.html">Demo 1</a>.</em> Code hidden — the figures are the point.</p>
+<p>Setup: <span class="math inline">\(n = 300\)</span> (<span class="math inline">\(200\)</span> train + <span class="math inline">\(100\)</span> validation), <span class="math inline">\(p = 30\)</span>, <span class="math inline">\(\sigma = 0.5\)</span>, true coefficients <span class="math inline">\(\boldsymbol{\beta} = (3,\,2,\,1.5,\,1,\,0.5,\,0,\,\ldots,\,0)\)</span>, predictors (i.e., entries of the dataset) i.i.d. standard normal. <!-- *This is the same data used in [Demo 1](../demos/01-simulation.qmd).* Code hidden — the figures are the point.--></p>
 </div>
 </div>
 </div>
@@ -408,8 +408,8 @@ window.Quarto = {
 <div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="04-combss_files/figure-html/combss-mse-vs-k-1.png" class="img-fluid figure-img" width="672"></p>
-<figcaption>Validation MSE as a function of the number of selected features. COMBSS (teal) drops below the dashed line — lasso’s <em>best-ever</em> validation MSE — at just <span class="math inline">\(k = 5\)</span>. Lasso (coral) needs to keep adding features and still never reaches COMBSS’s <span class="math inline">\(k=5\)</span> performance.</figcaption>
+<p><img src="04-combss_files/figure-html/combss-mse-vs-k-1.png" class="img-fluid figure-img" width="1056"></p>
+<figcaption><strong>Left:</strong> validation MSE as a function of the number of selected features (full range). <strong>Right:</strong> zoom into the region <span class="math inline">\(k \ge 4\)</span> where the two methods plateau. The dashed line marks lasso’s <em>best-ever</em> validation MSE. COMBSS at <span class="math inline">\(k = 5\)</span> already sits <strong>below</strong> that line — lasso cannot match COMBSS’s <span class="math inline">\(k=5\)</span> performance at any model size.</figcaption>
 </figure>
 </div>
 </div>
@@ -423,8 +423,10 @@ window.Quarto = {
 <li><strong>Methodology</strong> — how the relaxation works, the Frank-Wolfe step, the curvature homotopy.</li>
 <li><strong>Demos</strong> — five runnable demos showing the method in action.</li>
 </ul>
-<hr>
-<p><a href="../motivation/03-mio.html">← MIO</a> · <a href="../methodology/01-relaxation.html">Methodology → Boolean relaxation</a></p>
+<div class="page-nav">
+<p><a href="../motivation/03-lasso.html">← Previous: Lasso</a></p>
+<p><a href="../methodology/01-relaxation.html">Next: Boolean relaxation →</a></p>
+</div>
 
 
 <!-- -->
@@ -916,9 +918,9 @@ window.Quarto = {
 <span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Lasso** sits only in the *smooth optimisation* circle — convex and scalable, but doesn't target $\ell_0$ and doesn't directly control $k$.</span>
 <span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**MIO** sits in *targets $\ell_0$* and *returns $k$* — exact but not a smooth optimisation, and not scalable.</span>
-<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**COMBSS** sits in all three — the only method in the centre.</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**COMBSS** sits in all three.</span>
 <span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a><span class="fu">## The bridge — side by side</span></span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a><span class="fu">## The bridge: side by side</span></span>
 <span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> <span class="pp">|</span> **Lasso** | **MIO** | **COMBSS** <span class="pp">|</span></span>
 <span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a><span class="pp">|---|---|---|---|</span></span>
@@ -926,7 +928,7 @@ window.Quarto = {
 <span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Sparsity by <span class="pp">|</span> $\ell_1$ penalty <span class="pp">|</span> hard $\ell_0$ + Big-$M$ <span class="pp">|</span> continuous relaxation on the support indicator <span class="pp">|</span></span>
 <span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Selection size <span class="pp">|</span> indexed by $\lambda$ <span class="pp">|</span> $k$ via constraint <span class="pp">|</span> $k$ via polytope <span class="pp">|</span></span>
 <span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Scales to $p \gg n$ <span class="pp">|</span> yes <span class="pp">|</span> barely <span class="pp">|</span> yes <span class="pp">|</span></span>
-<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Biased coefficients <span class="pp">|</span> yes <span class="pp">|</span> no <span class="pp">|</span> no (envelope) <span class="pp">|</span></span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Biased coefficients <span class="pp">|</span> yes <span class="pp">|</span> no <span class="pp">|</span> no <span class="pp">|</span></span>
 <span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a><span class="fu">## In one sentence</span></span>
 <span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a></span>
@@ -937,7 +939,7 @@ window.Quarto = {
 <span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a>The simplest way to see what COMBSS buys you is to put it next to lasso on the same dataset and ask two questions.</span>
 <span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a>::: {.callout-note appearance="minimal"}</span>
-<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a>Setup: $n = 300$ ($200$ train + $100$ validation), $p = 30$, $\sigma = 0.5$, true coefficients $\boldsymbol{\beta} = (3,\,2,\,1.5,\,1,\,0.5,\,0,\,\ldots,\,0)$, predictors i.i.d. standard normal. *This is the same data used in [Demo 1](../demos/01-simulation.qmd).* Code hidden — the figures are the point.</span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a>Setup: $n = 300$ ($200$ train + $100$ validation), $p = 30$, $\sigma = 0.5$, true coefficients $\boldsymbol{\beta} = (3,\,2,\,1.5,\,1,\,0.5,\,0,\,\ldots,\,0)$, predictors (i.e., entries of the dataset) i.i.d. standard normal. <span class="co">&lt;!-- *This is the same data used in [Demo 1](../demos/01-simulation.qmd).* Code hidden — the figures are the point.--&gt;</span></span>
 <span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
@@ -1014,9 +1016,9 @@ window.Quarto = {
 <span id="cb1-135"><a href="#cb1-135" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
 <span id="cb1-136"><a href="#cb1-136" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: combss-mse-vs-k</span></span>
 <span id="cb1-137"><a href="#cb1-137" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
-<span id="cb1-138"><a href="#cb1-138" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-width: 7</span></span>
-<span id="cb1-139"><a href="#cb1-139" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-height: 3.5</span></span>
-<span id="cb1-140"><a href="#cb1-140" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Validation MSE as a function of the number of selected features. COMBSS (teal) drops below the dashed line — lasso's *best-ever* validation MSE — at just $k = 5$. Lasso (coral) needs to keep adding features and still never reaches COMBSS's $k=5$ performance."</span></span>
+<span id="cb1-138"><a href="#cb1-138" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-width: 11</span></span>
+<span id="cb1-139"><a href="#cb1-139" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-height: 4</span></span>
+<span id="cb1-140"><a href="#cb1-140" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "**Left:** validation MSE as a function of the number of selected features (full range). **Right:** zoom into the region $k \\ge 4$ where the two methods plateau. The dashed line marks lasso's *best-ever* validation MSE. COMBSS at $k = 5$ already sits **below** that line — lasso cannot match COMBSS's $k=5$ performance at any model size."</span></span>
 <span id="cb1-141"><a href="#cb1-141" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-142"><a href="#cb1-142" aria-hidden="true" tabindex="-1"></a><span class="co"># Validation MSE per unique k along the lasso path</span></span>
 <span id="cb1-143"><a href="#cb1-143" aria-hidden="true" tabindex="-1"></a>ks_lasso <span class="ot">&lt;-</span> <span class="fu">sort</span>(<span class="fu">unique</span>(nz))</span>
@@ -1034,31 +1036,54 @@ window.Quarto = {
 <span id="cb1-155"><a href="#cb1-155" aria-hidden="true" tabindex="-1"></a>ks_combss <span class="ot">&lt;-</span> <span class="fu">seq_along</span>(fit_c<span class="sc">$</span>mse_path)</span>
 <span id="cb1-156"><a href="#cb1-156" aria-hidden="true" tabindex="-1"></a>val_mse_combss <span class="ot">&lt;-</span> fit_c<span class="sc">$</span>mse_path</span>
 <span id="cb1-157"><a href="#cb1-157" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-158"><a href="#cb1-158" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">1</span>, <span class="dv">1</span>))</span>
-<span id="cb1-159"><a href="#cb1-159" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(ks_lasso, val_mse_lasso, <span class="at">type =</span> <span class="st">"b"</span>, <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">col =</span> <span class="st">"#e76f51"</span>,</span>
-<span id="cb1-160"><a href="#cb1-160" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"number of selected features (k)"</span>,</span>
-<span id="cb1-161"><a href="#cb1-161" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">"validation MSE"</span>,</span>
-<span id="cb1-162"><a href="#cb1-162" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylim =</span> <span class="fu">range</span>(<span class="fu">c</span>(val_mse_lasso, val_mse_combss[ks_combss <span class="sc">&gt;=</span> <span class="dv">3</span>])),</span>
-<span id="cb1-163"><a href="#cb1-163" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="fu">max</span>(<span class="fu">c</span>(ks_lasso, ks_combss))))</span>
-<span id="cb1-164"><a href="#cb1-164" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(ks_combss, val_mse_combss, <span class="at">type =</span> <span class="st">"b"</span>, <span class="at">pch =</span> <span class="dv">17</span>, <span class="at">col =</span> <span class="st">"#2a9d8f"</span>)</span>
-<span id="cb1-165"><a href="#cb1-165" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> <span class="fu">min</span>(val_mse_lasso), <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">"grey40"</span>)</span>
-<span id="cb1-166"><a href="#cb1-166" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"topright"</span>,</span>
-<span id="cb1-167"><a href="#cb1-167" aria-hidden="true" tabindex="-1"></a>       <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">"lasso"</span>, <span class="st">"COMBSS"</span>, <span class="st">"lasso's best MSE"</span>),</span>
-<span id="cb1-168"><a href="#cb1-168" aria-hidden="true" tabindex="-1"></a>       <span class="at">col =</span> <span class="fu">c</span>(<span class="st">"#e76f51"</span>, <span class="st">"#2a9d8f"</span>, <span class="st">"grey40"</span>),</span>
-<span id="cb1-169"><a href="#cb1-169" aria-hidden="true" tabindex="-1"></a>       <span class="at">pch =</span> <span class="fu">c</span>(<span class="dv">19</span>, <span class="dv">17</span>, <span class="cn">NA</span>), <span class="at">lty =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>),</span>
-<span id="cb1-170"><a href="#cb1-170" aria-hidden="true" tabindex="-1"></a>       <span class="at">bty =</span> <span class="st">"n"</span>, <span class="at">cex =</span> <span class="fl">0.95</span>)</span>
-<span id="cb1-171"><a href="#cb1-171" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb1-172"><a href="#cb1-172" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-173"><a href="#cb1-173" aria-hidden="true" tabindex="-1"></a>At $k = 5$, COMBSS reaches a validation MSE that lasso cannot match at **any** model size — even with 22 features, lasso's MSE stays above COMBSS's value at $k = 5$.</span>
-<span id="cb1-174"><a href="#cb1-174" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-175"><a href="#cb1-175" aria-hidden="true" tabindex="-1"></a><span class="fu">## Preview of the rest of the talk</span></span>
-<span id="cb1-176"><a href="#cb1-176" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-177"><a href="#cb1-177" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Methodology** — how the relaxation works, the Frank-Wolfe step, the curvature homotopy.</span>
-<span id="cb1-178"><a href="#cb1-178" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Demos** — five runnable demos showing the method in action.</span>
-<span id="cb1-179"><a href="#cb1-179" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-180"><a href="#cb1-180" aria-hidden="true" tabindex="-1"></a>---</span>
+<span id="cb1-158"><a href="#cb1-158" aria-hidden="true" tabindex="-1"></a><span class="co"># Two-panel plot: full view + zoomed view</span></span>
+<span id="cb1-159"><a href="#cb1-159" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), <span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">1</span>, <span class="dv">1</span>))</span>
+<span id="cb1-160"><a href="#cb1-160" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-161"><a href="#cb1-161" aria-hidden="true" tabindex="-1"></a><span class="co"># Panel 1: full view</span></span>
+<span id="cb1-162"><a href="#cb1-162" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(ks_lasso, val_mse_lasso, <span class="at">type =</span> <span class="st">"b"</span>, <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">col =</span> <span class="st">"#e76f51"</span>,</span>
+<span id="cb1-163"><a href="#cb1-163" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"number of selected features (k)"</span>,</span>
+<span id="cb1-164"><a href="#cb1-164" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">"validation MSE"</span>,</span>
+<span id="cb1-165"><a href="#cb1-165" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylim =</span> <span class="fu">range</span>(<span class="fu">c</span>(val_mse_lasso, val_mse_combss)),</span>
+<span id="cb1-166"><a href="#cb1-166" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="fu">max</span>(<span class="fu">c</span>(ks_lasso, ks_combss))))</span>
+<span id="cb1-167"><a href="#cb1-167" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(ks_combss, val_mse_combss, <span class="at">type =</span> <span class="st">"b"</span>, <span class="at">pch =</span> <span class="dv">17</span>, <span class="at">col =</span> <span class="st">"#2a9d8f"</span>)</span>
+<span id="cb1-168"><a href="#cb1-168" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> <span class="fu">min</span>(val_mse_lasso), <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">"grey40"</span>)</span>
+<span id="cb1-169"><a href="#cb1-169" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"topright"</span>,</span>
+<span id="cb1-170"><a href="#cb1-170" aria-hidden="true" tabindex="-1"></a>       <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">"lasso"</span>, <span class="st">"COMBSS"</span>, <span class="st">"lasso's best MSE"</span>),</span>
+<span id="cb1-171"><a href="#cb1-171" aria-hidden="true" tabindex="-1"></a>       <span class="at">col =</span> <span class="fu">c</span>(<span class="st">"#e76f51"</span>, <span class="st">"#2a9d8f"</span>, <span class="st">"grey40"</span>),</span>
+<span id="cb1-172"><a href="#cb1-172" aria-hidden="true" tabindex="-1"></a>       <span class="at">pch =</span> <span class="fu">c</span>(<span class="dv">19</span>, <span class="dv">17</span>, <span class="cn">NA</span>), <span class="at">lty =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>),</span>
+<span id="cb1-173"><a href="#cb1-173" aria-hidden="true" tabindex="-1"></a>       <span class="at">bty =</span> <span class="st">"n"</span>, <span class="at">cex =</span> <span class="fl">0.95</span>)</span>
+<span id="cb1-174"><a href="#cb1-174" aria-hidden="true" tabindex="-1"></a><span class="fu">mtext</span>(<span class="st">"(a) full range"</span>, <span class="at">side =</span> <span class="dv">3</span>, <span class="at">line =</span> <span class="sc">-</span><span class="fl">1.2</span>, <span class="at">cex =</span> <span class="fl">0.95</span>, <span class="at">adj =</span> <span class="fl">0.5</span>)</span>
+<span id="cb1-175"><a href="#cb1-175" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-176"><a href="#cb1-176" aria-hidden="true" tabindex="-1"></a><span class="co"># Panel 2: zoomed in to k &gt;= 4 where the plateau lives</span></span>
+<span id="cb1-177"><a href="#cb1-177" aria-hidden="true" tabindex="-1"></a>keep_l <span class="ot">&lt;-</span> ks_lasso <span class="sc">&gt;=</span> <span class="dv">4</span></span>
+<span id="cb1-178"><a href="#cb1-178" aria-hidden="true" tabindex="-1"></a>keep_c <span class="ot">&lt;-</span> ks_combss <span class="sc">&gt;=</span> <span class="dv">4</span></span>
+<span id="cb1-179"><a href="#cb1-179" aria-hidden="true" tabindex="-1"></a>y_min <span class="ot">&lt;-</span> <span class="fu">min</span>(val_mse_lasso[keep_l], val_mse_combss[keep_c]) <span class="sc">-</span> <span class="fl">0.01</span></span>
+<span id="cb1-180"><a href="#cb1-180" aria-hidden="true" tabindex="-1"></a>y_max <span class="ot">&lt;-</span> <span class="fl">0.45</span></span>
 <span id="cb1-181"><a href="#cb1-181" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-182"><a href="#cb1-182" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">← MIO</span><span class="co">](03-mio.qmd)</span> · <span class="co">[</span><span class="ot">Methodology → Boolean relaxation</span><span class="co">](../methodology/01-relaxation.qmd)</span></span>
+<span id="cb1-182"><a href="#cb1-182" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(ks_lasso[keep_l], val_mse_lasso[keep_l], <span class="at">type =</span> <span class="st">"b"</span>, <span class="at">pch =</span> <span class="dv">19</span>, <span class="at">col =</span> <span class="st">"#e76f51"</span>,</span>
+<span id="cb1-183"><a href="#cb1-183" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"number of selected features (k)"</span>,</span>
+<span id="cb1-184"><a href="#cb1-184" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">"validation MSE"</span>,</span>
+<span id="cb1-185"><a href="#cb1-185" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylim =</span> <span class="fu">c</span>(y_min, y_max),</span>
+<span id="cb1-186"><a href="#cb1-186" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="fu">max</span>(ks_lasso)))</span>
+<span id="cb1-187"><a href="#cb1-187" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(ks_combss[keep_c], val_mse_combss[keep_c], <span class="at">type =</span> <span class="st">"b"</span>, <span class="at">pch =</span> <span class="dv">17</span>, <span class="at">col =</span> <span class="st">"#2a9d8f"</span>)</span>
+<span id="cb1-188"><a href="#cb1-188" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> <span class="fu">min</span>(val_mse_lasso), <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">col =</span> <span class="st">"grey40"</span>)</span>
+<span id="cb1-189"><a href="#cb1-189" aria-hidden="true" tabindex="-1"></a><span class="fu">mtext</span>(<span class="st">"(b) zoom: k &gt;= 4"</span>, <span class="at">side =</span> <span class="dv">3</span>, <span class="at">line =</span> <span class="sc">-</span><span class="fl">1.2</span>, <span class="at">cex =</span> <span class="fl">0.95</span>, <span class="at">adj =</span> <span class="fl">0.5</span>)</span>
+<span id="cb1-190"><a href="#cb1-190" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-191"><a href="#cb1-191" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">1</span>))</span>
+<span id="cb1-192"><a href="#cb1-192" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb1-193"><a href="#cb1-193" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-194"><a href="#cb1-194" aria-hidden="true" tabindex="-1"></a>At $k = 5$, COMBSS reaches a validation MSE that lasso cannot match at **any** model size — even with 22 features, lasso's MSE stays above COMBSS's value at $k = 5$.</span>
+<span id="cb1-195"><a href="#cb1-195" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-196"><a href="#cb1-196" aria-hidden="true" tabindex="-1"></a><span class="fu">## Preview of the rest of the talk</span></span>
+<span id="cb1-197"><a href="#cb1-197" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-198"><a href="#cb1-198" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Methodology** — how the relaxation works, the Frank-Wolfe step, the curvature homotopy.</span>
+<span id="cb1-199"><a href="#cb1-199" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Demos** — five runnable demos showing the method in action.</span>
+<span id="cb1-200"><a href="#cb1-200" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-201"><a href="#cb1-201" aria-hidden="true" tabindex="-1"></a>::: {.page-nav}</span>
+<span id="cb1-202"><a href="#cb1-202" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">← Previous: Lasso</span><span class="co">](03-lasso.qmd)</span></span>
+<span id="cb1-203"><a href="#cb1-203" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-204"><a href="#cb1-204" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">Next: Boolean relaxation →</span><span class="co">](../methodology/01-relaxation.qmd)</span></span>
+<span id="cb1-205"><a href="#cb1-205" aria-hidden="true" tabindex="-1"></a>:::</span>
 </code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->

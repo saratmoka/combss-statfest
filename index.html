@@ -79,7 +79,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-7e3b142278b8d8c585fb9025f69055b2.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-6b036390d69864662374c7b6a1877095.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -168,12 +168,12 @@ window.Quarto = {
  <span class="dropdown-text">1. Sparse GLM</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./motivation/02-lasso.html">
- <span class="dropdown-text">2. Lasso</span></a>
+    <a class="dropdown-item" href="./motivation/02-mio.html">
+ <span class="dropdown-text">2. MIO</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./motivation/03-mio.html">
- <span class="dropdown-text">3. MIO</span></a>
+    <a class="dropdown-item" href="./motivation/03-lasso.html">
+ <span class="dropdown-text">3. Lasso</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="./motivation/04-combss.html">
@@ -200,6 +200,10 @@ window.Quarto = {
   </li>  
     </ul>
   </li>
+  <li class="nav-item">
+    <a class="nav-link" href="./install.html"> 
+<span class="menu-text">Install</span></a>
+  </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-demos" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Demos</span>
@@ -227,10 +231,6 @@ window.Quarto = {
   </li>  
     </ul>
   </li>
-  <li class="nav-item">
-    <a class="nav-link" href="./install.html"> 
-<span class="menu-text">Install</span></a>
-  </li>  
   <li class="nav-item">
     <a class="nav-link" href="./references.html"> 
 <span class="menu-text">References</span></a>
@@ -360,8 +360,8 @@ window.Quarto = {
 </thead>
 <tbody>
 <tr class="odd">
-<td><strong>Motivation</strong> — what sparse-constrained GLM is, and why lasso / MIO are not the last word</td>
-<td><a href="./motivation/01-sparse-glm.html" target="_blank">Sparse GLM</a> → <a href="./motivation/02-lasso.html" target="_blank">Lasso</a> → <a href="./motivation/03-mio.html" target="_blank">MIO</a> → <a href="./motivation/04-combss.html" target="_blank">COMBSS (our method)</a></td>
+<td><strong>Motivation</strong> — what sparse-constrained GLM is, and why MIO / lasso are not the last word</td>
+<td><a href="./motivation/01-sparse-glm.html" target="_blank">Sparse GLM</a> → <a href="./motivation/02-mio.html" target="_blank">MIO</a> → <a href="./motivation/03-lasso.html" target="_blank">Lasso</a> → <a href="./motivation/04-combss.html" target="_blank">COMBSS (our method)</a></td>
 </tr>
 <tr class="even">
 <td><strong>Methodology</strong> — Boolean relaxation, Frank-Wolfe iterates, homotopy in the curvature parameter</td>
@@ -881,7 +881,7 @@ window.Quarto = {
 <span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> Section <span class="pp">|</span> Pages <span class="pp">|</span></span>
 <span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a><span class="pp">|---|---|</span></span>
-<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Motivation** — what sparse-constrained GLM is, and why lasso / MIO are not the last word <span class="pp">|</span> <span class="co">[</span><span class="ot">Sparse GLM</span><span class="co">](motivation/01-sparse-glm.qmd)</span>{target="_blank"} → <span class="co">[</span><span class="ot">Lasso</span><span class="co">](motivation/02-lasso.qmd)</span>{target="_blank"} → <span class="co">[</span><span class="ot">MIO</span><span class="co">](motivation/03-mio.qmd)</span>{target="_blank"} → <span class="co">[</span><span class="ot">COMBSS (our method)</span><span class="co">](motivation/04-combss.qmd)</span>{target="_blank"} <span class="pp">|</span></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Motivation** — what sparse-constrained GLM is, and why MIO / lasso are not the last word <span class="pp">|</span> <span class="co">[</span><span class="ot">Sparse GLM</span><span class="co">](motivation/01-sparse-glm.qmd)</span>{target="_blank"} → <span class="co">[</span><span class="ot">MIO</span><span class="co">](motivation/02-mio.qmd)</span>{target="_blank"} → <span class="co">[</span><span class="ot">Lasso</span><span class="co">](motivation/03-lasso.qmd)</span>{target="_blank"} → <span class="co">[</span><span class="ot">COMBSS (our method)</span><span class="co">](motivation/04-combss.qmd)</span>{target="_blank"} <span class="pp">|</span></span>
 <span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Methodology** — Boolean relaxation, Frank-Wolfe iterates, homotopy in the curvature parameter <span class="pp">|</span> <span class="co">[</span><span class="ot">Relaxation</span><span class="co">](methodology/01-relaxation.qmd)</span>{target="_blank"} → <span class="co">[</span><span class="ot">Frank-Wolfe</span><span class="co">](methodology/02-frank-wolfe.qmd)</span>{target="_blank"} → <span class="co">[</span><span class="ot">Homotopy</span><span class="co">](methodology/03-homotopy.qmd)</span>{target="_blank"} <span class="pp">|</span></span>
 <span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Demos** — five runnable demos in R and Python <span class="pp">|</span> <span class="co">[</span><span class="ot">Linear sim</span><span class="co">](demos/01-simulation.qmd)</span>{target="_blank"} · <span class="co">[</span><span class="ot">HD logistic</span><span class="co">](demos/02-simulation-hd.qmd)</span>{target="_blank"} · <span class="co">[</span><span class="ot">Khan SRBCT</span><span class="co">](demos/03-khan.qmd)</span>{target="_blank"} · <span class="co">[</span><span class="ot">Rice GWAS</span><span class="co">](demos/04-rice.qmd)</span>{target="_blank"} · <span class="co">[</span><span class="ot">Comparisons</span><span class="co">](demos/05-comparisons.qmd)</span>{target="_blank"} <span class="pp">|</span></span>
 <span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a><span class="pp">|</span> **Use it yourself** <span class="pp">|</span> <span class="co">[</span><span class="ot">Install</span><span class="co">](install.qmd)</span>{target="_blank"} · <span class="co">[</span><span class="ot">References</span><span class="co">](references.qmd)</span>{target="_blank"} <span class="pp">|</span></span>
