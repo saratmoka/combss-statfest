@@ -3,10 +3,6 @@ title: "Frank-Wolfe on the polytope"
 subtitle: "Linear minimisation oracle, no projections"
 ---
 
-::: {.callout-note appearance="minimal"}
-*Draft outline — content to come.*
-:::
-
 ## The Frank-Wolfe iteration
 
 At iterate $\boldsymbol t^{(r)}$:
@@ -41,6 +37,8 @@ Linear convergence to the chosen vertex once the LMO direction settles.
 
 > Placeholder for visual: a small 3D figure of FW iterates marching toward a vertex of the polytope.
 
----
+::: {.page-nav}
+[← Previous: Boolean relaxation](01-relaxation.qmd)
 
-[← Boolean relaxation](01-relaxation.qmd) · [Next → Homotopy](03-homotopy.qmd)
+[Next: Homotopy →](03-homotopy.qmd)
+:::

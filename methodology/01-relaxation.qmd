@@ -3,10 +3,6 @@ title: "Boolean relaxation"
 subtitle: "From discrete subsets to the cardinality polytope"
 ---
 
-::: {.callout-note appearance="minimal"}
-*Draft outline — content to come.*
-:::
-
 ## Reparameterising the support
 
 Replace the discrete indicator $z \in \{0,1\}^p$ by a continuous $t \in [0,1]^p$ and write
@@ -52,6 +48,8 @@ This is the only thing the outer Frank-Wolfe step needs.
 
 > Placeholder for visual: the four-panel loss-landscape figure (discrete → smooth → smooth+$\ell_1$ → strongly penalised).
 
----
+::: {.page-nav}
+[← Previous: COMBSS (our method)](../motivation/04-combss.qmd)
 
-[← COMBSS preview](../motivation/04-combss.qmd) · [Next → Frank-Wolfe](02-frank-wolfe.qmd)
+[Next: Frank-Wolfe →](02-frank-wolfe.qmd)
+:::

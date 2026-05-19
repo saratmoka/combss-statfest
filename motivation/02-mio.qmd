@@ -1,0 +1,36 @@
+---
+title: "MIO: exact best subset"
+subtitle: "Solve the discrete problem directly"
+---
+
+**Mixed-Integer Optimisation (MIO)** keeps the $\ell_0$ constraint discrete and casts the sparse-GLM problem as a mixed-integer program — the support indicator $\boldsymbol{z} \in \{0,1\}^p$ is now an explicit decision variable, solved alongside $\boldsymbol{\beta}$.
+
+## The mixed-integer formulation
+
+$$
+\min_{\beta_0,\,\boldsymbol{\beta},\,\boldsymbol{z}}\; -\tfrac{1}{n}\,\ell(\beta_0, \boldsymbol{\beta}) \quad
+\text{s.t.}\;\; z_j \in \{0,1\},\;\; \textstyle\sum_j z_j \le k,\;\; |\beta_j| \le M z_j.
+$$
+
+The Big-$M$ constraint $|\beta_j| \le M z_j$ links the two: if $z_j = 0$, then $\beta_j$ is forced to zero; if $z_j = 1$, the coefficient is free up to magnitude $M$.
+
+## What MIO gets right
+
+- **Exact** — solves the original $\ell_0$-constrained problem rather than a surrogate.
+- **No relaxation bias** — selected coefficients are fit to the data without shrinkage.
+- Mature commercial and open-source solvers (Gurobi, CPLEX, SCIP) implement branch-and-bound with strong cutting planes (Bertsimas, King, Mazumder 2016).
+
+## Where MIO breaks down
+
+- **Computational cost** explodes beyond $p \gtrsim$ a few hundred. The problem is NP-hard; branch-and-bound visits an exponentially growing tree in the worst case.
+- **Overfits** because there is no shrinkage — every selected coefficient is fully fit, and the method has no built-in mechanism to control variance from noisy estimates.
+- Requires a careful **Big-$M$** choice: too small and the constraint becomes binding (biasing $\boldsymbol{\beta}$); too large and the LP relaxation becomes loose, slowing the solver.
+- **GLM extensions** (logistic, multinomial) replace the quadratic with a transcendental loss; even fewer commercial solvers handle this well, and runtimes grow further.
+
+In short, MIO is the theoretical gold standard for the $\ell_0$-constrained problem — but practical reach stops well short of the high-dimensional biomedical settings we care about (Khan SRBCT at $p = 2308$, rice GWAS at $p \approx 158{,}000$).
+
+::: {.page-nav}
+[← Previous: Sparse GLM](01-sparse-glm.qmd)
+
+[Next: Lasso →](03-lasso.qmd)
+:::

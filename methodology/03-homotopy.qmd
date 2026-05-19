@@ -3,10 +3,6 @@ title: "Homotopy in $\\delta$"
 subtitle: "Why the final iterate lands at a vertex"
 ---
 
-::: {.callout-note appearance="minimal"}
-*Draft outline — content to come.*
-:::
-
 ## The curvature parameter
 
 $\delta$ in the relaxed objective controls how strongly the envelope penalty pushes $\boldsymbol t$ toward vertices. Small $\delta$ → smooth, easy to optimise. Large $\delta$ → strongly concave on the polytope.
@@ -53,6 +49,8 @@ See it work — in code, on real data:
 - [Rice GWAS](../demos/04-rice.qmd)
 - [Comparisons](../demos/05-comparisons.qmd)
 
----
+::: {.page-nav}
+[← Previous: Frank-Wolfe](02-frank-wolfe.qmd)
 
-[← Frank-Wolfe](02-frank-wolfe.qmd)
+[Next: Linear simulation →](../demos/01-simulation.qmd)
+:::

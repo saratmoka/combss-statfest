@@ -110,11 +110,12 @@ Every one of these calls for a sparsity-constrained GLM, not just a regularised 
 
 How do existing methods cope with the NP-hard constraint? Two main strategies:
 
-- **Lasso** ([next page](02-lasso.qmd)) — relax $\|\boldsymbol{\beta}\|_0$ to the convex $\|\boldsymbol{\beta}\|_1$. Fast and popular, but biased and indexed by $\lambda$, not $k$.
-- **MIO** ([page after](03-mio.qmd)) — solve the discrete problem directly with mixed-integer optimisation. Exact, but does not scale.
+- **MIO** ([next page](02-mio.qmd)) — Mixed-Integer Optimisation: solve the discrete problem directly. Exact, but does not scale much beyond a few hundred predictors.
+- **Lasso** ([page after](03-lasso.qmd)) — relax $\|\boldsymbol{\beta}\|_0$ to the convex $\|\boldsymbol{\beta}\|_1$. Fast and popular, but biased and indexed by $\lambda$, not $k$.
 
 COMBSS sits between the two: continuous like the lasso, but on the *support indicator* rather than on $\boldsymbol{\beta}$ itself — and explicitly $k$-indexed.
 
----
-
-[Next → Lasso](02-lasso.qmd)
+::: {.page-nav}
+<span class="nav-spacer"></span>
+[Next: MIO →](02-mio.qmd)
+:::

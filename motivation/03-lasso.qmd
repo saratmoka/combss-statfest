@@ -50,6 +50,8 @@ The relaxation is fast and well understood, but it pays two prices that no choic
 
 Concrete numbers on a simple simulation appear on the [next page](04-combss.qmd) — they are the case for COMBSS rather than the case against lasso, so we save them for there.
 
----
+::: {.page-nav}
+[← Previous: MIO](02-mio.qmd)
 
-[← Sparse GLM](01-sparse-glm.qmd) · [Next → MIO](03-mio.qmd)
+[Next: COMBSS (our method) →](04-combss.qmd)
+:::

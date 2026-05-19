@@ -6,17 +6,17 @@ website:
   title: "COMBSS @ StatFest"
   description: "An interactive demonstration of scalable best subset selection for generalised linear models."
   navbar:
-    background: "#2a9d8f"
-    foreground: light
+    background: "#e6f4f1"
+    foreground: dark
     left:
       - text: Motivation
         menu:
           - href: motivation/01-sparse-glm.qmd
             text: "1. Sparse GLM"
-          - href: motivation/02-lasso.qmd
-            text: "2. Lasso"
-          - href: motivation/03-mio.qmd
-            text: "3. MIO"
+          - href: motivation/02-mio.qmd
+            text: "2. MIO"
+          - href: motivation/03-lasso.qmd
+            text: "3. Lasso"
           - href: motivation/04-combss.qmd
             text: "4. COMBSS (our method)"
       - text: Methodology
@@ -27,6 +27,8 @@ website:
             text: "2. Frank-Wolfe"
           - href: methodology/03-homotopy.qmd
             text: "3. Homotopy"
+      - href: install.qmd
+        text: Install
       - text: Demos
         menu:
           - href: demos/01-simulation.qmd
@@ -39,8 +41,6 @@ website:
             text: "4. Rice GWAS"
           - href: demos/05-comparisons.qmd
             text: "5. Comparisons"
-      - href: install.qmd
-        text: Install
       - href: references.qmd
         text: References
     right:

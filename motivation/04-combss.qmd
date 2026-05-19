@@ -31,9 +31,9 @@ Three properties we want a method to have:
 
 - **Lasso** sits only in the *smooth optimisation* circle — convex and scalable, but doesn't target $\ell_0$ and doesn't directly control $k$.
 - **MIO** sits in *targets $\ell_0$* and *returns $k$* — exact but not a smooth optimisation, and not scalable.
-- **COMBSS** sits in all three — the only method in the centre.
+- **COMBSS** sits in all three.
 
-## The bridge — side by side
+## The bridge: side by side
 
 | | **Lasso** | **MIO** | **COMBSS** |
 |---|---|---|---|
@@ -41,7 +41,7 @@ Three properties we want a method to have:
 | Sparsity by | $\ell_1$ penalty | hard $\ell_0$ + Big-$M$ | continuous relaxation on the support indicator |
 | Selection size | indexed by $\lambda$ | $k$ via constraint | $k$ via polytope |
 | Scales to $p \gg n$ | yes | barely | yes |
-| Biased coefficients | yes | no | no (envelope) |
+| Biased coefficients | yes | no | no |
 
 ## In one sentence
 
@@ -52,7 +52,7 @@ COMBSS relaxes the discrete support indicator $\boldsymbol{z} \in \{0,1\}^p$ to 
 The simplest way to see what COMBSS buys you is to put it next to lasso on the same dataset and ask two questions.
 
 ::: {.callout-note appearance="minimal"}
-Setup: $n = 300$ ($200$ train + $100$ validation), $p = 30$, $\sigma = 0.5$, true coefficients $\boldsymbol{\beta} = (3,\,2,\,1.5,\,1,\,0.5,\,0,\,\ldots,\,0)$, predictors i.i.d. standard normal. *This is the same data used in [Demo 1](../demos/01-simulation.qmd).* Code hidden — the figures are the point.
+Setup: $n = 300$ ($200$ train + $100$ validation), $p = 30$, $\sigma = 0.5$, true coefficients $\boldsymbol{\beta} = (3,\,2,\,1.5,\,1,\,0.5,\,0,\,\ldots,\,0)$, predictors (i.e., entries of the dataset) i.i.d. standard normal. <!-- *This is the same data used in [Demo 1](../demos/01-simulation.qmd).* Code hidden — the figures are the point.-->
 :::
 
 ```{r}
@@ -129,9 +129,9 @@ COMBSS's recovered coefficients match the truth to within sampling noise. Lasso'
 ```{r}
 #| label: combss-mse-vs-k
 #| echo: false
-#| fig-width: 7
-#| fig-height: 3.5
-#| fig-cap: "Validation MSE as a function of the number of selected features. COMBSS (teal) drops below the dashed line — lasso's *best-ever* validation MSE — at just $k = 5$. Lasso (coral) needs to keep adding features and still never reaches COMBSS's $k=5$ performance."
+#| fig-width: 11
+#| fig-height: 4
+#| fig-cap: "**Left:** validation MSE as a function of the number of selected features (full range). **Right:** zoom into the region $k \\ge 4$ where the two methods plateau. The dashed line marks lasso's *best-ever* validation MSE. COMBSS at $k = 5$ already sits **below** that line — lasso cannot match COMBSS's $k=5$ performance at any model size."
 
 # Validation MSE per unique k along the lasso path
 ks_lasso <- sort(unique(nz))
@@ -149,11 +149,14 @@ val_mse_lasso <- sapply(ks_lasso, function(k) {
 ks_combss <- seq_along(fit_c$mse_path)
 val_mse_combss <- fit_c$mse_path
 
-par(mar = c(4, 4, 1, 1))
+# Two-panel plot: full view + zoomed view
+par(mfrow = c(1, 2), mar = c(4, 4, 1, 1))
+
+# Panel 1: full view
 plot(ks_lasso, val_mse_lasso, type = "b", pch = 19, col = "#e76f51",
      xlab = "number of selected features (k)",
      ylab = "validation MSE",
-     ylim = range(c(val_mse_lasso, val_mse_combss[ks_combss >= 3])),
+     ylim = range(c(val_mse_lasso, val_mse_combss)),
      xlim = c(1, max(c(ks_lasso, ks_combss))))
 lines(ks_combss, val_mse_combss, type = "b", pch = 17, col = "#2a9d8f")
 abline(h = min(val_mse_lasso), lty = 2, col = "grey40")
@@ -162,6 +165,24 @@ legend("topright",
        col = c("#e76f51", "#2a9d8f", "grey40"),
        pch = c(19, 17, NA), lty = c(1, 1, 2),
        bty = "n", cex = 0.95)
+mtext("(a) full range", side = 3, line = -1.2, cex = 0.95, adj = 0.5)
+
+# Panel 2: zoomed in to k >= 4 where the plateau lives
+keep_l <- ks_lasso >= 4
+keep_c <- ks_combss >= 4
+y_min <- min(val_mse_lasso[keep_l], val_mse_combss[keep_c]) - 0.01
+y_max <- 0.45
+
+plot(ks_lasso[keep_l], val_mse_lasso[keep_l], type = "b", pch = 19, col = "#e76f51",
+     xlab = "number of selected features (k)",
+     ylab = "validation MSE",
+     ylim = c(y_min, y_max),
+     xlim = c(4, max(ks_lasso)))
+lines(ks_combss[keep_c], val_mse_combss[keep_c], type = "b", pch = 17, col = "#2a9d8f")
+abline(h = min(val_mse_lasso), lty = 2, col = "grey40")
+mtext("(b) zoom: k >= 4", side = 3, line = -1.2, cex = 0.95, adj = 0.5)
+
+par(mfrow = c(1, 1))
 ```
 
 At $k = 5$, COMBSS reaches a validation MSE that lasso cannot match at **any** model size — even with 22 features, lasso's MSE stays above COMBSS's value at $k = 5$.
@@ -171,6 +192,8 @@ At $k = 5$, COMBSS reaches a validation MSE that lasso cannot match at **any** m
 - **Methodology** — how the relaxation works, the Frank-Wolfe step, the curvature homotopy.
 - **Demos** — five runnable demos showing the method in action.
 
----
+::: {.page-nav}
+[← Previous: Lasso](03-lasso.qmd)
 
-[← MIO](03-mio.qmd) · [Methodology → Boolean relaxation](../methodology/01-relaxation.qmd)
+[Next: Boolean relaxation →](../methodology/01-relaxation.qmd)
+:::
