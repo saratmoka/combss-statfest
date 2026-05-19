@@ -69,6 +69,39 @@ code {
   height: auto;
 }
 
+/* Combinatorial-counts table on sparse-GLM page —
+   pull p closer to Setting, separate k from Subsets */
+table.combo-table {
+  width: auto;
+  margin: 1em auto;
+  border-collapse: collapse;
+}
+table.combo-table th,
+table.combo-table td {
+  padding: 0.45em 0.7em;
+  border-bottom: 1px solid #ddd;
+}
+table.combo-table th:nth-child(1),
+table.combo-table td:nth-child(1) {
+  text-align: left;
+  padding-right: 1.2em;
+}
+table.combo-table th:nth-child(2),
+table.combo-table td:nth-child(2) {
+  text-align: right;
+  padding-left: 0.3em;
+  padding-right: 1.2em;
+}
+table.combo-table th:nth-child(3),
+table.combo-table td:nth-child(3) {
+  text-align: right;
+  padding-right: 2.6em;
+}
+table.combo-table th:nth-child(4),
+table.combo-table td:nth-child(4) {
+  text-align: left;
+}
+
 /* revealjs (kept in case slide pages are added later) */
 .reveal h1, .reveal h2 {
   color: var(--combss-ink);

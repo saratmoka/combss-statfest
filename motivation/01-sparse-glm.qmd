@@ -72,32 +72,28 @@ Two things to notice:
 
 The user supplies $k$. Output: which $k$ features, and their fitted coefficients.
 
-This is the problem COMBSS solves.
+This is the problem COMBSS focuses on.
 
 ## Why it is hard
 
-Counting feasible subsets:
+For a fixed model size $k$, the number of subsets to enumerate is $\binom{p}{k}$. Across the three settings featured later in this talk:
 
-```{r}
-#| label: combinatorial-counts
-#| echo: false
-counts <- data.frame(
-  Setting = c("Bodyfat (p=13, k=5)",
-              "Khan SRBCT (p=2308, k=12)",
-              "Rice GWAS (p=158210, k=10)"),
-  `Candidate subsets` = c(
-    format(choose(13, 5), big.mark = ","),
-    format(signif(choose(2308, 12), 3), big.mark = ","),
-    format(signif(choose(158210, 10), 3), big.mark = ",")
-  ),
-  check.names = FALSE
-)
-knitr::kable(counts)
+```{=html}
+<table class="combo-table">
+  <thead>
+    <tr><th>Setting</th><th>p</th><th>k</th><th>Subsets of size k</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Bodyfat</td>     <td>13</td>      <td>5</td>  <td>1,287</td></tr>
+    <tr><td>Khan SRBCT</td>  <td>2,308</td>   <td>12</td> <td>~5 &times; 10<sup>31</sup></td></tr>
+    <tr><td>Rice GWAS</td>   <td>158,210</td> <td>10</td> <td>~3 &times; 10<sup>45</sup></td></tr>
+  </tbody>
+</table>
 ```
 
-For $p = 13$ enumeration is fine. For $p = 2308$ it is **$10^{33}$ subsets**; for $p \approx 1.6 \times 10^5$ it is **$10^{45}$**. The combinatorial blowup makes exhaustive search hopeless within the lifetime of the universe.
+Enumeration is fine at $p = 13$, but even with the right $k$ given to us, the number of $k$-subsets explodes to roughly **$5 \times 10^{31}$** at $p = 2308$, and to **$3 \times 10^{45}$** at $p \approx 1.6 \times 10^5$. The combinatorial blowup makes exhaustive search hopeless within the lifetime of the universe.
 
-In fact the problem is **NP-hard** (Natarajan 1995). No polynomial-time algorithm is expected for the worst case.
+In fact the problem is **NP-hard** (Natarajan 1995). No polynomial-time algorithm is expected for the worst case unless **P = NP**.
 
 ## Where this matters
 

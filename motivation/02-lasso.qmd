@@ -25,7 +25,7 @@ Three things changed:
 
 - The constraint set is now convex (the $\ell_1$-ball), and the objective is convex.
 - The budget $\tau \ge 0$ is **real-valued**, not an integer count. The smaller $\tau$, the more shrunken (and therefore sparser) the solution.
-- The whole problem is a **convex optimisation** — every local optimum is global, and there are mature solvers.
+- The whole problem is a **convex optimisation** — every local optimum is global, and there are mature solvers (i.e., [glmnet](https://cran.r-project.org/web/packages/glmnet/index.html){target="_blank"}).
 
 ## The penalised form
 
@@ -41,13 +41,14 @@ In practice, almost everyone solves the **penalised form** — it is unconstrain
 
 ## What lasso gives up
 
-The relaxation is fast and well understood, but it pays three prices:
+The relaxation is fast and well understood, but it pays two prices that no choice of $\lambda$ can dodge simultaneously:
 
-- **Biased coefficients.** The $\ell_1$ penalty shrinks every coefficient — including the truly active ones — toward zero, so the recovered $\hat{\boldsymbol{\beta}}$ is biased even when the support is correct.
-- **No direct control over $k$.** The user picks $\lambda$ (or equivalently the $\ell_1$ budget $\tau$); neither maps directly to the number of active features $k$. The selected size depends on the data, the design correlation, and $\lambda$.
-- **Twin instability.** In correlated designs, two near-duplicate predictors compete, and lasso typically picks one and shrinks the other arbitrarily, or splits the coefficient between them. The recovered subset is unstable across resamples.
+- **You can't control $k$ directly.** The user picks $\lambda$ (or equivalently the $\ell_1$ budget $\tau$); neither maps directly to the number of active features $k$. Cross-validation picks a $\lambda$ that optimises prediction, not selection size.
+- **Either overselection or shrinkage.**
+  - A small $\lambda$ (e.g. `lambda.min`) gives near-OLS coefficients but typically grabs many spurious features.
+  - A larger $\lambda$ (e.g. `lambda.1se`) cuts the false positives but shrinks every coefficient, including the truly active ones, toward zero.
 
-These issues are not fatal — lasso remains the workhorse — but they motivate looking for methods that handle the $\ell_0$ constraint more faithfully. That brings us to the next option.
+Concrete numbers on a simple simulation appear on the [next page](04-combss.qmd) — they are the case for COMBSS rather than the case against lasso, so we save them for there.
 
 ---
 

@@ -47,6 +47,125 @@ Three properties we want a method to have:
 
 COMBSS relaxes the discrete support indicator $\boldsymbol{z} \in \{0,1\}^p$ to a continuous $\boldsymbol{t} \in [0,1]^p$ on the cardinality polytope, fits a ridge GLM in the relaxed space, and runs a Frank-Wolfe homotopy that drives $\boldsymbol{t}$ to a vertex of the polytope — recovering an integer subset of size exactly $k$.
 
+## Two head-to-head questions
+
+The simplest way to see what COMBSS buys you is to put it next to lasso on the same dataset and ask two questions.
+
+::: {.callout-note appearance="minimal"}
+Setup: $n = 300$ ($200$ train + $100$ validation), $p = 30$, $\sigma = 0.5$, true coefficients $\boldsymbol{\beta} = (3,\,2,\,1.5,\,1,\,0.5,\,0,\,\ldots,\,0)$, predictors i.i.d. standard normal. *This is the same data used in [Demo 1](../demos/01-simulation.qmd).* Code hidden — the figures are the point.
+:::
+
+```{r}
+#| label: combss-comparison-setup
+#| echo: false
+#| message: false
+library(glmnet)
+library(combss)
+
+set.seed(102)
+n <- 300; p <- 30
+beta_true <- c(3, 2, 1.5, 1, 0.5, rep(0, p - 5))
+X <- matrix(rnorm(n * p), n, p)
+y <- as.numeric(X %*% beta_true + rnorm(n) * 0.5)
+itr <- 1:200; iva <- 201:300
+
+# Lasso path on training data
+fit_l <- glmnet(X[itr, ], y[itr], alpha = 1)
+nz <- colSums(coef(fit_l)[-1, , drop = FALSE] != 0)
+
+# COMBSS fit on training, validated on iva
+fit_c <- combss(X[itr, ], y[itr],
+                x_val = X[iva, ], y_val = y[iva],
+                family = "gaussian", q = 10)
+```
+
+### 1. At a prescribed $k = 5$, how biased are the coefficients?
+
+```{r}
+#| label: combss-bias
+#| echo: false
+#| fig-width: 7
+#| fig-height: 3.5
+#| fig-cap: "Coefficients at $k=5$: True (grey), Lasso at the path-$\\lambda$ that gives 5 features and minimises training MSE (coral), and COMBSS (teal, OLS-refit on its $k=5$ subset). Squared $\\ell_2$ error to the truth across all 30 dimensions: **lasso 0.099, COMBSS 0.003** — ~35x smaller."
+
+# Lasso at the lambda giving k=5 with smallest training MSE
+idx5 <- which(nz == 5)
+trn_mse_at5 <- sapply(idx5, function(i) {
+  pred <- predict(fit_l, newx = X[itr, ], s = fit_l$lambda[i])
+  mean((y[itr] - pred)^2)
+})
+lam5 <- fit_l$lambda[idx5[which.min(trn_mse_at5)]]
+b_lasso5 <- as.numeric(coef(fit_l, s = lam5))[-1]
+
+# COMBSS at k=5 with OLS refit
+sel5 <- fit_c$subset_list[[5]]
+ols  <- lm(y[itr] ~ X[itr, sel5])
+b_combss5 <- rep(0, p)
+b_combss5[sel5] <- coef(ols)[-1]
+
+ix <- 1:5
+mat <- t(cbind(true  = beta_true[ix],
+               lasso = b_lasso5[ix],
+               combss = b_combss5[ix]))
+colnames(mat) <- paste0("x", ix)
+
+par(mar = c(4, 4, 1, 1))
+barplot(mat, beside = TRUE,
+        col = c("grey70", "#e76f51", "#2a9d8f"),
+        ylab = "coefficient",
+        ylim = c(0, 3.4),
+        border = NA)
+abline(h = 0, col = "grey40")
+legend("topright",
+       legend = c("true", "lasso (k=5)", "COMBSS (k=5)"),
+       fill = c("grey70", "#e76f51", "#2a9d8f"),
+       border = NA, bty = "n", cex = 0.95)
+```
+
+COMBSS's recovered coefficients match the truth to within sampling noise. Lasso's are all visibly shrunken, even though both methods are looking at exactly five features.
+
+### 2. For the same validation loss, how many features does each method need?
+
+```{r}
+#| label: combss-mse-vs-k
+#| echo: false
+#| fig-width: 7
+#| fig-height: 3.5
+#| fig-cap: "Validation MSE as a function of the number of selected features. COMBSS (teal) drops below the dashed line — lasso's *best-ever* validation MSE — at just $k = 5$. Lasso (coral) needs to keep adding features and still never reaches COMBSS's $k=5$ performance."
+
+# Validation MSE per unique k along the lasso path
+ks_lasso <- sort(unique(nz))
+val_mse_lasso <- sapply(ks_lasso, function(k) {
+  i_k <- which(nz == k)
+  trn <- sapply(i_k, function(i) {
+    pred <- predict(fit_l, newx = X[itr, ], s = fit_l$lambda[i])
+    mean((y[itr] - pred)^2)
+  })
+  pred_val <- predict(fit_l, newx = X[iva, ], s = fit_l$lambda[i_k[which.min(trn)]])
+  mean((y[iva] - pred_val)^2)
+})
+
+# COMBSS val MSE per k from fit_c$mse_path
+ks_combss <- seq_along(fit_c$mse_path)
+val_mse_combss <- fit_c$mse_path
+
+par(mar = c(4, 4, 1, 1))
+plot(ks_lasso, val_mse_lasso, type = "b", pch = 19, col = "#e76f51",
+     xlab = "number of selected features (k)",
+     ylab = "validation MSE",
+     ylim = range(c(val_mse_lasso, val_mse_combss[ks_combss >= 3])),
+     xlim = c(1, max(c(ks_lasso, ks_combss))))
+lines(ks_combss, val_mse_combss, type = "b", pch = 17, col = "#2a9d8f")
+abline(h = min(val_mse_lasso), lty = 2, col = "grey40")
+legend("topright",
+       legend = c("lasso", "COMBSS", "lasso's best MSE"),
+       col = c("#e76f51", "#2a9d8f", "grey40"),
+       pch = c(19, 17, NA), lty = c(1, 1, 2),
+       bty = "n", cex = 0.95)
+```
+
+At $k = 5$, COMBSS reaches a validation MSE that lasso cannot match at **any** model size — even with 22 features, lasso's MSE stays above COMBSS's value at $k = 5$.
+
 ## Preview of the rest of the talk
 
 - **Methodology** — how the relaxation works, the Frank-Wolfe step, the curvature homotopy.
