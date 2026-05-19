@@ -461,13 +461,12 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="the-optimisation-we-are-trying-to-solve">The optimisation we are trying to solve</h2>
 <p>For a prescribed model size <span class="math inline">\(k\)</span>, find the <span class="math inline">\(k\)</span> predictors that best fit the data:</p>
 <p><span class="math display">\[
-\boxed{\;\;
-\min_{\beta_0 \in \mathbb{R},\; \boldsymbol{\beta} \in \mathbb{R}^p}\;
-\;-\tfrac{1}{n}\,\ell(\beta_0, \boldsymbol{\beta})
-\quad
-\text{subject to}\quad
-\|\boldsymbol{\beta}\|_0 \le k.
-\;\;}
+\boxed{\;
+\begin{aligned}
+&amp;\min_{\beta_0 \in \mathbb{R},\; \boldsymbol{\beta} \in \mathbb{R}^p}\;\; -\tfrac{1}{n}\,\ell(\beta_0, \boldsymbol{\beta}) \\
+&amp;\text{subject to} \quad \|\boldsymbol{\beta}\|_0 \le k.
+\end{aligned}
+\;}
 \]</span></p>
 <p>Two things to notice:</p>
 <ul>
@@ -1051,69 +1050,68 @@ window.Quarto = {
 <span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a>For a prescribed model size $k$, find the $k$ predictors that best fit the data:</span>
 <span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a>\boxed{\;\;</span>
-<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a>\min_{\beta_0 \in \mathbb{R},\; \boldsymbol{\beta} \in \mathbb{R}^p}\;</span>
-<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a>\;-\tfrac{1}{n}\,\ell(\beta_0, \boldsymbol{\beta})</span>
-<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a>\quad</span>
-<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a>\text{subject to}\quad</span>
-<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a><span class="sc">\|</span>\boldsymbol{\beta}<span class="sc">\|</span>_0 \le k.</span>
-<span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a>\;\;}</span>
-<span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb1-69"><a href="#cb1-69" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-70"><a href="#cb1-70" aria-hidden="true" tabindex="-1"></a>Two things to notice:</span>
-<span id="cb1-71"><a href="#cb1-71" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-72"><a href="#cb1-72" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The objective is the **negative GLM log-likelihood**.</span>
-<span id="cb1-73"><a href="#cb1-73" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The constraint is the **$\ell_0$-norm cardinality**: count the non-zero entries, keep at most $k$.</span>
-<span id="cb1-74"><a href="#cb1-74" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-75"><a href="#cb1-75" aria-hidden="true" tabindex="-1"></a>The user supplies $k$. Output: which $k$ features, and their fitted coefficients.</span>
-<span id="cb1-76"><a href="#cb1-76" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-77"><a href="#cb1-77" aria-hidden="true" tabindex="-1"></a>This is the problem COMBSS focuses on.</span>
-<span id="cb1-78"><a href="#cb1-78" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-79"><a href="#cb1-79" aria-hidden="true" tabindex="-1"></a><span class="fu">## Why it is hard</span></span>
-<span id="cb1-80"><a href="#cb1-80" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-81"><a href="#cb1-81" aria-hidden="true" tabindex="-1"></a>For a fixed model size $k$, the number of subsets to enumerate is $\binom{p}{k}$. Across the three settings featured later in this talk:</span>
-<span id="cb1-82"><a href="#cb1-82" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-83"><a href="#cb1-83" aria-hidden="true" tabindex="-1"></a><span class="in">```{=html}</span></span>
-<span id="cb1-84"><a href="#cb1-84" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;table class="combo-table"&gt;</span></span>
-<span id="cb1-85"><a href="#cb1-85" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;thead&gt;</span></span>
-<span id="cb1-86"><a href="#cb1-86" aria-hidden="true" tabindex="-1"></a><span class="in">    &lt;tr&gt;&lt;th&gt;Setting&lt;/th&gt;&lt;th&gt;p&lt;/th&gt;&lt;th&gt;k&lt;/th&gt;&lt;th&gt;Subsets of size k&lt;/th&gt;&lt;/tr&gt;</span></span>
-<span id="cb1-87"><a href="#cb1-87" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;/thead&gt;</span></span>
-<span id="cb1-88"><a href="#cb1-88" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;tbody&gt;</span></span>
-<span id="cb1-89"><a href="#cb1-89" aria-hidden="true" tabindex="-1"></a><span class="in">    &lt;tr&gt;&lt;td&gt;Bodyfat&lt;/td&gt;     &lt;td&gt;13&lt;/td&gt;      &lt;td&gt;5&lt;/td&gt;  &lt;td&gt;1,287&lt;/td&gt;&lt;/tr&gt;</span></span>
-<span id="cb1-90"><a href="#cb1-90" aria-hidden="true" tabindex="-1"></a><span class="in">    &lt;tr&gt;&lt;td&gt;Khan SRBCT&lt;/td&gt;  &lt;td&gt;2,308&lt;/td&gt;   &lt;td&gt;12&lt;/td&gt; &lt;td&gt;~5 &amp;times; 10&lt;sup&gt;31&lt;/sup&gt;&lt;/td&gt;&lt;/tr&gt;</span></span>
-<span id="cb1-91"><a href="#cb1-91" aria-hidden="true" tabindex="-1"></a><span class="in">    &lt;tr&gt;&lt;td&gt;Rice GWAS&lt;/td&gt;   &lt;td&gt;158,210&lt;/td&gt; &lt;td&gt;10&lt;/td&gt; &lt;td&gt;~3 &amp;times; 10&lt;sup&gt;45&lt;/sup&gt;&lt;/td&gt;&lt;/tr&gt;</span></span>
-<span id="cb1-92"><a href="#cb1-92" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;/tbody&gt;</span></span>
-<span id="cb1-93"><a href="#cb1-93" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;/table&gt;</span></span>
-<span id="cb1-94"><a href="#cb1-94" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb1-95"><a href="#cb1-95" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-96"><a href="#cb1-96" aria-hidden="true" tabindex="-1"></a>Enumeration is fine at $p = 13$, but even with the right $k$ given to us, the number of $k$-subsets explodes to roughly **$5 \times 10^{31}$** at $p = 2308$, and to **$3 \times 10^{45}$** at $p \approx 1.6 \times 10^5$. The combinatorial blowup makes exhaustive search hopeless within the lifetime of the universe.</span>
-<span id="cb1-97"><a href="#cb1-97" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-98"><a href="#cb1-98" aria-hidden="true" tabindex="-1"></a>In fact the problem is **NP-hard** (Natarajan 1995). No polynomial-time algorithm is expected for the worst case unless **P = NP**.</span>
-<span id="cb1-99"><a href="#cb1-99" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-100"><a href="#cb1-100" aria-hidden="true" tabindex="-1"></a><span class="fu">## Where this matters</span></span>
-<span id="cb1-101"><a href="#cb1-101" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-102"><a href="#cb1-102" aria-hidden="true" tabindex="-1"></a>The setting $p \gg n$ with a sparse truth is the bread and butter of modern applied statistics:</span>
-<span id="cb1-103"><a href="#cb1-103" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-104"><a href="#cb1-104" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Genomics** — GWAS with $10^5$ SNPs, gene-expression panels with $10^3$–$10^4$ probes.</span>
-<span id="cb1-105"><a href="#cb1-105" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Survey data** — patient registries with hundreds of recorded variables and a few hundred outcomes.</span>
-<span id="cb1-106"><a href="#cb1-106" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Sensor data** — many channels, few labelled trials.</span>
-<span id="cb1-107"><a href="#cb1-107" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Financial markets** — predicting asset returns or default risk from hundreds of candidate factors (macroeconomic indicators, fundamentals, sentiment, technical signals); a small interpretable factor model is preferred over a dense black-box.</span>
-<span id="cb1-108"><a href="#cb1-108" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-109"><a href="#cb1-109" aria-hidden="true" tabindex="-1"></a>Every one of these calls for a sparsity-constrained GLM, not just a regularised one.</span>
-<span id="cb1-110"><a href="#cb1-110" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-111"><a href="#cb1-111" aria-hidden="true" tabindex="-1"></a><span class="fu">## The plan from here</span></span>
-<span id="cb1-112"><a href="#cb1-112" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-113"><a href="#cb1-113" aria-hidden="true" tabindex="-1"></a>How do existing methods cope with the NP-hard constraint? Two main strategies:</span>
-<span id="cb1-114"><a href="#cb1-114" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-115"><a href="#cb1-115" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**MIO** (<span class="co">[</span><span class="ot">next page</span><span class="co">](02-mio.qmd)</span>) — Mixed-Integer Optimisation: solve the discrete problem directly. Exact, but does not scale much beyond a few hundred predictors.</span>
-<span id="cb1-116"><a href="#cb1-116" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Lasso** (<span class="co">[</span><span class="ot">page after</span><span class="co">](03-lasso.qmd)</span>) — relax $<span class="sc">\|</span>\boldsymbol{\beta}<span class="sc">\|</span>_0$ to the convex $<span class="sc">\|</span>\boldsymbol{\beta}<span class="sc">\|</span>_1$. Fast and popular, but biased and indexed by $\lambda$, not $k$.</span>
-<span id="cb1-117"><a href="#cb1-117" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-118"><a href="#cb1-118" aria-hidden="true" tabindex="-1"></a>COMBSS sits between the two: continuous like the lasso, but on the *support indicator* rather than on $\boldsymbol{\beta}$ itself — and explicitly $k$-indexed.</span>
-<span id="cb1-119"><a href="#cb1-119" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-120"><a href="#cb1-120" aria-hidden="true" tabindex="-1"></a>::: {.page-nav}</span>
-<span id="cb1-121"><a href="#cb1-121" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">span</span><span class="ot"> class</span><span class="op">=</span><span class="st">"nav-spacer"</span><span class="dt">&gt;&lt;/</span><span class="kw">span</span><span class="dt">&gt;</span></span>
-<span id="cb1-122"><a href="#cb1-122" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">Next: MIO →</span><span class="co">](02-mio.qmd)</span></span>
-<span id="cb1-123"><a href="#cb1-123" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a>\boxed{\;</span>
+<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a>\begin{aligned}</span>
+<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a>&amp;\min_{\beta_0 \in \mathbb{R},\; \boldsymbol{\beta} \in \mathbb{R}^p}\;\; -\tfrac{1}{n}\,\ell(\beta_0, \boldsymbol{\beta}) <span class="sc">\\</span></span>
+<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a>&amp;\text{subject to} \quad <span class="sc">\|</span>\boldsymbol{\beta}<span class="sc">\|</span>_0 \le k.</span>
+<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a>\end{aligned}</span>
+<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a>\;}</span>
+<span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-69"><a href="#cb1-69" aria-hidden="true" tabindex="-1"></a>Two things to notice:</span>
+<span id="cb1-70"><a href="#cb1-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-71"><a href="#cb1-71" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The objective is the **negative GLM log-likelihood**.</span>
+<span id="cb1-72"><a href="#cb1-72" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>The constraint is the **$\ell_0$-norm cardinality**: count the non-zero entries, keep at most $k$.</span>
+<span id="cb1-73"><a href="#cb1-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-74"><a href="#cb1-74" aria-hidden="true" tabindex="-1"></a>The user supplies $k$. Output: which $k$ features, and their fitted coefficients.</span>
+<span id="cb1-75"><a href="#cb1-75" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-76"><a href="#cb1-76" aria-hidden="true" tabindex="-1"></a>This is the problem COMBSS focuses on.</span>
+<span id="cb1-77"><a href="#cb1-77" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-78"><a href="#cb1-78" aria-hidden="true" tabindex="-1"></a><span class="fu">## Why it is hard</span></span>
+<span id="cb1-79"><a href="#cb1-79" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-80"><a href="#cb1-80" aria-hidden="true" tabindex="-1"></a>For a fixed model size $k$, the number of subsets to enumerate is $\binom{p}{k}$. Across the three settings featured later in this talk:</span>
+<span id="cb1-81"><a href="#cb1-81" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-82"><a href="#cb1-82" aria-hidden="true" tabindex="-1"></a><span class="in">```{=html}</span></span>
+<span id="cb1-83"><a href="#cb1-83" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;table class="combo-table"&gt;</span></span>
+<span id="cb1-84"><a href="#cb1-84" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;thead&gt;</span></span>
+<span id="cb1-85"><a href="#cb1-85" aria-hidden="true" tabindex="-1"></a><span class="in">    &lt;tr&gt;&lt;th&gt;Setting&lt;/th&gt;&lt;th&gt;p&lt;/th&gt;&lt;th&gt;k&lt;/th&gt;&lt;th&gt;Subsets of size k&lt;/th&gt;&lt;/tr&gt;</span></span>
+<span id="cb1-86"><a href="#cb1-86" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;/thead&gt;</span></span>
+<span id="cb1-87"><a href="#cb1-87" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;tbody&gt;</span></span>
+<span id="cb1-88"><a href="#cb1-88" aria-hidden="true" tabindex="-1"></a><span class="in">    &lt;tr&gt;&lt;td&gt;Bodyfat&lt;/td&gt;     &lt;td&gt;13&lt;/td&gt;      &lt;td&gt;5&lt;/td&gt;  &lt;td&gt;1,287&lt;/td&gt;&lt;/tr&gt;</span></span>
+<span id="cb1-89"><a href="#cb1-89" aria-hidden="true" tabindex="-1"></a><span class="in">    &lt;tr&gt;&lt;td&gt;Khan SRBCT&lt;/td&gt;  &lt;td&gt;2,308&lt;/td&gt;   &lt;td&gt;12&lt;/td&gt; &lt;td&gt;~5 &amp;times; 10&lt;sup&gt;31&lt;/sup&gt;&lt;/td&gt;&lt;/tr&gt;</span></span>
+<span id="cb1-90"><a href="#cb1-90" aria-hidden="true" tabindex="-1"></a><span class="in">    &lt;tr&gt;&lt;td&gt;Rice GWAS&lt;/td&gt;   &lt;td&gt;158,210&lt;/td&gt; &lt;td&gt;10&lt;/td&gt; &lt;td&gt;~3 &amp;times; 10&lt;sup&gt;45&lt;/sup&gt;&lt;/td&gt;&lt;/tr&gt;</span></span>
+<span id="cb1-91"><a href="#cb1-91" aria-hidden="true" tabindex="-1"></a><span class="in">  &lt;/tbody&gt;</span></span>
+<span id="cb1-92"><a href="#cb1-92" aria-hidden="true" tabindex="-1"></a><span class="in">&lt;/table&gt;</span></span>
+<span id="cb1-93"><a href="#cb1-93" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb1-94"><a href="#cb1-94" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-95"><a href="#cb1-95" aria-hidden="true" tabindex="-1"></a>Enumeration is fine at $p = 13$, but even with the right $k$ given to us, the number of $k$-subsets explodes to roughly **$5 \times 10^{31}$** at $p = 2308$, and to **$3 \times 10^{45}$** at $p \approx 1.6 \times 10^5$. The combinatorial blowup makes exhaustive search hopeless within the lifetime of the universe.</span>
+<span id="cb1-96"><a href="#cb1-96" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-97"><a href="#cb1-97" aria-hidden="true" tabindex="-1"></a>In fact the problem is **NP-hard** (Natarajan 1995). No polynomial-time algorithm is expected for the worst case unless **P = NP**.</span>
+<span id="cb1-98"><a href="#cb1-98" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-99"><a href="#cb1-99" aria-hidden="true" tabindex="-1"></a><span class="fu">## Where this matters</span></span>
+<span id="cb1-100"><a href="#cb1-100" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-101"><a href="#cb1-101" aria-hidden="true" tabindex="-1"></a>The setting $p \gg n$ with a sparse truth is the bread and butter of modern applied statistics:</span>
+<span id="cb1-102"><a href="#cb1-102" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-103"><a href="#cb1-103" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Genomics** — GWAS with $10^5$ SNPs, gene-expression panels with $10^3$–$10^4$ probes.</span>
+<span id="cb1-104"><a href="#cb1-104" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Survey data** — patient registries with hundreds of recorded variables and a few hundred outcomes.</span>
+<span id="cb1-105"><a href="#cb1-105" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Sensor data** — many channels, few labelled trials.</span>
+<span id="cb1-106"><a href="#cb1-106" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Financial markets** — predicting asset returns or default risk from hundreds of candidate factors (macroeconomic indicators, fundamentals, sentiment, technical signals); a small interpretable factor model is preferred over a dense black-box.</span>
+<span id="cb1-107"><a href="#cb1-107" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-108"><a href="#cb1-108" aria-hidden="true" tabindex="-1"></a>Every one of these calls for a sparsity-constrained GLM, not just a regularised one.</span>
+<span id="cb1-109"><a href="#cb1-109" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-110"><a href="#cb1-110" aria-hidden="true" tabindex="-1"></a><span class="fu">## The plan from here</span></span>
+<span id="cb1-111"><a href="#cb1-111" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-112"><a href="#cb1-112" aria-hidden="true" tabindex="-1"></a>How do existing methods cope with the NP-hard constraint? Two main strategies:</span>
+<span id="cb1-113"><a href="#cb1-113" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-114"><a href="#cb1-114" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**MIO** (<span class="co">[</span><span class="ot">next page</span><span class="co">](02-mio.qmd)</span>) — Mixed-Integer Optimisation: solve the discrete problem directly. Exact, but does not scale much beyond a few hundred predictors.</span>
+<span id="cb1-115"><a href="#cb1-115" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Lasso** (<span class="co">[</span><span class="ot">page after</span><span class="co">](03-lasso.qmd)</span>) — relax $<span class="sc">\|</span>\boldsymbol{\beta}<span class="sc">\|</span>_0$ to the convex $<span class="sc">\|</span>\boldsymbol{\beta}<span class="sc">\|</span>_1$. Fast and popular, but biased and indexed by $\lambda$, not $k$.</span>
+<span id="cb1-116"><a href="#cb1-116" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-117"><a href="#cb1-117" aria-hidden="true" tabindex="-1"></a>COMBSS sits between the two: continuous like the lasso, but on the *support indicator* rather than on $\boldsymbol{\beta}$ itself — and explicitly $k$-indexed.</span>
+<span id="cb1-118"><a href="#cb1-118" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-119"><a href="#cb1-119" aria-hidden="true" tabindex="-1"></a>::: {.page-nav}</span>
+<span id="cb1-120"><a href="#cb1-120" aria-hidden="true" tabindex="-1"></a><span class="dt">&lt;</span><span class="kw">span</span><span class="ot"> class</span><span class="op">=</span><span class="st">"nav-spacer"</span><span class="dt">&gt;&lt;/</span><span class="kw">span</span><span class="dt">&gt;</span></span>
+<span id="cb1-121"><a href="#cb1-121" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">Next: MIO →</span><span class="co">](02-mio.qmd)</span></span>
+<span id="cb1-122"><a href="#cb1-122" aria-hidden="true" tabindex="-1"></a>:::</span>
 </code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->

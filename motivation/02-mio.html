@@ -289,8 +289,10 @@ window.Quarto = {
 <section id="the-mixed-integer-formulation" class="level2">
 <h2 class="anchored" data-anchor-id="the-mixed-integer-formulation">The mixed-integer formulation</h2>
 <p><span class="math display">\[
-\min_{\beta_0,\,\boldsymbol{\beta},\,\boldsymbol{z}}\; -\tfrac{1}{n}\,\ell(\beta_0, \boldsymbol{\beta}) \quad
-\text{s.t.}\;\; z_j \in \{0,1\},\;\; \textstyle\sum_j z_j \le k,\;\; |\beta_j| \le M z_j.
+\begin{aligned}
+&amp;\min_{\beta_0,\,\boldsymbol{\beta},\,\boldsymbol{z}}\;\; -\tfrac{1}{n}\,\ell(\beta_0, \boldsymbol{\beta}) \\
+&amp;\text{subject to} \quad z_j \in \{0,1\},\quad \textstyle\sum_j z_j \le k,\quad |\beta_j| \le M z_j.
+\end{aligned}
 \]</span></p>
 <p>The Big-<span class="math inline">\(M\)</span> constraint <span class="math inline">\(|\beta_j| \le M z_j\)</span> links the two: if <span class="math inline">\(z_j = 0\)</span>, then <span class="math inline">\(\beta_j\)</span> is forced to zero; if <span class="math inline">\(z_j = 1\)</span>, the coefficient is free up to magnitude <span class="math inline">\(M\)</span>.</p>
 </section>
@@ -783,32 +785,34 @@ window.Quarto = {
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">## The mixed-integer formulation</span></span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>\min_{\beta_0,\,\boldsymbol{\beta},\,\boldsymbol{z}}\; -\tfrac{1}{n}\,\ell(\beta_0, \boldsymbol{\beta}) \quad</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>\text{s.t.}\;\; z_j \in <span class="sc">\{</span>0,1<span class="sc">\}</span>,\;\; \textstyle\sum_j z_j \le k,\;\; |\beta_j| \le M z_j.</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>The Big-$M$ constraint $|\beta_j| \le M z_j$ links the two: if $z_j = 0$, then $\beta_j$ is forced to zero; if $z_j = 1$, the coefficient is free up to magnitude $M$.</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>\begin{aligned}</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>&amp;\min_{\beta_0,\,\boldsymbol{\beta},\,\boldsymbol{z}}\;\; -\tfrac{1}{n}\,\ell(\beta_0, \boldsymbol{\beta}) <span class="sc">\\</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>&amp;\text{subject to} \quad z_j \in <span class="sc">\{</span>0,1<span class="sc">\}</span>,\quad \textstyle\sum_j z_j \le k,\quad |\beta_j| \le M z_j.</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>\end{aligned}</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="fu">## What MIO gets right</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>The Big-$M$ constraint $|\beta_j| \le M z_j$ links the two: if $z_j = 0$, then $\beta_j$ is forced to zero; if $z_j = 1$, the coefficient is free up to magnitude $M$.</span>
 <span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Exact** — solves the original $\ell_0$-constrained problem rather than a surrogate.</span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**No relaxation bias** — selected coefficients are fit to the data without shrinkage.</span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Mature commercial and open-source solvers (Gurobi, CPLEX, SCIP) implement branch-and-bound with strong cutting planes (Bertsimas, King, Mazumder 2016).</span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="fu">## Where MIO breaks down</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="fu">## What MIO gets right</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Exact** — solves the original $\ell_0$-constrained problem rather than a surrogate.</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**No relaxation bias** — selected coefficients are fit to the data without shrinkage.</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Mature commercial and open-source solvers (Gurobi, CPLEX, SCIP) implement branch-and-bound with strong cutting planes (Bertsimas, King, Mazumder 2016).</span>
 <span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Computational cost** explodes beyond $p \gtrsim$ a few hundred. The problem is NP-hard; branch-and-bound visits an exponentially growing tree in the worst case.</span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Overfits** because there is no shrinkage — every selected coefficient is fully fit, and the method has no built-in mechanism to control variance from noisy estimates.</span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Requires a careful **Big-$M$** choice: too small and the constraint becomes binding (biasing $\boldsymbol{\beta}$); too large and the LP relaxation becomes loose, slowing the solver.</span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**GLM extensions** (logistic, multinomial) replace the quadratic with a transcendental loss; even fewer commercial solvers handle this well, and runtimes grow further.</span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>In short, MIO is the theoretical gold standard for the $\ell_0$-constrained problem — but practical reach stops well short of the high-dimensional biomedical settings we care about (Khan SRBCT at $p = 2308$, rice GWAS at $p \approx 158{,}000$).</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="fu">## Where MIO breaks down</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Computational cost** explodes beyond $p \gtrsim$ a few hundred. The problem is NP-hard; branch-and-bound visits an exponentially growing tree in the worst case.</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Overfits** because there is no shrinkage — every selected coefficient is fully fit, and the method has no built-in mechanism to control variance from noisy estimates.</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Requires a careful **Big-$M$** choice: too small and the constraint becomes binding (biasing $\boldsymbol{\beta}$); too large and the LP relaxation becomes loose, slowing the solver.</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**GLM extensions** (logistic, multinomial) replace the quadratic with a transcendental loss; even fewer commercial solvers handle this well, and runtimes grow further.</span>
 <span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>::: {.page-nav}</span>
-<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">← Previous: Sparse GLM</span><span class="co">](01-sparse-glm.qmd)</span></span>
-<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">Next: Lasso →</span><span class="co">](03-lasso.qmd)</span></span>
-<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>:::</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>In short, MIO is the theoretical gold standard for the $\ell_0$-constrained problem — but practical reach stops well short of the high-dimensional biomedical settings we care about (Khan SRBCT at $p = 2308$, rice GWAS at $p \approx 158{,}000$).</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>::: {.page-nav}</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">← Previous: Sparse GLM</span><span class="co">](01-sparse-glm.qmd)</span></span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">Next: Lasso →</span><span class="co">](03-lasso.qmd)</span></span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>:::</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 

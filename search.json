@@ -32,28 +32,35 @@
     "href": "methodology/01-relaxation.html",
     "title": "Boolean relaxation",
     "section": "",
-    "text": "Replace the discrete indicator \\(z \\in \\{0,1\\}^p\\) by a continuous \\(t \\in [0,1]^p\\) and write\n\\[\n\\beta_j = t_j \\, \\xi_j,\n\\qquad\nt_j \\in [0, 1].\n\\]\n\n\\(t_j = 1\\) means feature \\(j\\) is in.\n\\(t_j = 0\\) means out.\nVertices of the hypercube ↔︎ discrete supports.\n\nThe cardinality constraint \\(\\sum z_j \\le k\\) becomes \\(\\sum t_j \\le k\\) — a polytope."
+    "text": "From the Sparse GLM page, the problem we want to solve is\n\\[\n\\begin{aligned}\n&\\min_{\\beta_0 \\in \\mathbb{R},\\; \\boldsymbol{\\beta} \\in \\mathbb{R}^p}\\;\\; -\\tfrac{1}{n}\\,\\ell(\\beta_0, \\boldsymbol{\\beta}) \\\\\n&\\text{subject to} \\quad \\|\\boldsymbol{\\beta}\\|_0 \\le k.\n\\end{aligned}\n\\]\nThe pain is the \\(\\ell_0\\) constraint: it forces a search over \\(\\binom{p}{k}\\) discrete supports. COMBSS replaces it by a continuous relaxation."
+  },
+  {
+    "objectID": "methodology/01-relaxation.html#recall-the-discrete-problem",
+    "href": "methodology/01-relaxation.html#recall-the-discrete-problem",
+    "title": "Boolean relaxation",
+    "section": "",
+    "text": "From the Sparse GLM page, the problem we want to solve is\n\\[\n\\begin{aligned}\n&\\min_{\\beta_0 \\in \\mathbb{R},\\; \\boldsymbol{\\beta} \\in \\mathbb{R}^p}\\;\\; -\\tfrac{1}{n}\\,\\ell(\\beta_0, \\boldsymbol{\\beta}) \\\\\n&\\text{subject to} \\quad \\|\\boldsymbol{\\beta}\\|_0 \\le k.\n\\end{aligned}\n\\]\nThe pain is the \\(\\ell_0\\) constraint: it forces a search over \\(\\binom{p}{k}\\) discrete supports. COMBSS replaces it by a continuous relaxation."
   },
   {
     "objectID": "methodology/01-relaxation.html#reparameterising-the-support",
     "href": "methodology/01-relaxation.html#reparameterising-the-support",
     "title": "Boolean relaxation",
-    "section": "",
-    "text": "Replace the discrete indicator \\(z \\in \\{0,1\\}^p\\) by a continuous \\(t \\in [0,1]^p\\) and write\n\\[\n\\beta_j = t_j \\, \\xi_j,\n\\qquad\nt_j \\in [0, 1].\n\\]\n\n\\(t_j = 1\\) means feature \\(j\\) is in.\n\\(t_j = 0\\) means out.\nVertices of the hypercube ↔︎ discrete supports.\n\nThe cardinality constraint \\(\\sum z_j \\le k\\) becomes \\(\\sum t_j \\le k\\) — a polytope."
+    "section": "Reparameterising the support",
+    "text": "Reparameterising the support\nIntroduce an auxiliary vector \\(\\boldsymbol{t} \\in [0, 1]^p\\) — a continuous proxy for the binary indicator \\(\\boldsymbol{z} \\in \\{0, 1\\}^p\\). In the relaxed problem, the data sees the Hadamard product\n\\[\n\\boldsymbol{t} \\odot \\boldsymbol{\\beta}\n\\;=\\; \\bigl(\\,t_1 \\beta_1,\\; t_2 \\beta_2,\\; \\ldots,\\; t_p \\beta_p\\,\\bigr),\n\\]\nso that feature \\(j\\) is scaled by \\(t_j\\):\n\n\\(t_j = 1\\) — feature \\(j\\) is fully in (coefficient \\(\\beta_j\\) used as-is).\n\\(t_j = 0\\) — feature \\(j\\) is out (effective coefficient is zero, regardless of \\(\\beta_j\\)).\n\\(0 &lt; t_j &lt; 1\\) — a continuous “partial inclusion”.\n\nVertices of the hypercube \\([0,1]^p\\) correspond exactly to discrete supports, and the cardinality constraint \\(\\sum z_j \\le k\\) becomes\n\\[\n\\boldsymbol{t} \\;\\in\\; \\mathcal{T}_k \\;=\\; \\Bigl\\{\\, \\boldsymbol{t} \\in [0,1]^p \\;:\\; \\textstyle\\sum_{j=1}^{p} t_j \\le k \\,\\Bigr\\},\n\\]\na polytope whose vertices are exactly the binary \\(k\\)-supports."
   },
   {
     "objectID": "methodology/01-relaxation.html#the-relaxed-objective",
     "href": "methodology/01-relaxation.html#the-relaxed-objective",
     "title": "Boolean relaxation",
     "section": "The relaxed objective",
-    "text": "The relaxed objective\n\\[\nf_{\\delta, \\lambda}(\\boldsymbol t)\n=\n\\min_{\\beta_0,\\,\\boldsymbol\\xi}\n\\Bigl\\{\n-\\tfrac{1}{n}\\,\\ell(\\beta_0, T_{\\boldsymbol t}\\boldsymbol\\xi)\n+ \\lambda\\,\\|\\boldsymbol\\xi\\|_2^2\n+ \\delta\\,\\|\\Gamma_{\\boldsymbol t}\\,\\boldsymbol\\xi\\|_2^2\n\\Bigr\\}.\n\\]\n\nInner problem in \\(\\boldsymbol\\xi\\): ridge GLM, solved by glmnet in one call.\nOuter problem in \\(\\boldsymbol t\\): smooth, defined on the cardinality polytope.\n\\(\\delta\\) is a curvature parameter (homotopy schedule lives here)."
+    "text": "The relaxed objective\nFor a curvature parameter \\(\\delta &gt; 0\\), define\n\\[\n\\boxed{\\;\\;\nf_{\\delta}(\\boldsymbol{t})\n\\;=\\;\n\\min_{\\beta_0,\\,\\boldsymbol{\\beta}}\\;\n\\Biggl\\{\n-\\tfrac{1}{n}\\,\\ell\\bigl(\\beta_0,\\;\\boldsymbol{t} \\odot \\boldsymbol{\\beta}\\bigr)\n\\;+\\; \\delta \\sum_{j=1}^{p} \\bigl(1 - t_j^{2}\\bigr)\\,\\beta_j^{2}\n\\Biggr\\}.\n\\;\\;}\n\\]\nTwo pieces:\n\nGLM loss evaluated at the effective coefficients \\(\\boldsymbol{t} \\odot \\boldsymbol{\\beta}\\).\nCurvature penalty \\(\\delta \\sum_j (1 - t_j^2) \\beta_j^2\\): weights are large when \\(t_j\\) is small, pulling those \\(\\beta_j\\) toward zero; weights vanish at the vertices (\\(t_j \\in \\{0, 1\\}\\)).\n\nThe inner problem in \\(\\boldsymbol{\\beta}\\) (with \\(\\boldsymbol{t}\\) fixed) is a ridge-penalised GLM — closed-form for Gaussian, one glmnet call for binomial/multinomial.\nThe outer problem in \\(\\boldsymbol{t}\\) is smooth on the cardinality polytope \\(\\mathcal{T}_k\\)."
   },
   {
     "objectID": "methodology/01-relaxation.html#envelope-gradient",
     "href": "methodology/01-relaxation.html#envelope-gradient",
     "title": "Boolean relaxation",
     "section": "Envelope gradient",
-    "text": "Envelope gradient\nBy Danskin’s theorem, the gradient w.r.t. \\(\\boldsymbol t\\) has closed form:\n\\[\ng_j(\\boldsymbol t) \\;=\\; -\\,\\frac{2(\\lambda + \\delta)}{t_j^{\\,3}}\\,\\hat\\xi_j(\\boldsymbol t)^2.\n\\]\nThis is the only thing the outer Frank-Wolfe step needs.\n\nPlaceholder for visual: the four-panel loss-landscape figure (discrete → smooth → smooth+\\(\\ell_1\\) → strongly penalised).\n\n\n← Previous: COMBSS (our method)\nNext: Frank-Wolfe →"
+    "text": "Envelope gradient\nBy the envelope theorem (Danskin’s theorem), the gradient of \\(f_{\\delta}\\) at \\(\\boldsymbol{t}\\) has a closed form in terms of the inner minimiser \\(\\hat{\\boldsymbol{\\beta}}(\\boldsymbol{t})\\):\n\\[\n\\bigl[\\nabla f_{\\delta}(\\boldsymbol{t})\\bigr]_j\n\\;=\\; -\\,\\frac{2\\,\\delta\\,\\hat\\beta_j(\\boldsymbol{t})^{2}}{t_j}.\n\\]\nThis is the only quantity the outer Frank-Wolfe step needs — no implicit differentiation through the inner solve.\n\nPlaceholder for visual: the four-panel loss-landscape figure (discrete → smooth → smooth + penalty → strongly peaked at vertices as \\(\\delta\\) grows).\n\n\n← Previous: COMBSS (our method)\nNext: Frank-Wolfe →"
   },
   {
     "objectID": "motivation/04-combss.html",
@@ -102,14 +109,14 @@
     "href": "motivation/03-lasso.html",
     "title": "Lasso: convex relaxation",
     "section": "",
-    "text": "The sparse-constrained GLM problem from the previous page is\n\\[\n\\min_{\\beta_0,\\,\\boldsymbol{\\beta}}\\; -\\tfrac{1}{n}\\,\\ell(\\beta_0, \\boldsymbol{\\beta})\n\\quad \\text{subject to}\\quad \\|\\boldsymbol{\\beta}\\|_0 \\le k.\n\\]\nThe combinatorial pain comes entirely from the \\(\\ell_0\\)-norm in the constraint. Lasso replaces it with the \\(\\ell_1\\)-norm:\n\\[\n\\boxed{\\;\\;\n\\min_{\\beta_0,\\,\\boldsymbol{\\beta}}\\; -\\tfrac{1}{n}\\,\\ell(\\beta_0, \\boldsymbol{\\beta})\n\\quad \\text{subject to}\\quad \\|\\boldsymbol{\\beta}\\|_1 \\le \\tau.\n\\;\\;}\n\\]\nThree things changed:\n\nThe constraint set is now convex (the \\(\\ell_1\\)-ball), and the objective is convex.\nThe budget \\(\\tau \\ge 0\\) is real-valued, not an integer count. The smaller \\(\\tau\\), the more shrunken (and therefore sparser) the solution.\nThe whole problem is a convex optimisation — every local optimum is global, and there are mature solvers (i.e., glmnet)."
+    "text": "The sparse-constrained GLM problem from the previous page is\n\\[\n\\begin{aligned}\n&\\min_{\\beta_0,\\,\\boldsymbol{\\beta}}\\;\\; -\\tfrac{1}{n}\\,\\ell(\\beta_0, \\boldsymbol{\\beta}) \\\\\n&\\text{subject to} \\quad \\|\\boldsymbol{\\beta}\\|_0 \\le k.\n\\end{aligned}\n\\]\nThe combinatorial pain comes entirely from the \\(\\ell_0\\)-norm in the constraint. Lasso replaces it with the \\(\\ell_1\\)-norm:\n\\[\n\\boxed{\\;\n\\begin{aligned}\n&\\min_{\\beta_0,\\,\\boldsymbol{\\beta}}\\;\\; -\\tfrac{1}{n}\\,\\ell(\\beta_0, \\boldsymbol{\\beta}) \\\\\n&\\text{subject to} \\quad \\|\\boldsymbol{\\beta}\\|_1 \\le \\tau.\n\\end{aligned}\n\\;}\n\\]\nThree things changed:\n\nThe constraint set is now convex (the \\(\\ell_1\\)-ball), and the objective is convex.\nThe budget \\(\\tau \\ge 0\\) is real-valued, not an integer count. The smaller \\(\\tau\\), the more shrunken (and therefore sparser) the solution.\nThe whole problem is a convex optimisation — every local optimum is global, and there are mature solvers (i.e., glmnet)."
   },
   {
     "objectID": "motivation/03-lasso.html#from-hard-ell_0-to-soft-ell_1",
     "href": "motivation/03-lasso.html#from-hard-ell_0-to-soft-ell_1",
     "title": "Lasso: convex relaxation",
     "section": "",
-    "text": "The sparse-constrained GLM problem from the previous page is\n\\[\n\\min_{\\beta_0,\\,\\boldsymbol{\\beta}}\\; -\\tfrac{1}{n}\\,\\ell(\\beta_0, \\boldsymbol{\\beta})\n\\quad \\text{subject to}\\quad \\|\\boldsymbol{\\beta}\\|_0 \\le k.\n\\]\nThe combinatorial pain comes entirely from the \\(\\ell_0\\)-norm in the constraint. Lasso replaces it with the \\(\\ell_1\\)-norm:\n\\[\n\\boxed{\\;\\;\n\\min_{\\beta_0,\\,\\boldsymbol{\\beta}}\\; -\\tfrac{1}{n}\\,\\ell(\\beta_0, \\boldsymbol{\\beta})\n\\quad \\text{subject to}\\quad \\|\\boldsymbol{\\beta}\\|_1 \\le \\tau.\n\\;\\;}\n\\]\nThree things changed:\n\nThe constraint set is now convex (the \\(\\ell_1\\)-ball), and the objective is convex.\nThe budget \\(\\tau \\ge 0\\) is real-valued, not an integer count. The smaller \\(\\tau\\), the more shrunken (and therefore sparser) the solution.\nThe whole problem is a convex optimisation — every local optimum is global, and there are mature solvers (i.e., glmnet)."
+    "text": "The sparse-constrained GLM problem from the previous page is\n\\[\n\\begin{aligned}\n&\\min_{\\beta_0,\\,\\boldsymbol{\\beta}}\\;\\; -\\tfrac{1}{n}\\,\\ell(\\beta_0, \\boldsymbol{\\beta}) \\\\\n&\\text{subject to} \\quad \\|\\boldsymbol{\\beta}\\|_0 \\le k.\n\\end{aligned}\n\\]\nThe combinatorial pain comes entirely from the \\(\\ell_0\\)-norm in the constraint. Lasso replaces it with the \\(\\ell_1\\)-norm:\n\\[\n\\boxed{\\;\n\\begin{aligned}\n&\\min_{\\beta_0,\\,\\boldsymbol{\\beta}}\\;\\; -\\tfrac{1}{n}\\,\\ell(\\beta_0, \\boldsymbol{\\beta}) \\\\\n&\\text{subject to} \\quad \\|\\boldsymbol{\\beta}\\|_1 \\le \\tau.\n\\end{aligned}\n\\;}\n\\]\nThree things changed:\n\nThe constraint set is now convex (the \\(\\ell_1\\)-ball), and the objective is convex.\nThe budget \\(\\tau \\ge 0\\) is real-valued, not an integer count. The smaller \\(\\tau\\), the more shrunken (and therefore sparser) the solution.\nThe whole problem is a convex optimisation — every local optimum is global, and there are mature solvers (i.e., glmnet)."
   },
   {
     "objectID": "motivation/03-lasso.html#the-penalised-form",
@@ -487,7 +494,7 @@
     "href": "motivation/01-sparse-glm.html#the-optimisation-we-are-trying-to-solve",
     "title": "Sparse-constrained GLM",
     "section": "The optimisation we are trying to solve",
-    "text": "The optimisation we are trying to solve\nFor a prescribed model size \\(k\\), find the \\(k\\) predictors that best fit the data:\n\\[\n\\boxed{\\;\\;\n\\min_{\\beta_0 \\in \\mathbb{R},\\; \\boldsymbol{\\beta} \\in \\mathbb{R}^p}\\;\n\\;-\\tfrac{1}{n}\\,\\ell(\\beta_0, \\boldsymbol{\\beta})\n\\quad\n\\text{subject to}\\quad\n\\|\\boldsymbol{\\beta}\\|_0 \\le k.\n\\;\\;}\n\\]\nTwo things to notice:\n\nThe objective is the negative GLM log-likelihood.\nThe constraint is the \\(\\ell_0\\)-norm cardinality: count the non-zero entries, keep at most \\(k\\).\n\nThe user supplies \\(k\\). Output: which \\(k\\) features, and their fitted coefficients.\nThis is the problem COMBSS focuses on."
+    "text": "The optimisation we are trying to solve\nFor a prescribed model size \\(k\\), find the \\(k\\) predictors that best fit the data:\n\\[\n\\boxed{\\;\n\\begin{aligned}\n&\\min_{\\beta_0 \\in \\mathbb{R},\\; \\boldsymbol{\\beta} \\in \\mathbb{R}^p}\\;\\; -\\tfrac{1}{n}\\,\\ell(\\beta_0, \\boldsymbol{\\beta}) \\\\\n&\\text{subject to} \\quad \\|\\boldsymbol{\\beta}\\|_0 \\le k.\n\\end{aligned}\n\\;}\n\\]\nTwo things to notice:\n\nThe objective is the negative GLM log-likelihood.\nThe constraint is the \\(\\ell_0\\)-norm cardinality: count the non-zero entries, keep at most \\(k\\).\n\nThe user supplies \\(k\\). Output: which \\(k\\) features, and their fitted coefficients.\nThis is the problem COMBSS focuses on."
   },
   {
     "objectID": "motivation/01-sparse-glm.html#why-it-is-hard",
@@ -522,7 +529,7 @@
     "href": "motivation/02-mio.html#the-mixed-integer-formulation",
     "title": "MIO: exact best subset",
     "section": "The mixed-integer formulation",
-    "text": "The mixed-integer formulation\n\\[\n\\min_{\\beta_0,\\,\\boldsymbol{\\beta},\\,\\boldsymbol{z}}\\; -\\tfrac{1}{n}\\,\\ell(\\beta_0, \\boldsymbol{\\beta}) \\quad\n\\text{s.t.}\\;\\; z_j \\in \\{0,1\\},\\;\\; \\textstyle\\sum_j z_j \\le k,\\;\\; |\\beta_j| \\le M z_j.\n\\]\nThe Big-\\(M\\) constraint \\(|\\beta_j| \\le M z_j\\) links the two: if \\(z_j = 0\\), then \\(\\beta_j\\) is forced to zero; if \\(z_j = 1\\), the coefficient is free up to magnitude \\(M\\)."
+    "text": "The mixed-integer formulation\n\\[\n\\begin{aligned}\n&\\min_{\\beta_0,\\,\\boldsymbol{\\beta},\\,\\boldsymbol{z}}\\;\\; -\\tfrac{1}{n}\\,\\ell(\\beta_0, \\boldsymbol{\\beta}) \\\\\n&\\text{subject to} \\quad z_j \\in \\{0,1\\},\\quad \\textstyle\\sum_j z_j \\le k,\\quad |\\beta_j| \\le M z_j.\n\\end{aligned}\n\\]\nThe Big-\\(M\\) constraint \\(|\\beta_j| \\le M z_j\\) links the two: if \\(z_j = 0\\), then \\(\\beta_j\\) is forced to zero; if \\(z_j = 1\\), the coefficient is free up to magnitude \\(M\\)."
   },
   {
     "objectID": "motivation/02-mio.html#what-mio-gets-right",
