@@ -3,50 +3,79 @@ title: "Boolean relaxation"
 subtitle: "From discrete subsets to the cardinality polytope"
 ---
 
+## Recall: the discrete problem
+
+From the [Sparse GLM](../motivation/01-sparse-glm.qmd) page, the problem we want to solve is
+
+$$
+\begin{aligned}
+&\min_{\beta_0 \in \mathbb{R},\; \boldsymbol{\beta} \in \mathbb{R}^p}\;\; -\tfrac{1}{n}\,\ell(\beta_0, \boldsymbol{\beta}) \\
+&\text{subject to} \quad \|\boldsymbol{\beta}\|_0 \le k.
+\end{aligned}
+$$
+
+The pain is the $\ell_0$ constraint: it forces a search over $\binom{p}{k}$ discrete supports. COMBSS replaces it by a continuous relaxation.
+
 ## Reparameterising the support
 
-Replace the discrete indicator $z \in \{0,1\}^p$ by a continuous $t \in [0,1]^p$ and write
+Introduce an auxiliary vector $\boldsymbol{t} \in [0, 1]^p$ — a continuous proxy for the binary indicator $\boldsymbol{z} \in \{0, 1\}^p$. In the relaxed problem, the data sees the **Hadamard product**
 
 $$
-\beta_j = t_j \, \xi_j,
-\qquad
-t_j \in [0, 1].
+\boldsymbol{t} \odot \boldsymbol{\beta}
+\;=\; \bigl(\,t_1 \beta_1,\; t_2 \beta_2,\; \ldots,\; t_p \beta_p\,\bigr),
 $$
 
-- $t_j = 1$ means feature $j$ is **in**.
-- $t_j = 0$ means **out**.
-- Vertices of the hypercube ↔ discrete supports.
+so that feature $j$ is *scaled* by $t_j$:
 
-The cardinality constraint $\sum z_j \le k$ becomes $\sum t_j \le k$ — a polytope.
+- $t_j = 1$ — feature $j$ is **fully in** (coefficient $\beta_j$ used as-is).
+- $t_j = 0$ — feature $j$ is **out** (effective coefficient is zero, regardless of $\beta_j$).
+- $0 < t_j < 1$ — a continuous "partial inclusion".
+
+Vertices of the hypercube $[0,1]^p$ correspond exactly to discrete supports, and the cardinality constraint $\sum z_j \le k$ becomes
+
+$$
+\boldsymbol{t} \;\in\; \mathcal{T}_k \;=\; \Bigl\{\, \boldsymbol{t} \in [0,1]^p \;:\; \textstyle\sum_{j=1}^{p} t_j \le k \,\Bigr\},
+$$
+
+a polytope whose vertices are exactly the binary $k$-supports.
 
 ## The relaxed objective
 
+For a curvature parameter $\delta > 0$, define
+
 $$
-f_{\delta, \lambda}(\boldsymbol t)
-=
-\min_{\beta_0,\,\boldsymbol\xi}
-\Bigl\{
--\tfrac{1}{n}\,\ell(\beta_0, T_{\boldsymbol t}\boldsymbol\xi)
-+ \lambda\,\|\boldsymbol\xi\|_2^2
-+ \delta\,\|\Gamma_{\boldsymbol t}\,\boldsymbol\xi\|_2^2
-\Bigr\}.
+\boxed{\;\;
+f_{\delta}(\boldsymbol{t})
+\;=\;
+\min_{\beta_0,\,\boldsymbol{\beta}}\;
+\Biggl\{
+-\tfrac{1}{n}\,\ell\bigl(\beta_0,\;\boldsymbol{t} \odot \boldsymbol{\beta}\bigr)
+\;+\; \delta \sum_{j=1}^{p} \bigl(1 - t_j^{2}\bigr)\,\beta_j^{2}
+\Biggr\}.
+\;\;}
 $$
 
-- Inner problem in $\boldsymbol\xi$: **ridge GLM**, solved by `glmnet` in one call.
-- Outer problem in $\boldsymbol t$: smooth, defined on the cardinality polytope.
-- $\delta$ is a curvature parameter (homotopy schedule lives here).
+Two pieces:
+
+- **GLM loss** evaluated at the *effective* coefficients $\boldsymbol{t} \odot \boldsymbol{\beta}$.
+- **Curvature penalty** $\delta \sum_j (1 - t_j^2) \beta_j^2$: weights are large when $t_j$ is small, pulling those $\beta_j$ toward zero; weights vanish at the vertices ($t_j \in \{0, 1\}$).
+
+The inner problem in $\boldsymbol{\beta}$ (with $\boldsymbol{t}$ fixed) is a **ridge-penalised GLM** — closed-form for Gaussian, one `glmnet` call for binomial/multinomial.
+
+The outer problem in $\boldsymbol{t}$ is smooth on the cardinality polytope $\mathcal{T}_k$.
 
 ## Envelope gradient
 
-By Danskin's theorem, the gradient w.r.t. $\boldsymbol t$ has closed form:
+By the **envelope theorem** (Danskin's theorem), the gradient of $f_{\delta}$ at $\boldsymbol{t}$ has a closed form in terms of the inner minimiser $\hat{\boldsymbol{\beta}}(\boldsymbol{t})$:
 
 $$
-g_j(\boldsymbol t) \;=\; -\,\frac{2(\lambda + \delta)}{t_j^{\,3}}\,\hat\xi_j(\boldsymbol t)^2.
+\bigl[\nabla f_{\delta}(\boldsymbol{t})\bigr]_j
+\;=\; -\,\frac{2\,\delta\,\hat\beta_j(\boldsymbol{t})^{2}}{t_j}.
 $$
 
-This is the only thing the outer Frank-Wolfe step needs.
+This is the only quantity the outer Frank-Wolfe step needs — no implicit differentiation through the inner solve.
 
-> Placeholder for visual: the four-panel loss-landscape figure (discrete → smooth → smooth+$\ell_1$ → strongly penalised).
+> Placeholder for visual: the four-panel loss-landscape figure (discrete → smooth → smooth + penalty → strongly peaked at vertices as $\delta$ grows).
 
 ::: {.page-nav}
 [← Previous: COMBSS (our method)](../motivation/04-combss.qmd)

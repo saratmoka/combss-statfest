@@ -56,13 +56,12 @@ For Gaussian, this reduces to least squares; for Bernoulli, to logistic regressi
 For a prescribed model size $k$, find the $k$ predictors that best fit the data:
 
 $$
-\boxed{\;\;
-\min_{\beta_0 \in \mathbb{R},\; \boldsymbol{\beta} \in \mathbb{R}^p}\;
-\;-\tfrac{1}{n}\,\ell(\beta_0, \boldsymbol{\beta})
-\quad
-\text{subject to}\quad
-\|\boldsymbol{\beta}\|_0 \le k.
-\;\;}
+\boxed{\;
+\begin{aligned}
+&\min_{\beta_0 \in \mathbb{R},\; \boldsymbol{\beta} \in \mathbb{R}^p}\;\; -\tfrac{1}{n}\,\ell(\beta_0, \boldsymbol{\beta}) \\
+&\text{subject to} \quad \|\boldsymbol{\beta}\|_0 \le k.
+\end{aligned}
+\;}
 $$
 
 Two things to notice:

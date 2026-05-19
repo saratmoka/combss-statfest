@@ -8,17 +8,21 @@ subtitle: "The standard $\\ell_1$ surrogate"
 The sparse-constrained GLM problem from the [previous page](01-sparse-glm.qmd) is
 
 $$
-\min_{\beta_0,\,\boldsymbol{\beta}}\; -\tfrac{1}{n}\,\ell(\beta_0, \boldsymbol{\beta})
-\quad \text{subject to}\quad \|\boldsymbol{\beta}\|_0 \le k.
+\begin{aligned}
+&\min_{\beta_0,\,\boldsymbol{\beta}}\;\; -\tfrac{1}{n}\,\ell(\beta_0, \boldsymbol{\beta}) \\
+&\text{subject to} \quad \|\boldsymbol{\beta}\|_0 \le k.
+\end{aligned}
 $$
 
 The combinatorial pain comes entirely from the $\ell_0$-norm in the constraint. **Lasso replaces it with the $\ell_1$-norm**:
 
 $$
-\boxed{\;\;
-\min_{\beta_0,\,\boldsymbol{\beta}}\; -\tfrac{1}{n}\,\ell(\beta_0, \boldsymbol{\beta})
-\quad \text{subject to}\quad \|\boldsymbol{\beta}\|_1 \le \tau.
-\;\;}
+\boxed{\;
+\begin{aligned}
+&\min_{\beta_0,\,\boldsymbol{\beta}}\;\; -\tfrac{1}{n}\,\ell(\beta_0, \boldsymbol{\beta}) \\
+&\text{subject to} \quad \|\boldsymbol{\beta}\|_1 \le \tau.
+\end{aligned}
+\;}
 $$
 
 Three things changed:

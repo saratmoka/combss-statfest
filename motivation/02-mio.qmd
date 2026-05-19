@@ -8,8 +8,10 @@ subtitle: "Solve the discrete problem directly"
 ## The mixed-integer formulation
 
 $$
-\min_{\beta_0,\,\boldsymbol{\beta},\,\boldsymbol{z}}\; -\tfrac{1}{n}\,\ell(\beta_0, \boldsymbol{\beta}) \quad
-\text{s.t.}\;\; z_j \in \{0,1\},\;\; \textstyle\sum_j z_j \le k,\;\; |\beta_j| \le M z_j.
+\begin{aligned}
+&\min_{\beta_0,\,\boldsymbol{\beta},\,\boldsymbol{z}}\;\; -\tfrac{1}{n}\,\ell(\beta_0, \boldsymbol{\beta}) \\
+&\text{subject to} \quad z_j \in \{0,1\},\quad \textstyle\sum_j z_j \le k,\quad |\beta_j| \le M z_j.
+\end{aligned}
 $$
 
 The Big-$M$ constraint $|\beta_j| \le M z_j$ links the two: if $z_j = 0$, then $\beta_j$ is forced to zero; if $z_j = 1$, the coefficient is free up to magnitude $M$.
