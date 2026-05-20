@@ -3,18 +3,18 @@ title: "MIO: exact best subset"
 subtitle: "Solve the discrete problem directly"
 ---
 
-**Mixed-Integer Optimisation (MIO)** keeps the $\ell_0$ constraint discrete and casts the sparse-GLM problem as a mixed-integer program — the support indicator $\boldsymbol{z} \in \{0,1\}^p$ is now an explicit decision variable, solved alongside $\boldsymbol{\beta}$.
+**Mixed-Integer Optimisation (MIO)** keeps the $\ell_0$ constraint discrete and casts the sparse-GLM problem as a mixed-integer program — the support indicator $\boldsymbol{s} \in \{0,1\}^p$ is now an explicit decision variable, solved alongside $\boldsymbol{\beta}$.
 
 ## The mixed-integer formulation
 
 $$
 \begin{aligned}
-&\min_{\beta_0,\,\boldsymbol{\beta},\,\boldsymbol{z}}\;\; -\tfrac{1}{n}\,\ell(\beta_0, \boldsymbol{\beta}) \\
-&\text{subject to} \quad z_j \in \{0,1\},\quad \textstyle\sum_j z_j \le k,\quad |\beta_j| \le M z_j.
+&\min_{\beta_0,\,\boldsymbol{\beta},\,\boldsymbol{s}}\;\; -\tfrac{1}{n}\,\ell(\beta_0, \boldsymbol{\beta}) \\
+&\text{subject to} \quad s_j \in \{0,1\},\quad \textstyle\sum_j s_j \le k,\quad |\beta_j| \le M s_j.
 \end{aligned}
 $$
 
-The Big-$M$ constraint $|\beta_j| \le M z_j$ links the two: if $z_j = 0$, then $\beta_j$ is forced to zero; if $z_j = 1$, the coefficient is free up to magnitude $M$.
+The Big-$M$ constraint $|\beta_j| \le M s_j$ links the two: if $s_j = 0$, then $\beta_j$ is forced to zero; if $s_j = 1$, the coefficient is free up to magnitude $M$.
 
 ## What MIO gets right
 

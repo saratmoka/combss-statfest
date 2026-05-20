@@ -59,7 +59,7 @@ $$
 \boxed{\;
 \begin{aligned}
 &\min_{\beta_0 \in \mathbb{R},\; \boldsymbol{\beta} \in \mathbb{R}^p}\;\; -\tfrac{1}{n}\,\ell(\beta_0, \boldsymbol{\beta}) \\
-&\text{subject to} \quad \|\boldsymbol{\beta}\|_0 \le k.
+&\text{subject to} \quad \|\boldsymbol{\beta}\|_0 := \sum_{j = 1}^p I(\beta_j \neq 0) \le k.
 \end{aligned}
 \;}
 $$

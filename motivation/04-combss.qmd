@@ -37,7 +37,7 @@ Three properties we want a method to have:
 
 | | **Lasso** | **MIO** | **COMBSS** |
 |---|---|---|---|
-| Variable type | $\boldsymbol{\beta} \in \mathbb{R}^p$ | $\boldsymbol{z} \in \{0,1\}^p$ | $\boldsymbol{t} \in [0,1]^p$ |
+| Variable type | $\boldsymbol{\beta} \in \mathbb{R}^p$ | $\boldsymbol{s} \in \{0,1\}^p$ | $\boldsymbol{t} \in [0,1]^p$ |
 | Sparsity by | $\ell_1$ penalty | hard $\ell_0$ + Big-$M$ | continuous relaxation on the support indicator |
 | Selection size | indexed by $\lambda$ | $k$ via constraint | $k$ via polytope |
 | Scales to $p \gg n$ | yes | barely | yes |
@@ -45,7 +45,7 @@ Three properties we want a method to have:
 
 ## In one sentence
 
-COMBSS relaxes the discrete support indicator $\boldsymbol{z} \in \{0,1\}^p$ to a continuous $\boldsymbol{t} \in [0,1]^p$ on the cardinality polytope, fits a ridge GLM in the relaxed space, and runs a Frank-Wolfe homotopy that drives $\boldsymbol{t}$ to a vertex of the polytope — recovering an integer subset of size exactly $k$.
+COMBSS relaxes the discrete support indicator $\boldsymbol{s} \in \{0,1\}^p$ to a continuous $\boldsymbol{t} \in [0,1]^p$ on the cardinality polytope, fits a ridge GLM in the relaxed space, and runs a Frank-Wolfe homotopy that drives $\boldsymbol{t}$ to a vertex of the polytope — recovering an integer subset of size exactly $k$.
 
 ## Two head-to-head questions
 

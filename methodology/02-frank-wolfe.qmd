@@ -3,6 +3,21 @@ title: "Frank-Wolfe on the polytope"
 subtitle: "Linear minimisation oracle, no projections"
 ---
 
+## Envelope gradient
+
+The outer problem $\min_{\boldsymbol{t} \in \mathcal{T}_k} f_\delta(\boldsymbol{t})$ is a smooth optimisation, but $f_\delta$ is itself the value of an *inner* minimisation over $\boldsymbol{\beta}$. Differentiating it directly would mean tracking how $\hat{\boldsymbol{\beta}}(\boldsymbol{t})$ moves as $\boldsymbol{t}$ changes — a chain through the inner solver.
+
+The **envelope theorem** (Danskin) sidesteps this. Because $\hat{\boldsymbol{\beta}}(\boldsymbol{t})$ is optimal for the inner problem, those derivative terms cancel, and the gradient of $f_\delta$ has a closed form in terms of $\hat{\boldsymbol{\beta}}(\boldsymbol{t})$ alone:
+
+$$
+\boxed{\;\;
+\bigl[\nabla f_{\delta}(\boldsymbol{t})\bigr]_j
+\;=\; -\,\frac{2\,\delta\,\hat\beta_j(\boldsymbol{t})^{2}}{t_j}.
+\;\;}
+$$
+
+One ridge-GLM solve gives $\hat{\boldsymbol{\beta}}(\boldsymbol{t})$; the gradient is then $O(p)$ arithmetic — no implicit differentiation through the inner solver.
+
 ## The Frank-Wolfe iteration
 
 At iterate $\boldsymbol t^{(r)}$:
