@@ -190,11 +190,7 @@ window.Quarto = {
   </li>  
         <li>
     <a class="dropdown-item" href="../methodology/02-frank-wolfe.html">
- <span class="dropdown-text">2. Frank-Wolfe</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../methodology/03-homotopy.html">
- <span class="dropdown-text">3. Homotopy</span></a>
+ <span class="dropdown-text">2. Homotopy Frank-Wolfe</span></a>
   </li>  
     </ul>
   </li>
@@ -365,7 +361,7 @@ f_{\delta}(\boldsymbol{t})
 <li><strong>Small <span class="math inline">\(\delta\)</span></strong>: The curve is nearly convex.</li>
 <li><strong>Large <span class="math inline">\(\delta\)</span></strong>: The curve becomes <em>concave on the interior</em>, with its minimum at the vertex <span class="math inline">\(t = 1\)</span>.</li>
 </ul>
-<p>The homotopy in <span class="math inline">\(\delta\)</span> — gradually increasing <span class="math inline">\(\delta\)</span> during optimisation — uses the small-<span class="math inline">\(\delta\)</span> smooth landscape for navigation and the large-<span class="math inline">\(\delta\)</span> peaked landscape to push <span class="math inline">\(\boldsymbol{t}\)</span> to a vertex (= a discrete subset). See <a href="../methodology/03-homotopy.html">Homotopy</a>.</p>
+<p>The homotopy in <span class="math inline">\(\delta\)</span> — gradually increasing <span class="math inline">\(\delta\)</span> during optimisation — uses the small-<span class="math inline">\(\delta\)</span> smooth landscape for navigation and the large-<span class="math inline">\(\delta\)</span> peaked landscape to push <span class="math inline">\(\boldsymbol{t}\)</span> to a vertex (= a discrete subset). See <a href="../methodology/02-frank-wolfe.html">Frank-Wolfe</a> for the schedule.</p>
 </section>
 <section id="two-features-p-2" class="level3">
 <h3 class="anchored" data-anchor-id="two-features-p-2">Two features (<span class="math inline">\(p = 2\)</span>)</h3>
@@ -396,7 +392,7 @@ f_\delta(\boldsymbol{s})
 \arg\min_{\boldsymbol{t} \in \mathcal{T}_k} f_\delta(\boldsymbol{t}) \;\in\; \{0,1\}^p,
 \]</span></p>
 <p>and by corner equivalence that vertex solves the original <span class="math inline">\(\ell_0\)</span>-constrained sparse-GLM problem exactly.</p>
-<p>Together they motivate the <strong>homotopy in <span class="math inline">\(\delta\)</span></strong>: start small for a smooth landscape, end large to land on a discrete solution (see <a href="../methodology/03-homotopy.html">Homotopy</a>). The outer optimisation along the way needs the gradient <span class="math inline">\(\nabla f_\delta\)</span> — derived next on the <a href="../methodology/02-frank-wolfe.html">Frank-Wolfe</a> page.</p>
+<p>Together they motivate the <strong>homotopy in <span class="math inline">\(\delta\)</span></strong>: start small for a smooth landscape, end large to land on a discrete solution. The outer optimisation along the way needs the gradient <span class="math inline">\(\nabla f_\delta\)</span> — derived next on the <a href="../methodology/02-frank-wolfe.html">Frank-Wolfe</a> page.</p>
 <div class="page-nav">
 <p><a href="../motivation/04-combss.html">← Previous: COMBSS (our method)</a></p>
 <p><a href="../methodology/02-frank-wolfe.html">Next: Frank-Wolfe →</a></p>
@@ -996,7 +992,7 @@ f_\delta(\boldsymbol{s})
 <span id="cb1-137"><a href="#cb1-137" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Small $\delta$**: The curve is nearly convex.</span>
 <span id="cb1-138"><a href="#cb1-138" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Large $\delta$**: The curve becomes *concave on the interior*, with its minimum at the vertex $t = 1$.</span>
 <span id="cb1-139"><a href="#cb1-139" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-140"><a href="#cb1-140" aria-hidden="true" tabindex="-1"></a>The homotopy in $\delta$ — gradually increasing $\delta$ during optimisation — uses the small-$\delta$ smooth landscape for navigation and the large-$\delta$ peaked landscape to push $\boldsymbol{t}$ to a vertex (= a discrete subset). See <span class="co">[</span><span class="ot">Homotopy</span><span class="co">](03-homotopy.qmd)</span>.</span>
+<span id="cb1-140"><a href="#cb1-140" aria-hidden="true" tabindex="-1"></a>The homotopy in $\delta$ — gradually increasing $\delta$ during optimisation — uses the small-$\delta$ smooth landscape for navigation and the large-$\delta$ peaked landscape to push $\boldsymbol{t}$ to a vertex (= a discrete subset). See <span class="co">[</span><span class="ot">Frank-Wolfe</span><span class="co">](02-frank-wolfe.qmd)</span> for the schedule.</span>
 <span id="cb1-141"><a href="#cb1-141" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-142"><a href="#cb1-142" aria-hidden="true" tabindex="-1"></a><span class="fu">### Two features ($p = 2$)</span></span>
 <span id="cb1-143"><a href="#cb1-143" aria-hidden="true" tabindex="-1"></a></span>
@@ -1030,7 +1026,7 @@ f_\delta(\boldsymbol{s})
 <span id="cb1-171"><a href="#cb1-171" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-172"><a href="#cb1-172" aria-hidden="true" tabindex="-1"></a>and by corner equivalence that vertex solves the original $\ell_0$-constrained sparse-GLM problem exactly.</span>
 <span id="cb1-173"><a href="#cb1-173" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-174"><a href="#cb1-174" aria-hidden="true" tabindex="-1"></a>Together they motivate the **homotopy in $\delta$**: start small for a smooth landscape, end large to land on a discrete solution (see <span class="co">[</span><span class="ot">Homotopy</span><span class="co">](03-homotopy.qmd)</span>). The outer optimisation along the way needs the gradient $\nabla f_\delta$ — derived next on the <span class="co">[</span><span class="ot">Frank-Wolfe</span><span class="co">](02-frank-wolfe.qmd)</span> page.</span>
+<span id="cb1-174"><a href="#cb1-174" aria-hidden="true" tabindex="-1"></a>Together they motivate the **homotopy in $\delta$**: start small for a smooth landscape, end large to land on a discrete solution. The outer optimisation along the way needs the gradient $\nabla f_\delta$ — derived next on the <span class="co">[</span><span class="ot">Frank-Wolfe</span><span class="co">](02-frank-wolfe.qmd)</span> page.</span>
 <span id="cb1-175"><a href="#cb1-175" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-176"><a href="#cb1-176" aria-hidden="true" tabindex="-1"></a>::: {.page-nav}</span>
 <span id="cb1-177"><a href="#cb1-177" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">← Previous: COMBSS (our method)</span><span class="co">](../motivation/04-combss.qmd)</span></span>

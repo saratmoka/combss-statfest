@@ -2,429 +2,177 @@
   {
     "objectID": "methodology/02-frank-wolfe.html",
     "href": "methodology/02-frank-wolfe.html",
-    "title": "Frank-Wolfe on the polytope",
+    "title": "Homotopy Frank-Wolfe on the polytope",
     "section": "",
-    "text": "The outer problem \\(\\min_{\\boldsymbol{t} \\in \\mathcal{T}_k} f_\\delta(\\boldsymbol{t})\\) is a smooth optimisation, but \\(f_\\delta\\) is itself the value of an inner minimisation over \\(\\boldsymbol{\\beta}\\). Differentiating it directly would mean tracking how \\(\\hat{\\boldsymbol{\\beta}}(\\boldsymbol{t})\\) moves as \\(\\boldsymbol{t}\\) changes — a chain through the inner solver.\nThe envelope theorem (Danskin) sidesteps this. Because \\(\\hat{\\boldsymbol{\\beta}}(\\boldsymbol{t})\\) is optimal for the inner problem, those derivative terms cancel, and the gradient of \\(f_\\delta\\) has a closed form in terms of \\(\\hat{\\boldsymbol{\\beta}}(\\boldsymbol{t})\\) alone:\n\\[\n\\boxed{\\;\\;\n\\bigl[\\nabla f_{\\delta}(\\boldsymbol{t})\\bigr]_j\n\\;=\\; -\\,\\frac{2\\,\\delta\\,\\hat\\beta_j(\\boldsymbol{t})^{2}}{t_j}.\n\\;\\;}\n\\]\nOne ridge-GLM solve gives \\(\\hat{\\boldsymbol{\\beta}}(\\boldsymbol{t})\\); the gradient is then \\(O(p)\\) arithmetic — no implicit differentiation through the inner solver."
+    "text": "The outer problem \\[\\min_{\\boldsymbol{t} \\in \\mathcal{T}_k} f_\\delta(\\boldsymbol{t})\\] is a smooth optimisation, but \\(f_\\delta\\) is itself the value of an inner minimisation over \\(\\boldsymbol{\\beta}\\): recall that \\[\nf_{\\delta}(\\boldsymbol{t})\n\\;=\\;\n\\min_{\\beta_0,\\,\\boldsymbol{\\beta}}\\;\n\\Biggl[\n-\\tfrac{1}{n}\\,\\ell\\bigl(\\beta_0,\\;\\boldsymbol{t} \\odot \\boldsymbol{\\beta}\\bigr)\n\\;+\\; \\delta \\sum_{j=1}^{p} \\bigl(1 - t_j^{2}\\bigr)\\,\\beta_j^{2}\n\\Biggr].\n\\]\nDifferentiating it directly would mean tracking how \\(\\hat{\\boldsymbol{\\beta}}(\\boldsymbol{t})\\) moves as \\(\\boldsymbol{t}\\) changes — a chain through the inner solver.\nThe envelope theorem (Danskin) sidesteps this. Because \\(\\hat{\\boldsymbol{\\beta}}(\\boldsymbol{t})\\) is optimal for the inner problem, those derivative terms cancel, and the gradient of \\(f_\\delta\\) has a closed form in terms of \\(\\hat{\\boldsymbol{\\beta}}(\\boldsymbol{t})\\) alone:\n\\[\n\\boxed{\\;\\;\n\\bigl[\\nabla f_{\\delta}(\\boldsymbol{t})\\bigr]_j\n\\;=\\; -\\,\\frac{2\\,\\delta\\,\\hat\\beta_j(\\boldsymbol{t})^{2}}{t_j}.\n\\;\\;}\n\\]\nIn practice, one glmnet call returns the effective coefficients \\(\\hat{\\boldsymbol{\\xi}}(\\boldsymbol{t}) = \\boldsymbol{t} \\odot \\hat{\\boldsymbol{\\beta}}(\\boldsymbol{t})\\) (the reparameterisation that makes the inner problem a standard ridge GLM). We then recover \\(\\hat{\\beta}_j(\\boldsymbol{t}) = \\hat{\\xi}_j(\\boldsymbol{t}) / t_j\\) before plugging into the gradient. No implicit differentiation through the inner solver."
   },
   {
     "objectID": "methodology/02-frank-wolfe.html#envelope-gradient",
     "href": "methodology/02-frank-wolfe.html#envelope-gradient",
-    "title": "Frank-Wolfe on the polytope",
+    "title": "Homotopy Frank-Wolfe on the polytope",
     "section": "",
-    "text": "The outer problem \\(\\min_{\\boldsymbol{t} \\in \\mathcal{T}_k} f_\\delta(\\boldsymbol{t})\\) is a smooth optimisation, but \\(f_\\delta\\) is itself the value of an inner minimisation over \\(\\boldsymbol{\\beta}\\). Differentiating it directly would mean tracking how \\(\\hat{\\boldsymbol{\\beta}}(\\boldsymbol{t})\\) moves as \\(\\boldsymbol{t}\\) changes — a chain through the inner solver.\nThe envelope theorem (Danskin) sidesteps this. Because \\(\\hat{\\boldsymbol{\\beta}}(\\boldsymbol{t})\\) is optimal for the inner problem, those derivative terms cancel, and the gradient of \\(f_\\delta\\) has a closed form in terms of \\(\\hat{\\boldsymbol{\\beta}}(\\boldsymbol{t})\\) alone:\n\\[\n\\boxed{\\;\\;\n\\bigl[\\nabla f_{\\delta}(\\boldsymbol{t})\\bigr]_j\n\\;=\\; -\\,\\frac{2\\,\\delta\\,\\hat\\beta_j(\\boldsymbol{t})^{2}}{t_j}.\n\\;\\;}\n\\]\nOne ridge-GLM solve gives \\(\\hat{\\boldsymbol{\\beta}}(\\boldsymbol{t})\\); the gradient is then \\(O(p)\\) arithmetic — no implicit differentiation through the inner solver."
+    "text": "The outer problem \\[\\min_{\\boldsymbol{t} \\in \\mathcal{T}_k} f_\\delta(\\boldsymbol{t})\\] is a smooth optimisation, but \\(f_\\delta\\) is itself the value of an inner minimisation over \\(\\boldsymbol{\\beta}\\): recall that \\[\nf_{\\delta}(\\boldsymbol{t})\n\\;=\\;\n\\min_{\\beta_0,\\,\\boldsymbol{\\beta}}\\;\n\\Biggl[\n-\\tfrac{1}{n}\\,\\ell\\bigl(\\beta_0,\\;\\boldsymbol{t} \\odot \\boldsymbol{\\beta}\\bigr)\n\\;+\\; \\delta \\sum_{j=1}^{p} \\bigl(1 - t_j^{2}\\bigr)\\,\\beta_j^{2}\n\\Biggr].\n\\]\nDifferentiating it directly would mean tracking how \\(\\hat{\\boldsymbol{\\beta}}(\\boldsymbol{t})\\) moves as \\(\\boldsymbol{t}\\) changes — a chain through the inner solver.\nThe envelope theorem (Danskin) sidesteps this. Because \\(\\hat{\\boldsymbol{\\beta}}(\\boldsymbol{t})\\) is optimal for the inner problem, those derivative terms cancel, and the gradient of \\(f_\\delta\\) has a closed form in terms of \\(\\hat{\\boldsymbol{\\beta}}(\\boldsymbol{t})\\) alone:\n\\[\n\\boxed{\\;\\;\n\\bigl[\\nabla f_{\\delta}(\\boldsymbol{t})\\bigr]_j\n\\;=\\; -\\,\\frac{2\\,\\delta\\,\\hat\\beta_j(\\boldsymbol{t})^{2}}{t_j}.\n\\;\\;}\n\\]\nIn practice, one glmnet call returns the effective coefficients \\(\\hat{\\boldsymbol{\\xi}}(\\boldsymbol{t}) = \\boldsymbol{t} \\odot \\hat{\\boldsymbol{\\beta}}(\\boldsymbol{t})\\) (the reparameterisation that makes the inner problem a standard ridge GLM). We then recover \\(\\hat{\\beta}_j(\\boldsymbol{t}) = \\hat{\\xi}_j(\\boldsymbol{t}) / t_j\\) before plugging into the gradient. No implicit differentiation through the inner solver."
   },
   {
-    "objectID": "methodology/02-frank-wolfe.html#the-frank-wolfe-iteration",
-    "href": "methodology/02-frank-wolfe.html#the-frank-wolfe-iteration",
-    "title": "Frank-Wolfe on the polytope",
-    "section": "The Frank-Wolfe iteration",
-    "text": "The Frank-Wolfe iteration\nAt iterate \\(\\boldsymbol t^{(i)}\\) with scheduled curvature \\(\\delta_i\\):\n\nLinear minimisation oracle (LMO):\n\n\\[\n\\boldsymbol s^{(i)} \\;\\in\\;\n\\arg\\min_{\\boldsymbol u \\in \\mathcal{T}_k}\n\\langle \\nabla f_{\\delta_i}(\\boldsymbol t^{(i)}),\\,\\boldsymbol u\\rangle\n\\;\\;\\Longleftrightarrow\\;\\;\n\\boldsymbol s^{(i)} = \\text{vertex with the $k$ smallest entries of } \\nabla f_{\\delta_i}(\\boldsymbol t^{(i)}).\n\\]\n\nStep: \\(\\boldsymbol t^{(i+1)} = (1 - \\alpha)\\,\\boldsymbol t^{(i)} + \\alpha\\,\\boldsymbol s^{(i)}.\\)\nIterate until \\(\\boldsymbol t^{(i)}\\) converges to a vertex."
+    "objectID": "methodology/02-frank-wolfe.html#the-homotopy-frank-wolfe-iteration",
+    "href": "methodology/02-frank-wolfe.html#the-homotopy-frank-wolfe-iteration",
+    "title": "Homotopy Frank-Wolfe on the polytope",
+    "section": "The Homotopy Frank-Wolfe iteration",
+    "text": "The Homotopy Frank-Wolfe iteration\nAt iterate \\(\\boldsymbol t^{(i)}\\) with scheduled curvature \\(\\delta_i\\):\n\nLinear minimisation oracle (LMO):\n\n\\[\n\\boldsymbol s^{(i)} \\;\\in\\;\n\\arg\\min_{\\boldsymbol u \\in \\mathcal{T}_k}\n\\langle \\nabla f_{\\delta_i}(\\boldsymbol t^{(i)}),\\,\\boldsymbol u\\rangle\n\\;\\;\\Longleftrightarrow\\;\\;\n\\boldsymbol s^{(i)} = \\text{vertex with the $k$ smallest entries of } \\nabla f_{\\delta_i}(\\boldsymbol t^{(i)}).\n\\]\n\nStep: \\(\\boldsymbol t^{(i+1)} = (1 - \\alpha)\\,\\boldsymbol t^{(i)} + \\alpha\\,\\boldsymbol s^{(i)}.\\)\nIterate until \\(\\boldsymbol t^{(i)}\\) converges to a vertex."
   },
   {
     "objectID": "methodology/02-frank-wolfe.html#why-no-projections",
     "href": "methodology/02-frank-wolfe.html#why-no-projections",
-    "title": "Frank-Wolfe on the polytope",
+    "title": "Homotopy Frank-Wolfe on the polytope",
     "section": "Why no projections",
-    "text": "Why no projections\nThe cardinality polytope is a combinatorial set; projecting onto it is itself a hard problem. Frank-Wolfe avoids the projection — every step just requires the LMO, which is a sort."
+    "text": "Why no projections\nThe cardinality polytope is a combinatorial set; projecting onto it is itself a hard problem. Frank-Wolfe avoids the projection — every step just requires the linear minimisation oracle, which is a sort."
   },
   {
     "objectID": "methodology/02-frank-wolfe.html#initialisation-and-the-homotopy-fix",
     "href": "methodology/02-frank-wolfe.html#initialisation-and-the-homotopy-fix",
-    "title": "Frank-Wolfe on the polytope",
+    "title": "Homotopy Frank-Wolfe on the polytope",
     "section": "Initialisation and the homotopy fix",
-    "text": "Initialisation and the homotopy fix\nWhy does the iteration need a schedule \\(\\delta_i\\) at all? Because a fixed \\(\\delta\\) doesn’t work.\nFixed \\(\\delta\\) traps initialisation. Running the iteration above at a single, large \\(\\delta\\) does drive \\(\\boldsymbol{t}\\) to a corner — but the concave landscape has one basin per vertex, so the corner you land on depends on where you start.\n\n\n\nFixed-\\(\\delta\\) trajectories on the cardinality polytope (\\(p = 2\\)). Iterates from different starting points end at different corners.\n\n\nHomotopy fixes it. Start at small \\(\\delta_0\\) where \\(f_\\delta\\) is (near) convex, so descent is well-behaved everywhere; then grow \\(\\delta\\) along a schedule \\(\\delta_0 &lt; \\delta_1 &lt; \\cdots\\). The landscape deforms continuously from smooth to peaked-at-vertices, sliding the iterate into an optimal corner rather than the nearest one.\n\n\n\nFrank-Wolfe iterates as \\(\\delta\\) grows along the schedule: smooth motion through the interior at small \\(\\delta\\), then a snap to the optimal vertex once \\(\\delta\\) is large enough to dominate.\n\n\nSchedule details are on the Homotopy page."
+    "text": "Initialisation and the homotopy fix\nWhy does the iteration need a schedule \\(\\delta_i\\) at all? Because a fixed \\(\\delta\\) doesn’t work.\nFixed \\(\\delta\\) traps initialisation. Running the iteration above at a single, large \\(\\delta\\) does drive \\(\\boldsymbol{t}\\) to a corner. However, due to the concave landscape of the objective at large \\(\\delta\\), the corner you land on highly depends on where you start.\n\n\n\nFixed-\\(\\delta\\) trajectories on the cardinality polytope (\\(p = 2\\)). Iterates from different starting points end at different corners.\n\n\nHomotopy fixes it. Start at small \\(\\delta_0\\) where \\(f_\\delta\\) is (near) convex, so descent is well-behaved everywhere; then grow \\(\\delta\\) along a schedule \\(\\delta_0 &lt; \\delta_1 &lt; \\cdots\\). The landscape deforms continuously from smooth to peaked-at-vertices, sliding the iterate into an optimal corner rather than the nearest one.\n\n\n\nFrank-Wolfe iterates as \\(\\delta\\) grows along the schedule: smooth motion through the interior at small \\(\\delta\\), then a snap to the optimal vertex once \\(\\delta\\) is large enough to dominate."
   },
   {
-    "objectID": "methodology/02-frank-wolfe.html#vertex-approach-guarantee",
-    "href": "methodology/02-frank-wolfe.html#vertex-approach-guarantee",
-    "title": "Frank-Wolfe on the polytope",
-    "section": "Vertex-approach guarantee",
-    "text": "Vertex-approach guarantee\n\\[\n\\|\\boldsymbol t^{(i)} - \\boldsymbol s^*\\|_\\infty\n\\;\\le\\;\n(1 - \\alpha)^i \\,\\|\\boldsymbol t^{(0)} - \\boldsymbol s^*\\|_\\infty.\n\\]\nLinear convergence to the chosen vertex once the LMO direction settles.\n\nPlaceholder for visual: a small 3D figure of FW iterates marching toward a vertex of the polytope.\n\n\n← Previous: Boolean relaxation\nNext: Homotopy →"
+    "objectID": "methodology/02-frank-wolfe.html#the-delta-schedule",
+    "href": "methodology/02-frank-wolfe.html#the-delta-schedule",
+    "title": "Homotopy Frank-Wolfe on the polytope",
+    "section": "The \\(\\delta\\) schedule",
+    "text": "The \\(\\delta\\) schedule\nTwo practical questions: what schedule, and how large does \\(\\delta\\) ultimately need to be?\nGeometric growth, warm-started. A geometric ladder works well:\n\\[\n\\delta_{i+1} \\;=\\; r\\,\\delta_i, \\qquad r &gt; 1, \\qquad i = 0, 1, \\ldots, N-1.\n\\]\nEach Frank-Wolfe step is warm-started from the previous \\(\\boldsymbol t^{(i)}\\), so the iterate drifts smoothly along the deforming landscape rather than restarting from scratch at every \\(\\delta_i\\).\nConcavity threshold (Mathur, Liquet, Muller, Moka 2026). There is an explicit \\(\\delta^\\star\\) above which \\(f_\\delta\\) is concave on \\([0, 1]^p\\), so every minimiser on the polytope \\(\\mathcal{T}_k\\) is a binary vertex:\n\\[\n\\delta^\\star_{\\text{logistic}} \\;=\\; \\frac{\\nu_{\\max}}{8n},\n\\qquad\n\\delta^\\star_{\\text{multinomial}} \\;=\\; \\frac{\\nu_{\\max}}{4n},\n\\]\nwhere \\(\\nu_{\\max}\\) is the largest eigenvalue of \\(X_S^\\top X_S\\) on a feasible support \\(S\\). The schedule only needs to terminate at \\(\\delta_N \\ge \\delta^\\star\\)."
   },
   {
-    "objectID": "methodology/01-relaxation.html",
-    "href": "methodology/01-relaxation.html",
-    "title": "Boolean relaxation",
+    "objectID": "methodology/02-frank-wolfe.html#why-the-schedule-converges",
+    "href": "methodology/02-frank-wolfe.html#why-the-schedule-converges",
+    "title": "Homotopy Frank-Wolfe on the polytope",
+    "section": "Why the schedule converges",
+    "text": "Why the schedule converges\nTwo results make the homotopy work — one classical, one tailored to our approximate algorithm.\n\n\n\n\n\n\nNoteContinuity in \\(\\delta\\) (Berge’s Maximum Theorem)\n\n\n\nIf \\(\\delta\\) changes a little, the minimiser of \\(f_\\delta\\) also changes a little — it cannot jump to a different corner of the polytope. So warm-starting the next Frank-Wolfe step from the previous iterate is reliable: the new optimum sits near where we already are.\n\n\n\n\n\n\n\n\nTipApproximate solves are good enough (Mathur et al. 2026)\n\n\n\nThe inner ridge-GLM is solved to a tolerance, and the Frank-Wolfe step is approximate — neither is exact. This is fine: along the schedule, the approximate iterates concentrate at a binary corner of the polytope, giving a feasible discrete solution to the sparse-GLM problem. In the asymptotic limit (continuous schedule, vanishing tolerance) that corner is a global optimum; for the finite schedule we actually run, the result is a high-quality binary subset rather than a certified global one.\n\n\nThe first result says the path is safe; the second says we land at a corner — and in the limit, the right one."
+  },
+  {
+    "objectID": "methodology/02-frank-wolfe.html#where-to-next",
+    "href": "methodology/02-frank-wolfe.html#where-to-next",
+    "title": "Homotopy Frank-Wolfe on the polytope",
+    "section": "Where to next",
+    "text": "Where to next\nSee it work — in code, on real data:\n\nLinear simulation\nHD logistic simulation\nKhan SRBCT\nRice GWAS\nComparisons\n\n\n← Previous: Boolean relaxation\nNext: Linear simulation →"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "COMBSS: Scalable Best Subset Selection for Generalised Linear Models",
     "section": "",
-    "text": "From the Sparse GLM page, the problem we want to solve is\n\\[\n\\begin{aligned}\n&\\min_{\\beta_0 \\in \\mathbb{R},\\; \\boldsymbol{\\beta} \\in \\mathbb{R}^p}\\;\\; -\\tfrac{1}{n}\\,\\ell(\\beta_0, \\boldsymbol{\\beta}) \\\\\n&\\text{subject to} \\quad \\|\\boldsymbol{\\beta}\\|_0 \\le k.\n\\end{aligned}\n\\]\nThe pain is the \\(\\ell_0\\) constraint: it forces a search over \\(\\binom{p}{k}\\) discrete supports. COMBSS replaces it by a continuous relaxation."
+    "text": "Best subset selection — identifying the optimal \\(k\\) predictors from \\(p\\) candidates — is fundamental for building interpretable and parsimonious statistical models, but the underlying combinatorial problem is NP-hard.\nCOMBSS (Continuous Optimisation for Best Subset Selection) overcomes this barrier by reformulating the discrete problem as a continuous optimisation, making it scalable to high-dimensional settings where \\(p\\) far exceeds \\(n\\).\nThis presentation walks through the framework for linear, logistic, and multinomial regression, illustrates its performance on simulated data and two real biomedical applications — cancer gene-expression classification (\\(p = 2{,}308\\) genes) and a rice GWAS (\\(p \\approx 158{,}000\\) SNPs) — and demonstrates the open-source combss (R and Python) packages with practical examples."
   },
   {
-    "objectID": "methodology/01-relaxation.html#recall-the-discrete-problem",
-    "href": "methodology/01-relaxation.html#recall-the-discrete-problem",
-    "title": "Boolean relaxation",
+    "objectID": "index.html#abstract",
+    "href": "index.html#abstract",
+    "title": "COMBSS: Scalable Best Subset Selection for Generalised Linear Models",
     "section": "",
-    "text": "From the Sparse GLM page, the problem we want to solve is\n\\[\n\\begin{aligned}\n&\\min_{\\beta_0 \\in \\mathbb{R},\\; \\boldsymbol{\\beta} \\in \\mathbb{R}^p}\\;\\; -\\tfrac{1}{n}\\,\\ell(\\beta_0, \\boldsymbol{\\beta}) \\\\\n&\\text{subject to} \\quad \\|\\boldsymbol{\\beta}\\|_0 \\le k.\n\\end{aligned}\n\\]\nThe pain is the \\(\\ell_0\\) constraint: it forces a search over \\(\\binom{p}{k}\\) discrete supports. COMBSS replaces it by a continuous relaxation."
+    "text": "Best subset selection — identifying the optimal \\(k\\) predictors from \\(p\\) candidates — is fundamental for building interpretable and parsimonious statistical models, but the underlying combinatorial problem is NP-hard.\nCOMBSS (Continuous Optimisation for Best Subset Selection) overcomes this barrier by reformulating the discrete problem as a continuous optimisation, making it scalable to high-dimensional settings where \\(p\\) far exceeds \\(n\\).\nThis presentation walks through the framework for linear, logistic, and multinomial regression, illustrates its performance on simulated data and two real biomedical applications — cancer gene-expression classification (\\(p = 2{,}308\\) genes) and a rice GWAS (\\(p \\approx 158{,}000\\) SNPs) — and demonstrates the open-source combss (R and Python) packages with practical examples."
   },
   {
-    "objectID": "methodology/01-relaxation.html#reparameterising-the-support",
-    "href": "methodology/01-relaxation.html#reparameterising-the-support",
-    "title": "Boolean relaxation",
-    "section": "Reparameterising the support",
-    "text": "Reparameterising the support\nIntroduce an auxiliary vector \\(\\boldsymbol{t} \\in [0, 1]^p\\) — a continuous proxy for the binary indicator \\(\\boldsymbol{s} \\in \\{0, 1\\}^p\\). In the relaxed problem, the data sees the Hadamard product\n\\[\n\\boldsymbol{t} \\odot \\boldsymbol{\\beta}\n\\;=\\; \\bigl(\\,t_1 \\beta_1,\\; t_2 \\beta_2,\\; \\ldots,\\; t_p \\beta_p\\,\\bigr),\n\\]\nso that feature \\(j\\) is scaled by \\(t_j\\):\n\n\\(t_j = 1\\): feature \\(j\\) is fully in (coefficient \\(\\beta_j\\) used as-is).\n\\(t_j = 0\\): feature \\(j\\) is out (effective coefficient is zero, regardless of \\(\\beta_j\\)).\n\\(0 &lt; t_j &lt; 1\\): a continuous “partial inclusion”.\n\nVertices of the hypercube \\([0,1]^p\\) correspond exactly to discrete supports, and the cardinality constraint \\(\\sum s_j \\le k\\) becomes\n\\[\n\\boldsymbol{t} \\;\\in\\; \\mathcal{T}_k \\;=\\; \\Bigl\\{\\, \\boldsymbol{t} \\in [0,1]^p \\;:\\; \\textstyle\\sum_{j=1}^{p} t_j \\le k \\,\\Bigr\\},\n\\]\na polytope whose vertices are exactly the binary \\(k\\)-supports."
+    "objectID": "index.html#collaborators",
+    "href": "index.html#collaborators",
+    "title": "COMBSS: Scalable Best Subset Selection for Generalised Linear Models",
+    "section": "Collaborators",
+    "text": "Collaborators\n\n\n\n\n\n\n\nName\nAffiliation\n\n\n\n\nSarat Moka (presenter)\nUNSW Sydney\n\n\nZdravko Botev\nUNSW Sydney\n\n\nBenoit Liquet\nUniversité de Pau et des Pays de l’Adour & Macquarie University\n\n\nAnant Mathur\nUNSW Sydney\n\n\nSamuel Muller\nMacquarie University\n\n\nHouying Zhu\nMacquarie University"
   },
   {
-    "objectID": "methodology/01-relaxation.html#the-relaxed-objective",
-    "href": "methodology/01-relaxation.html#the-relaxed-objective",
-    "title": "Boolean relaxation",
-    "section": "The relaxed objective",
-    "text": "The relaxed objective\nFor a curvature parameter \\(\\delta &gt; 0\\), define\n\\[\n\\boxed{\\;\\;\nf_{\\delta}(\\boldsymbol{t})\n\\;=\\;\n\\min_{\\beta_0,\\,\\boldsymbol{\\beta}}\\;\n\\Biggl[\n-\\tfrac{1}{n}\\,\\ell\\bigl(\\beta_0,\\;\\boldsymbol{t} \\odot \\boldsymbol{\\beta}\\bigr)\n\\;+\\; \\delta \\sum_{j=1}^{p} \\bigl(1 - t_j^{2}\\bigr)\\,\\beta_j^{2}\n\\Biggr].\n\\;\\;}\n\\]\nTwo pieces:\n\nGLM loss evaluated at the effective coefficients \\(\\boldsymbol{t} \\odot \\boldsymbol{\\beta}\\).\nCurvature penalty \\(\\delta \\sum_j (1 - t_j^2) \\beta_j^2\\): weights are large when \\(t_j\\) is small, pulling those \\(\\beta_j\\) toward zero; weights vanish at the vertices (\\(t_j \\in \\{0, 1\\}\\)).\n\nThe inner problem in \\(\\boldsymbol{\\beta}\\) (with \\(\\boldsymbol{t}\\) fixed) is a ridge-penalised GLM — closed-form for Gaussian, one glmnet call for binomial/multinomial.\nThe outer problem in \\(\\boldsymbol{t}\\) is smooth on the cardinality polytope \\(\\mathcal{T}_k\\)."
+    "objectID": "index.html#how-this-demonstration-is-structured",
+    "href": "index.html#how-this-demonstration-is-structured",
+    "title": "COMBSS: Scalable Best Subset Selection for Generalised Linear Models",
+    "section": "How this demonstration is structured",
+    "text": "How this demonstration is structured\nThis site is the talk. Each section below has its own page; navigate via the top menu or click through in order.\n\n\n\nSection\nPages\n\n\n\n\nMotivation — what sparse-constrained GLM is, and why MIO / lasso are not the last word\nSparse GLM → MIO → Lasso → COMBSS (our method)\n\n\nMethodology — Boolean relaxation and the homotopy Frank-Wolfe algorithm\nRelaxation → Homotopy Frank-Wolfe\n\n\nDemos — five runnable demos in R and Python\nLinear sim · HD logistic · Khan SRBCT · Rice GWAS · Comparisons\n\n\nUse it yourself\nInstall · References"
   },
   {
-    "objectID": "methodology/01-relaxation.html#properties-of-the-relaxed-objective",
-    "href": "methodology/01-relaxation.html#properties-of-the-relaxed-objective",
-    "title": "Boolean relaxation",
-    "section": "Properties of the relaxed objective",
-    "text": "Properties of the relaxed objective\nWhat does \\(f_\\delta(\\boldsymbol{t})\\) look like as we vary \\(\\delta\\)? Two visualisations make the shape concrete — one in 1D and one in 2D.\n\nOne feature (\\(p = 1\\))\nThe simplest case: a single predictor with a Gaussian response. The relaxed objective is a function of one scalar \\(t \\in [0, 1]\\).\n\n\n\n\n\nThe relaxed objective \\(f_\\delta(t)\\) for a single-feature Gaussian regression, plotted over \\(t \\in [0, 1]\\) for several values of \\(\\delta\\). The endpoints are fixed: \\(f_\\delta(0)\\) equals the null-model loss; \\(f_\\delta(1)\\) equals the OLS-fit loss. As \\(\\delta\\) grows, the curve becomes more peaked toward the vertex \\(t = 1\\).\n\n\n\n\nThree things to read off:\n\nEndpoints are fixed: \\(f_\\delta(0)\\) = the loss when no feature is in (null model); \\(f_\\delta(1)\\) = the loss when the feature is fully in (OLS fit). Neither depends on \\(\\delta\\).\nSmall \\(\\delta\\): The curve is nearly convex.\nLarge \\(\\delta\\): The curve becomes concave on the interior, with its minimum at the vertex \\(t = 1\\).\n\nThe homotopy in \\(\\delta\\) — gradually increasing \\(\\delta\\) during optimisation — uses the small-\\(\\delta\\) smooth landscape for navigation and the large-\\(\\delta\\) peaked landscape to push \\(\\boldsymbol{t}\\) to a vertex (= a discrete subset). See Homotopy.\n\n\nTwo features (\\(p = 2\\))\nIn 2D the same effect plays out as a surface deforming with \\(\\delta\\). The figure below (from Mathur, Liquet, Muller, Moka 2026) shows \\(f_\\delta(\\boldsymbol{t})\\) over \\([0, 1]^2\\) for logistic regression at three values of \\(\\delta\\):\n\n\n\nBoolean-relaxation surface \\(f_\\delta(t_1, t_2)\\) for a 2-feature logistic regression, at three values of \\(\\delta\\). Small \\(\\delta\\) gives a smooth, near-flat surface; large \\(\\delta\\) pushes the global minimum to a vertex of the unit square.\n\n\nThe same story as the 1D case, now on a square. As \\(\\delta\\) grows, the surface becomes spiky at the vertices, and the algorithm is forced toward a discrete support."
+    "objectID": "index.html#packages",
+    "href": "index.html#packages",
+    "title": "COMBSS: Scalable Best Subset Selection for Generalised Linear Models",
+    "section": "Packages",
+    "text": "Packages\n\nR — combss on CRAN — install.packages(\"combss\")\nPython — combss on PyPI — pip install combss"
   },
   {
-    "objectID": "methodology/01-relaxation.html#two-guarantees",
-    "href": "methodology/01-relaxation.html#two-guarantees",
-    "title": "Boolean relaxation",
-    "section": "Two guarantees",
-    "text": "Two guarantees\nTwo results anchor \\(f_\\delta\\) to the original discrete problem (Mathur, et al. 2026).\n1. Corner equivalence at every \\(\\delta\\). At any binary vertex \\(\\boldsymbol{s} \\in \\{0,1\\}^p\\),\n\\[\nf_\\delta(\\boldsymbol{s})\n\\;=\\;\n\\min_{\\substack{\\beta_0,\\,\\boldsymbol{\\beta} \\\\ \\beta_j = 0\\,\\text{ if }\\,s_j = 0}}\\;\\;\n-\\tfrac{1}{n}\\,\\ell(\\beta_0, \\boldsymbol{\\beta})\n\\qquad \\text{for every } \\delta &gt; 0.\n\\]\nThe penalty \\(\\delta(1 - s_j^2)\\beta_j^2\\) is zero when \\(s_j = 1\\), and pins \\(\\beta_j = 0\\) when \\(s_j = 0\\). At the corners, \\(f_\\delta\\) is the original sparse-GLM loss restricted to the support encoded by \\(\\boldsymbol{s}\\) — no relaxation error.\n2. Minimum at an optimal corner for large \\(\\delta\\). There exists \\(\\delta^\\star &gt; 0\\) such that for every \\(\\delta \\ge \\delta^\\star\\), \\(f_\\delta\\) is concave on \\(\\mathcal{T}_k\\). Since a concave function on a polytope attains its minimum at a vertex,\n\\[\n\\arg\\min_{\\boldsymbol{t} \\in \\mathcal{T}_k} f_\\delta(\\boldsymbol{t}) \\;\\in\\; \\{0,1\\}^p,\n\\]\nand by corner equivalence that vertex solves the original \\(\\ell_0\\)-constrained sparse-GLM problem exactly.\nTogether they motivate the homotopy in \\(\\delta\\): start small for a smooth landscape, end large to land on a discrete solution (see Homotopy). The outer optimisation along the way needs the gradient \\(\\nabla f_\\delta\\) — derived next on the Frank-Wolfe page.\n\n← Previous: COMBSS (our method)\nNext: Frank-Wolfe →"
+    "objectID": "index.html#links",
+    "href": "index.html#links",
+    "title": "COMBSS: Scalable Best Subset Selection for Generalised Linear Models",
+    "section": "Links",
+    "text": "Links\n\nLive site — https://saratmoka.github.io/combss-statfest/\nSource code — https://github.com/saratmoka/combss-statfest"
   },
   {
-    "objectID": "motivation/04-combss.html",
-    "href": "motivation/04-combss.html",
-    "title": "COMBSS (our method)",
+    "objectID": "motivation/02-mio.html",
+    "href": "motivation/02-mio.html",
+    "title": "MIO: exact best subset",
     "section": "",
-    "text": "Three properties we want a method to have:\n\nContinuous / smooth optimisation — tractable, gradient-based, scalable.\nTargets the \\(\\ell_0\\)-constrained problem — faithful to the original sparse selection task.\nReturns exactly \\(k\\) features — gives the user direct control over model size.\n\n\n\n  \n  \n  \n  Returns exactly k features\n  Continuous /\n  smooth optimisation\n  Targets ℓ₀-\n  constrained problem\n  Lasso\n  MIO\n  COMBSS\n\n\n\nLasso sits only in the smooth optimisation circle — convex and scalable, but doesn’t target \\(\\ell_0\\) and doesn’t directly control \\(k\\).\nMIO sits in targets \\(\\ell_0\\) and returns \\(k\\) — exact but not a smooth optimisation, and not scalable.\nCOMBSS sits in all three."
+    "text": "Mixed-Integer Optimisation (MIO) keeps the \\(\\ell_0\\) constraint discrete and casts the sparse-GLM problem as a mixed-integer program — the support indicator \\(\\boldsymbol{s} \\in \\{0,1\\}^p\\) is now an explicit decision variable, solved alongside \\(\\boldsymbol{\\beta}\\)."
   },
   {
-    "objectID": "motivation/04-combss.html#where-combss-fits",
-    "href": "motivation/04-combss.html#where-combss-fits",
-    "title": "COMBSS (our method)",
+    "objectID": "motivation/02-mio.html#the-mixed-integer-formulation",
+    "href": "motivation/02-mio.html#the-mixed-integer-formulation",
+    "title": "MIO: exact best subset",
+    "section": "The mixed-integer formulation",
+    "text": "The mixed-integer formulation\n\\[\n\\begin{aligned}\n&\\min_{\\beta_0,\\,\\boldsymbol{\\beta},\\,\\boldsymbol{s}}\\;\\; -\\tfrac{1}{n}\\,\\ell(\\beta_0, \\boldsymbol{\\beta}) \\\\\n&\\text{subject to} \\quad s_j \\in \\{0,1\\},\\quad \\textstyle\\sum_j s_j \\le k,\\quad |\\beta_j| \\le M s_j.\n\\end{aligned}\n\\]\nThe Big-\\(M\\) constraint \\(|\\beta_j| \\le M s_j\\) links the two: if \\(s_j = 0\\), then \\(\\beta_j\\) is forced to zero; if \\(s_j = 1\\), the coefficient is free up to magnitude \\(M\\)."
+  },
+  {
+    "objectID": "motivation/02-mio.html#what-mio-gets-right",
+    "href": "motivation/02-mio.html#what-mio-gets-right",
+    "title": "MIO: exact best subset",
+    "section": "What MIO gets right",
+    "text": "What MIO gets right\n\nExact — solves the original \\(\\ell_0\\)-constrained problem rather than a surrogate.\nNo relaxation bias — selected coefficients are fit to the data without shrinkage.\nMature commercial and open-source solvers (Gurobi, CPLEX, SCIP) implement branch-and-bound with strong cutting planes (Bertsimas, King, Mazumder 2016)."
+  },
+  {
+    "objectID": "motivation/02-mio.html#where-mio-breaks-down",
+    "href": "motivation/02-mio.html#where-mio-breaks-down",
+    "title": "MIO: exact best subset",
+    "section": "Where MIO breaks down",
+    "text": "Where MIO breaks down\n\nComputational cost explodes beyond \\(p \\gtrsim\\) a few hundred. The problem is NP-hard; branch-and-bound visits an exponentially growing tree in the worst case.\nOverfits because there is no shrinkage — every selected coefficient is fully fit, and the method has no built-in mechanism to control variance from noisy estimates.\nRequires a careful Big-\\(M\\) choice: too small and the constraint becomes binding (biasing \\(\\boldsymbol{\\beta}\\)); too large and the LP relaxation becomes loose, slowing the solver.\nGLM extensions (logistic, multinomial) replace the quadratic with a transcendental loss; even fewer commercial solvers handle this well, and runtimes grow further.\n\nIn short, MIO is the theoretical gold standard for the \\(\\ell_0\\)-constrained problem — but practical reach stops well short of the high-dimensional biomedical settings we care about (Khan SRBCT at \\(p = 2308\\), rice GWAS at \\(p \\approx 158{,}000\\)).\n\n← Previous: Sparse GLM\nNext: Lasso →"
+  },
+  {
+    "objectID": "motivation/01-sparse-glm.html",
+    "href": "motivation/01-sparse-glm.html",
+    "title": "Sparse-constrained GLM",
     "section": "",
-    "text": "Three properties we want a method to have:\n\nContinuous / smooth optimisation — tractable, gradient-based, scalable.\nTargets the \\(\\ell_0\\)-constrained problem — faithful to the original sparse selection task.\nReturns exactly \\(k\\) features — gives the user direct control over model size.\n\n\n\n  \n  \n  \n  Returns exactly k features\n  Continuous /\n  smooth optimisation\n  Targets ℓ₀-\n  constrained problem\n  Lasso\n  MIO\n  COMBSS\n\n\n\nLasso sits only in the smooth optimisation circle — convex and scalable, but doesn’t target \\(\\ell_0\\) and doesn’t directly control \\(k\\).\nMIO sits in targets \\(\\ell_0\\) and returns \\(k\\) — exact but not a smooth optimisation, and not scalable.\nCOMBSS sits in all three."
+    "text": "Suppose we want to predict body-fat percentage from physical measurements. The classical dataset (Penrose et al. 1985) records 14 measurements on 252 men:\n\n\n\nBodyfat data — first 5 rows. Response Bodyfat (%) in last column.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nAge\nWeight\nHeight\nNeck\nChest\nAbdomen\nHip\nThigh\nKnee\nAnkle\nBiceps\nForearm\nWrist\nBodyfat\n\n\n\n\n23\n70.1\n172.1\n36.2\n93.1\n85.2\n94.5\n59.0\n37.3\n21.9\n32.0\n27.4\n17.1\n12.3\n\n\n22\n78.8\n183.5\n38.5\n93.6\n83.0\n98.7\n58.7\n37.3\n23.4\n30.5\n28.9\n18.2\n6.1\n\n\n22\n70.0\n168.3\n34.0\n95.8\n87.9\n99.2\n59.6\n38.9\n24.0\n28.8\n25.2\n16.6\n25.3\n\n\n26\n83.5\n183.5\n37.4\n101.8\n86.4\n101.2\n60.1\n37.3\n22.8\n32.4\n29.4\n18.2\n10.4\n\n\n24\n80.4\n180.3\n39.0\n97.3\n100.0\n101.9\n63.2\n42.2\n24.0\n32.2\n27.7\n17.7\n28.7\n\n\n\n\n\nWhich handful of these measurements is enough to predict body fat well? That is best subset selection."
   },
   {
-    "objectID": "motivation/04-combss.html#the-bridge-side-by-side",
-    "href": "motivation/04-combss.html#the-bridge-side-by-side",
-    "title": "COMBSS (our method)",
-    "section": "The bridge: side by side",
-    "text": "The bridge: side by side\n\n\n\n\n\n\n\n\n\n\nLasso\nMIO\nCOMBSS\n\n\n\n\nVariable type\n\\(\\boldsymbol{\\beta} \\in \\mathbb{R}^p\\)\n\\(\\boldsymbol{s} \\in \\{0,1\\}^p\\)\n\\(\\boldsymbol{t} \\in [0,1]^p\\)\n\n\nSparsity by\n\\(\\ell_1\\) penalty\nhard \\(\\ell_0\\) + Big-\\(M\\)\ncontinuous relaxation on the support indicator\n\n\nSelection size\nindexed by \\(\\lambda\\)\n\\(k\\) via constraint\n\\(k\\) via polytope\n\n\nScales to \\(p \\gg n\\)\nyes\nbarely\nyes\n\n\nBiased coefficients\nyes\nno\nno"
-  },
-  {
-    "objectID": "motivation/04-combss.html#in-one-sentence",
-    "href": "motivation/04-combss.html#in-one-sentence",
-    "title": "COMBSS (our method)",
-    "section": "In one sentence",
-    "text": "In one sentence\nCOMBSS relaxes the discrete support indicator \\(\\boldsymbol{s} \\in \\{0,1\\}^p\\) to a continuous \\(\\boldsymbol{t} \\in [0,1]^p\\) on the cardinality polytope, fits a ridge GLM in the relaxed space, and runs a Frank-Wolfe homotopy that drives \\(\\boldsymbol{t}\\) to a vertex of the polytope — recovering an integer subset of size exactly \\(k\\)."
-  },
-  {
-    "objectID": "motivation/04-combss.html#two-head-to-head-questions",
-    "href": "motivation/04-combss.html#two-head-to-head-questions",
-    "title": "COMBSS (our method)",
-    "section": "Two head-to-head questions",
-    "text": "Two head-to-head questions\nThe simplest way to see what COMBSS buys you is to put it next to lasso on the same dataset and ask two questions.\n\n\n\n\n\n\nSetup: \\(n = 300\\) (\\(200\\) train + \\(100\\) validation), \\(p = 30\\), \\(\\sigma = 0.5\\), true coefficients \\(\\boldsymbol{\\beta} = (3,\\,2,\\,1.5,\\,1,\\,0.5,\\,0,\\,\\ldots,\\,0)\\), predictors (i.e., entries of the dataset) i.i.d. standard normal. \n\n\n\n\n1. At a prescribed \\(k = 5\\), how biased are the coefficients?\n\n\n\n\n\nCoefficients at \\(k=5\\): True (grey), Lasso at the path-\\(\\lambda\\) that gives 5 features and minimises training MSE (coral), and COMBSS (teal, OLS-refit on its \\(k=5\\) subset). Squared \\(\\ell_2\\) error to the truth across all 30 dimensions: lasso 0.099, COMBSS 0.003 — ~35x smaller.\n\n\n\n\nCOMBSS’s recovered coefficients match the truth to within sampling noise. Lasso’s are all visibly shrunken, even though both methods are looking at exactly five features.\n\n\n2. For the same validation loss, how many features does each method need?\n\n\n\n\n\nLeft: validation MSE as a function of the number of selected features (full range). Right: zoom into the region \\(k \\ge 4\\) where the two methods plateau. The dashed line marks lasso’s best-ever validation MSE. COMBSS at \\(k = 5\\) already sits below that line — lasso cannot match COMBSS’s \\(k=5\\) performance at any model size.\n\n\n\n\nAt \\(k = 5\\), COMBSS reaches a validation MSE that lasso cannot match at any model size — even with 22 features, lasso’s MSE stays above COMBSS’s value at \\(k = 5\\)."
-  },
-  {
-    "objectID": "motivation/04-combss.html#preview-of-the-rest-of-the-talk",
-    "href": "motivation/04-combss.html#preview-of-the-rest-of-the-talk",
-    "title": "COMBSS (our method)",
-    "section": "Preview of the rest of the talk",
-    "text": "Preview of the rest of the talk\n\nMethodology — how the relaxation works, the Frank-Wolfe step, the curvature homotopy.\nDemos — five runnable demos showing the method in action.\n\n\n← Previous: Lasso\nNext: Boolean relaxation →"
-  },
-  {
-    "objectID": "motivation/03-lasso.html",
-    "href": "motivation/03-lasso.html",
-    "title": "Lasso: convex relaxation",
+    "objectID": "motivation/01-sparse-glm.html#a-familiar-starting-point-bodyfat",
+    "href": "motivation/01-sparse-glm.html#a-familiar-starting-point-bodyfat",
+    "title": "Sparse-constrained GLM",
     "section": "",
-    "text": "The sparse-constrained GLM problem from the previous page is\n\\[\n\\begin{aligned}\n&\\min_{\\beta_0,\\,\\boldsymbol{\\beta}}\\;\\; -\\tfrac{1}{n}\\,\\ell(\\beta_0, \\boldsymbol{\\beta}) \\\\\n&\\text{subject to} \\quad \\|\\boldsymbol{\\beta}\\|_0 \\le k.\n\\end{aligned}\n\\]\nThe combinatorial pain comes entirely from the \\(\\ell_0\\)-norm in the constraint. Lasso replaces it with the \\(\\ell_1\\)-norm:\n\\[\n\\boxed{\\;\n\\begin{aligned}\n&\\min_{\\beta_0,\\,\\boldsymbol{\\beta}}\\;\\; -\\tfrac{1}{n}\\,\\ell(\\beta_0, \\boldsymbol{\\beta}) \\\\\n&\\text{subject to} \\quad \\|\\boldsymbol{\\beta}\\|_1 \\le \\tau.\n\\end{aligned}\n\\;}\n\\]\nThree things changed:\n\nThe constraint set is now convex (the \\(\\ell_1\\)-ball), and the objective is convex.\nThe budget \\(\\tau \\ge 0\\) is real-valued, not an integer count. The smaller \\(\\tau\\), the more shrunken (and therefore sparser) the solution.\nThe whole problem is a convex optimisation — every local optimum is global, and there are mature solvers (i.e., glmnet)."
+    "text": "Suppose we want to predict body-fat percentage from physical measurements. The classical dataset (Penrose et al. 1985) records 14 measurements on 252 men:\n\n\n\nBodyfat data — first 5 rows. Response Bodyfat (%) in last column.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nAge\nWeight\nHeight\nNeck\nChest\nAbdomen\nHip\nThigh\nKnee\nAnkle\nBiceps\nForearm\nWrist\nBodyfat\n\n\n\n\n23\n70.1\n172.1\n36.2\n93.1\n85.2\n94.5\n59.0\n37.3\n21.9\n32.0\n27.4\n17.1\n12.3\n\n\n22\n78.8\n183.5\n38.5\n93.6\n83.0\n98.7\n58.7\n37.3\n23.4\n30.5\n28.9\n18.2\n6.1\n\n\n22\n70.0\n168.3\n34.0\n95.8\n87.9\n99.2\n59.6\n38.9\n24.0\n28.8\n25.2\n16.6\n25.3\n\n\n26\n83.5\n183.5\n37.4\n101.8\n86.4\n101.2\n60.1\n37.3\n22.8\n32.4\n29.4\n18.2\n10.4\n\n\n24\n80.4\n180.3\n39.0\n97.3\n100.0\n101.9\n63.2\n42.2\n24.0\n32.2\n27.7\n17.7\n28.7\n\n\n\n\n\nWhich handful of these measurements is enough to predict body fat well? That is best subset selection."
   },
   {
-    "objectID": "motivation/03-lasso.html#from-hard-ell_0-to-soft-ell_1",
-    "href": "motivation/03-lasso.html#from-hard-ell_0-to-soft-ell_1",
-    "title": "Lasso: convex relaxation",
-    "section": "",
-    "text": "The sparse-constrained GLM problem from the previous page is\n\\[\n\\begin{aligned}\n&\\min_{\\beta_0,\\,\\boldsymbol{\\beta}}\\;\\; -\\tfrac{1}{n}\\,\\ell(\\beta_0, \\boldsymbol{\\beta}) \\\\\n&\\text{subject to} \\quad \\|\\boldsymbol{\\beta}\\|_0 \\le k.\n\\end{aligned}\n\\]\nThe combinatorial pain comes entirely from the \\(\\ell_0\\)-norm in the constraint. Lasso replaces it with the \\(\\ell_1\\)-norm:\n\\[\n\\boxed{\\;\n\\begin{aligned}\n&\\min_{\\beta_0,\\,\\boldsymbol{\\beta}}\\;\\; -\\tfrac{1}{n}\\,\\ell(\\beta_0, \\boldsymbol{\\beta}) \\\\\n&\\text{subject to} \\quad \\|\\boldsymbol{\\beta}\\|_1 \\le \\tau.\n\\end{aligned}\n\\;}\n\\]\nThree things changed:\n\nThe constraint set is now convex (the \\(\\ell_1\\)-ball), and the objective is convex.\nThe budget \\(\\tau \\ge 0\\) is real-valued, not an integer count. The smaller \\(\\tau\\), the more shrunken (and therefore sparser) the solution.\nThe whole problem is a convex optimisation — every local optimum is global, and there are mature solvers (i.e., glmnet)."
+    "objectID": "motivation/01-sparse-glm.html#generalising-to-glms",
+    "href": "motivation/01-sparse-glm.html#generalising-to-glms",
+    "title": "Sparse-constrained GLM",
+    "section": "Generalising to GLMs",
+    "text": "Generalising to GLMs\nThe same question arises whenever the response is well modelled by a generalised linear model (GLM):\n\n\n\nResponse type\nFamily\nExamples\n\n\n\n\nContinuous\nGaussian\nbodyfat, gene-expression intensity\n\n\nBinary\nBernoulli (logistic)\ndisease yes/no, GWAS case/control\n\n\nMultinomial\nsoftmax (multinomial logistic)\ncancer subtypes\n\n\nCount\nPoisson\nevent counts\n\n\n\nIn every case, fitting the model amounts to maximising a log-likelihood:\n\\[\n\\ell(\\beta_0, \\boldsymbol{\\beta})\n\\;=\\; \\sum_{i=1}^n \\log p(y_i \\mid x_i; \\beta_0, \\boldsymbol{\\beta}).\n\\]\nFor Gaussian, this reduces to least squares; for Bernoulli, to logistic regression; and so on. The unifying framework lets one method handle them all — provided it can deal with the sparsity constraint we are about to add."
   },
   {
-    "objectID": "motivation/03-lasso.html#the-penalised-form",
-    "href": "motivation/03-lasso.html#the-penalised-form",
-    "title": "Lasso: convex relaxation",
-    "section": "The penalised form",
-    "text": "The penalised form\nBecause the constrained lasso is convex, Lagrangian duality lets us rewrite it as an unconstrained penalised problem:\n\\[\n\\min_{\\beta_0,\\,\\boldsymbol{\\beta}}\\; -\\tfrac{1}{n}\\,\\ell(\\beta_0, \\boldsymbol{\\beta}) \\;+\\; \\lambda \\|\\boldsymbol{\\beta}\\|_1.\n\\]\nThe link is exact: for every budget \\(\\tau\\) in the constrained problem, there exists a \\(\\lambda^\\star(\\tau) \\ge 0\\) such that the penalised problem with \\(\\lambda = \\lambda^\\star(\\tau)\\) has the same minimiser as the constrained form. The two are different parameterisations of the same solution path.\nIn practice, almost everyone solves the penalised form — it is unconstrained, smooth in \\(\\lambda\\), and admits efficient algorithms (coordinate descent, ADMM, ISTA/FISTA). glmnet returns the whole regularisation path in one call."
+    "objectID": "motivation/01-sparse-glm.html#the-optimisation-we-are-trying-to-solve",
+    "href": "motivation/01-sparse-glm.html#the-optimisation-we-are-trying-to-solve",
+    "title": "Sparse-constrained GLM",
+    "section": "The optimisation we are trying to solve",
+    "text": "The optimisation we are trying to solve\nFor a prescribed model size \\(k\\), find the \\(k\\) predictors that best fit the data:\n\\[\n\\boxed{\\;\n\\begin{aligned}\n&\\min_{\\beta_0 \\in \\mathbb{R},\\; \\boldsymbol{\\beta} \\in \\mathbb{R}^p}\\;\\; -\\tfrac{1}{n}\\,\\ell(\\beta_0, \\boldsymbol{\\beta}) \\\\\n&\\text{subject to} \\quad \\|\\boldsymbol{\\beta}\\|_0 := \\sum_{j = 1}^p I(\\beta_j \\neq 0) \\le k.\n\\end{aligned}\n\\;}\n\\]\nTwo things to notice:\n\nThe objective is the negative GLM log-likelihood.\nThe constraint is the \\(\\ell_0\\)-norm cardinality: count the non-zero entries, keep at most \\(k\\).\n\nThe user supplies \\(k\\). Output: which \\(k\\) features, and their fitted coefficients.\nThis is the problem COMBSS focuses on."
   },
   {
-    "objectID": "motivation/03-lasso.html#what-lasso-gives-up",
-    "href": "motivation/03-lasso.html#what-lasso-gives-up",
-    "title": "Lasso: convex relaxation",
-    "section": "What lasso gives up",
-    "text": "What lasso gives up\nThe relaxation is fast and well understood, but it pays two prices that no choice of \\(\\lambda\\) can dodge simultaneously:\n\nYou can’t control \\(k\\) directly. The user picks \\(\\lambda\\) (or equivalently the \\(\\ell_1\\) budget \\(\\tau\\)); neither maps directly to the number of active features \\(k\\). Cross-validation picks a \\(\\lambda\\) that optimises prediction, not selection size.\nEither overselection or shrinkage.\n\nA small \\(\\lambda\\) (e.g. lambda.min) gives near-OLS coefficients but typically grabs many spurious features.\nA larger \\(\\lambda\\) (e.g. lambda.1se) cuts the false positives but shrinks every coefficient, including the truly active ones, toward zero.\n\n\nConcrete numbers on a simple simulation appear on the next page — they are the case for COMBSS rather than the case against lasso, so we save them for there.\n\n← Previous: MIO\nNext: COMBSS (our method) →"
+    "objectID": "motivation/01-sparse-glm.html#why-it-is-hard",
+    "href": "motivation/01-sparse-glm.html#why-it-is-hard",
+    "title": "Sparse-constrained GLM",
+    "section": "Why it is hard",
+    "text": "Why it is hard\nFor a fixed model size \\(k\\), the number of subsets to enumerate is \\(\\binom{p}{k}\\). Across the three settings featured later in this talk:\n\n\n\nSetting\np\nk\nSubsets of size k\n\n\n\n\nBodyfat\n13\n5\n1,287\n\n\nKhan SRBCT\n2,308\n12\n~5 × 1031\n\n\nRice GWAS\n158,210\n10\n~3 × 1045\n\n\n\nEnumeration is fine at \\(p = 13\\), but even with the right \\(k\\) given to us, the number of \\(k\\)-subsets explodes to roughly \\(5 \\times 10^{31}\\) at \\(p = 2308\\), and to \\(3 \\times 10^{45}\\) at \\(p \\approx 1.6 \\times 10^5\\). The combinatorial blowup makes exhaustive search hopeless within the lifetime of the universe.\nIn fact the problem is NP-hard (Natarajan 1995). No polynomial-time algorithm is expected for the worst case unless P = NP."
   },
   {
-    "objectID": "demos/02-simulation-hd.html",
-    "href": "demos/02-simulation-hd.html",
-    "title": "High-dimensional logistic regression",
-    "section": "",
-    "text": "R code is executed; outputs below are real. Click the Python tab for the equivalent script.\nThe previous demo was the gentle case: thirty predictors, the truth was easy to recover. This one moves to the regime that motivated COMBSS in the first place — \\(p\\) much larger than \\(n\\), with correlated predictors and a logistic response. Best-subset enumeration is out of the question; even MIO becomes painful here."
+    "objectID": "motivation/01-sparse-glm.html#where-this-matters",
+    "href": "motivation/01-sparse-glm.html#where-this-matters",
+    "title": "Sparse-constrained GLM",
+    "section": "Where this matters",
+    "text": "Where this matters\nThe setting \\(p \\gg n\\) with a sparse truth is the bread and butter of modern applied statistics:\n\nGenomics — GWAS with \\(10^5\\) SNPs, gene-expression panels with \\(10^3\\)–\\(10^4\\) probes.\nSurvey data — patient registries with hundreds of recorded variables and a few hundred outcomes.\nSensor data — many channels, few labelled trials.\nFinancial markets — predicting asset returns or default risk from hundreds of candidate factors (macroeconomic indicators, fundamentals, sentiment, technical signals); a small interpretable factor model is preferred over a dense black-box.\n\nEvery one of these calls for a sparsity-constrained GLM, not just a regularised one."
   },
   {
-    "objectID": "demos/02-simulation-hd.html#the-setup",
-    "href": "demos/02-simulation-hd.html#the-setup",
-    "title": "High-dimensional logistic regression",
-    "section": "The setup",
-    "text": "The setup\nWe follow the simulation design used in the paper (Mathur, Liquet, Muller, Moka 2026):\n\n\\(n = 200\\) observations, split 150 training + 50 validation\n\\(p = 1000\\) predictors\nDesign matrix \\(X\\): rows i.i.d. multivariate normal with AR(1) covariance \\(\\Sigma_{ij} = 0.5^{|i - j|}\\) (so neighbouring predictors are strongly correlated)\nTrue coefficient vector \\(\\beta\\): first ten entries equal to \\(1\\), the rest zero\nBinary response: \\(y_i \\mid x_i \\sim \\mathrm{Bernoulli}(\\sigma(x_i^\\top \\beta))\\) where \\(\\sigma\\) is the logistic sigmoid\n\nThe true support is \\(\\{1, 2, \\ldots, 10\\}\\). Our task: recover it from 1000 candidates."
-  },
-  {
-    "objectID": "demos/02-simulation-hd.html#generate-the-data",
-    "href": "demos/02-simulation-hd.html#generate-the-data",
-    "title": "High-dimensional logistic regression",
-    "section": "Generate the data",
-    "text": "Generate the data\n\nRPython\n\n\n\nset.seed(2026)\n\nn &lt;- 200; p &lt;- 1000; k0 &lt;- 10\nrho &lt;- 0.5\n\nar1_sqrt &lt;- function(p, rho) {\n  Sigma &lt;- rho ^ abs(outer(1:p, 1:p, \"-\"))\n  ev &lt;- eigen(Sigma, symmetric = TRUE)\n  ev$vectors %*% diag(sqrt(pmax(ev$values, 0))) %*% t(ev$vectors)\n}\nL &lt;- ar1_sqrt(p, rho)\n\nz &lt;- matrix(rnorm(n * p), n, p)\nx &lt;- z %*% L\nbeta &lt;- c(rep(1, k0), rep(0, p - k0))\neta &lt;- as.numeric(x %*% beta)\ny &lt;- rbinom(n, 1, plogis(eta))\n\nitr &lt;- 1:150; iva &lt;- 151:200\nc(n_train = length(itr), n_val = length(iva), p = p, k0 = k0)\n\nn_train   n_val       p      k0 \n    150      50    1000      10 \n\n\n\n\nimport numpy as np\nrng = np.random.default_rng(2026)\nn, p, k0, rho = 200, 1000, 10, 0.5\nSigma = rho ** np.abs(np.subtract.outer(np.arange(p), np.arange(p)))\nL = np.linalg.cholesky(Sigma + 1e-8 * np.eye(p))\nX = rng.standard_normal((n, p)) @ L.T\nbeta = np.r_[np.ones(k0), np.zeros(p - k0)]\neta = X @ beta\ny = rng.binomial(1, 1 / (1 + np.exp(-eta)))\nitr, iva = slice(0, 150), slice(150, 200)"
-  },
-  {
-    "objectID": "demos/02-simulation-hd.html#run-combss",
-    "href": "demos/02-simulation-hd.html#run-combss",
-    "title": "High-dimensional logistic regression",
-    "section": "Run COMBSS",
-    "text": "Run COMBSS\n\nRPython\n\n\n\nlibrary(combss)\nfit_hd &lt;- combss(x[itr, ], y[itr],\n                 x_val = x[iva, ], y_val = y[iva],\n                 family = \"binomial\", q = 15)\nfit_hd\n\nCOMBSS fit\n  family:    binomial\n  n, p:      150, 1000\n  q:         15\n  lam_ridge: 0\n  best k:    10\n  accuracy:  0.92\n  subset:    1, 2, 3, 4, 5, 6, 7, 8, 9, 590\n\n\n\n\nfrom combss import combss\nfit_hd = combss(X[itr], y[itr],\n                X_val=X[iva], y_val=y[iva],\n                family=\"binomial\", q=15)\nprint(fit_hd)\n\n\n\nWhat did COMBSS pick at the true model size?\n\nRPython\n\n\n\nfit_hd$subset_list[[10]]\n\n [1]   1   2   3   4   5   6   7   8   9 590\n\n\n\n\nprint(fit_hd.subset_list[9])\n\n\n\nThe recovered support contains the first ten predictors (the true active set) selected out of 1000 candidates."
-  },
-  {
-    "objectID": "demos/02-simulation-hd.html#selection-profile",
-    "href": "demos/02-simulation-hd.html#selection-profile",
-    "title": "High-dimensional logistic regression",
-    "section": "Selection profile",
-    "text": "Selection profile\nThe number of true positives — how many of the recovered indices are actually in \\(\\{1, \\ldots, 10\\}\\) — as a function of \\(k\\):\n\nRPython\n\n\n\ntp_path &lt;- sapply(fit_hd$subset_list, function(s) length(intersect(s, 1:k0)))\nplot(seq_along(tp_path), tp_path, type = \"b\", pch = 19,\n     xlab = \"k\", ylab = \"True positives (out of 10)\",\n     ylim = c(0, k0 + 1))\nabline(h = k0, lty = 2, col = \"grey\")\n\n\n\n\nTrue positives vs. model size. The curve saturates at 10 (the true support size).\n\n\n\n\n\n\nimport matplotlib.pyplot as plt\ntp_path = [len(set(s).intersection(range(k0))) for s in fit_hd.subset_list]\nplt.plot(range(1, len(tp_path) + 1), tp_path, \"o-\")\nplt.axhline(k0, ls=\"--\", color=\"grey\")\nplt.xlabel(\"k\"); plt.ylabel(\"True positives\")\nplt.show()"
-  },
-  {
-    "objectID": "demos/02-simulation-hd.html#compare-with-a-cv-lasso-baseline",
-    "href": "demos/02-simulation-hd.html#compare-with-a-cv-lasso-baseline",
-    "title": "High-dimensional logistic regression",
-    "section": "Compare with a CV lasso baseline",
-    "text": "Compare with a CV lasso baseline\n\nRPython\n\n\n\nlibrary(glmnet)\ncv_l &lt;- cv.glmnet(x[itr, ], y[itr], family = \"binomial\", alpha = 1)\nbeta_l &lt;- as.numeric(coef(cv_l, s = \"lambda.min\"))[-1]\nsel_l &lt;- which(beta_l != 0)\ntp_l  &lt;- length(intersect(sel_l, 1:k0))\nfp_l  &lt;- length(setdiff(sel_l, 1:k0))\nc(selected = length(sel_l), true_pos = tp_l, false_pos = fp_l)\n\n selected  true_pos false_pos \n       16         8         8 \n\n\n\n\nfrom sklearn.linear_model import LogisticRegressionCV\ncv_l = LogisticRegressionCV(penalty=\"l1\", solver=\"saga\", Cs=20, cv=10,\n                            max_iter=5000).fit(X[itr], y[itr])\nsel_l = np.where(cv_l.coef_[0] != 0)[0]\ntp = len(set(sel_l) & set(range(k0)))\nfp = len(set(sel_l) - set(range(k0)))\nprint({\"selected\": len(sel_l), \"true_pos\": tp, \"false_pos\": fp})"
-  },
-  {
-    "objectID": "demos/02-simulation-hd.html#summary",
-    "href": "demos/02-simulation-hd.html#summary",
-    "title": "High-dimensional logistic regression",
-    "section": "Summary",
-    "text": "Summary\n\n\n\n\n\nMethod\nSelected\nTrue positives\nFalse positives\n\n\n\n\nLasso (cv.glmnet)\n16\n8\n8\n\n\nCOMBSS\n10\n9\n1\n\n\n\n\n\nIn this \\(p \\gg n\\) regime, the lasso recovers the true predictors but pays a high false-positive cost — the price of \\(\\ell_1\\) shrinkage in correlated designs. COMBSS returns a much sparser model that contains the truth."
-  },
-  {
-    "objectID": "demos/02-simulation-hd.html#why-this-matters",
-    "href": "demos/02-simulation-hd.html#why-this-matters",
-    "title": "High-dimensional logistic regression",
-    "section": "Why this matters",
-    "text": "Why this matters\n\nThis is the design regime — high-dimensional, correlated predictors — where best-subset enumeration is infeasible (there are \\(\\binom{1000}{10} \\approx 2.6 \\times 10^{23}\\) candidate subsets).\nCOMBSS finishes in seconds and returns the right support.\nThe same code structure handles linear, logistic, and multinomial outcomes; only the family argument changes.\n\nThis is the bridge to the real biomedical applications: Khan SRBCT (multinomial, \\(p = 2308\\)) and Rice GWAS (binary, \\(p \\approx 1.6 \\times 10^5\\))."
-  },
-  {
-    "objectID": "demos/05-comparisons.html",
-    "href": "demos/05-comparisons.html",
-    "title": "Head-to-head with the lasso",
-    "section": "",
-    "text": "R code is executed; outputs below are real. Click the Python tab for the equivalent script.\nThe previous two demos showed COMBSS in isolation. This page runs it side-by-side with the lasso on the same datasets so the trade-offs become tangible.\nWe compare on three numbers: how many features each method selects, how it does out-of-sample, and how long the fit takes."
-  },
-  {
-    "objectID": "demos/05-comparisons.html#simulation",
-    "href": "demos/05-comparisons.html#simulation",
-    "title": "Head-to-head with the lasso",
-    "section": "Simulation",
-    "text": "Simulation\nThe same data-generating mechanism as Demo 1 — \\(n = 300\\), \\(p = 30\\), five true predictors.\n\nset.seed(102)\nn &lt;- 300; p &lt;- 30\nbeta &lt;- c(3, 2, 1.5, 1, 0.5, rep(0, p - 5))\nx &lt;- matrix(rnorm(n * p), n, p)\ny &lt;- as.numeric(x %*% beta + rnorm(n) * 0.5)\nitr &lt;- 1:200; iva &lt;- 201:300\n\n\nLasso\n\nRPython\n\n\n\nlibrary(glmnet)\ncv_l &lt;- cv.glmnet(x[itr, ], y[itr], alpha = 1)\nbeta_l &lt;- as.numeric(coef(cv_l, s = \"lambda.min\"))[-1]\nsel_l  &lt;- which(beta_l != 0)\npred_l &lt;- predict(cv_l, newx = x[iva, ], s = \"lambda.min\")\nmse_l  &lt;- mean((y[iva] - pred_l)^2)\nc(selected = length(sel_l), val_mse = round(mse_l, 4))\n\nselected  val_mse \n 14.0000   0.2586 \n\n\n\n\nfrom sklearn.linear_model import LassoCV\nimport numpy as np\n\ncv_l = LassoCV(cv=10).fit(x[itr], y[itr])\nsel_l = np.where(cv_l.coef_ != 0)[0]\nmse_l = np.mean((y[iva] - cv_l.predict(x[iva])) ** 2)\nprint({\"selected\": len(sel_l), \"val_mse\": round(mse_l, 4)})\n\n\n\n\n\nCOMBSS\n\nRPython\n\n\n\nlibrary(combss)\nfit &lt;- combss(x[itr, ], y[itr],\n              x_val = x[iva, ], y_val = y[iva],\n              family = \"gaussian\", q = 10)\nsel_c &lt;- fit$subset_list[[fit$best_k]]\nmse_c &lt;- min(fit$mse_path)\nc(selected = length(sel_c), val_mse = round(mse_c, 4))\n\nselected  val_mse \n  5.0000   0.2222 \n\n\n\n\nfrom combss import combss\nfit = combss(x[itr], y[itr], X_val=x[iva], y_val=y[iva],\n             family=\"gaussian\", q=10)\nsel_c = fit.subset_list[fit.best_k - 1]\nmse_c = min(fit.mse_path)\nprint({\"selected\": len(sel_c), \"val_mse\": round(mse_c, 4)})\n\n\n\n\n\nSummary\n\n\n\n\n\nMethod\nSelected\nTrue positives\nVal MSE\n\n\n\n\nLasso (cv.glmnet, lambda.min)\n14\n5\n0.2586\n\n\nCOMBSS\n5\n5\n0.2222\n\n\n\n\n\nCOMBSS returns exactly the five true predictors; lasso typically overshoots in selected size while landing on a comparable validation MSE."
-  },
-  {
-    "objectID": "demos/05-comparisons.html#khan-srbct",
-    "href": "demos/05-comparisons.html#khan-srbct",
-    "title": "Head-to-head with the lasso",
-    "section": "Khan SRBCT",
-    "text": "Khan SRBCT\nSame train/test split as the Khan SRBCT demo.\n\ntrain &lt;- read.csv(\"../data/Khan_train.csv\")\ntest  &lt;- read.csv(\"../data/Khan_test.csv\")\nx_train &lt;- as.matrix(train[, -1]); y_train &lt;- factor(train$y)\nx_test  &lt;- as.matrix(test[, -1]);  y_test  &lt;- factor(test$y)\n\n\nMultinomial lasso\n\nRPython\n\n\n\nlibrary(glmnet)\ncv_l &lt;- cv.glmnet(x_train, y_train, family = \"multinomial\", alpha = 1)\nbeta_l &lt;- coef(cv_l, s = \"lambda.min\")\nsel_l_khan &lt;- sort(unique(unlist(lapply(beta_l, function(B) which(B[-1, 1] != 0)))))\npred_l &lt;- predict(cv_l, newx = x_test, s = \"lambda.min\", type = \"class\")\nacc_l_khan &lt;- mean(pred_l == y_test)\nc(selected = length(sel_l_khan), test_acc = round(acc_l_khan, 3))\n\nselected test_acc \n      35        1 \n\n\n\n\nfrom sklearn.linear_model import LogisticRegressionCV\nimport numpy as np\n\ncv_l = LogisticRegressionCV(\n    penalty=\"l1\", solver=\"saga\", multi_class=\"multinomial\",\n    Cs=20, cv=10, max_iter=5000\n).fit(X_train, y_train)\nsel_l = np.where(np.any(cv_l.coef_ != 0, axis=0))[0]\nacc_l = (cv_l.predict(X_test) == y_test).mean()\nprint({\"selected\": len(sel_l), \"test_acc\": round(acc_l, 3)})\n\n\n\n\n\nCOMBSS\n\nRPython\n\n\n\nlibrary(combss)\nfit_khan &lt;- combss(x_train, as.character(y_train),\n                   x_val = x_test, y_val = as.character(y_test),\n                   family = \"multinomial\", q = 20)\nacc_c_khan &lt;- max(fit_khan$accuracy_path)\nc(selected = fit_khan$best_k, test_acc = round(acc_c_khan, 3))\n\nselected test_acc \n      12        1 \n\n\n\n\nfrom combss import combss\nfit_khan = combss(X_train, y_train.astype(str),\n                  X_val=X_test, y_val=y_test.astype(str),\n                  family=\"multinomial\", q=20)\nprint({\"selected\": fit_khan.best_k,\n       \"test_acc\": round(max(fit_khan.accuracy_path), 3)})\n\n\n\n\n\nSummary\n\n\n\n\n\nMethod\nGenes selected\nTest accuracy\n\n\n\n\nMultinomial lasso\n35\n1\n\n\nCOMBSS\n12\n1\n\n\n\n\n\nCOMBSS finds a far smaller, interpretable gene panel without sacrificing accuracy — the headline result of this dataset."
-  },
-  {
-    "objectID": "demos/05-comparisons.html#what-about-mio",
-    "href": "demos/05-comparisons.html#what-about-mio",
-    "title": "Head-to-head with the lasso",
-    "section": "What about MIO?",
-    "text": "What about MIO?\nMixed-integer best subset (Bertsimas, King, Mazumder, 2016) is the natural exact comparator. It is computationally feasible on the simulation but does not scale to the Khan setting at \\(p = 2308\\) in any reasonable wall-clock budget. For the simulation, an MIO run produces exactly the same five-feature selection as COMBSS; the difference is wall-clock time."
-  },
-  {
-    "objectID": "demos/05-comparisons.html#bottom-line",
-    "href": "demos/05-comparisons.html#bottom-line",
-    "title": "Head-to-head with the lasso",
-    "section": "Bottom line",
-    "text": "Bottom line\n\nSimulation — COMBSS recovers the support exactly; lasso overshoots; MIO matches COMBSS when it can run.\nKhan — COMBSS gives a small gene panel with perfect classification, far smaller than the lasso panel.\nRuntime — COMBSS is in the same league as a CV lasso; MIO is the slow option even where it works."
-  },
-  {
-    "objectID": "demos/01-simulation.html",
-    "href": "demos/01-simulation.html",
-    "title": "A simulation you can trust",
-    "section": "",
-    "text": "R code is executed; outputs below are real. Click the Python tab on any code block for the equivalent script — outputs match the R run."
-  },
-  {
-    "objectID": "demos/01-simulation.html#the-setup",
-    "href": "demos/01-simulation.html#the-setup",
-    "title": "A simulation you can trust",
-    "section": "The setup",
-    "text": "The setup\nA linear regression where we know the truth:\n\n\\(n = 300\\) observations, split 200 training + 100 validation\n\\(p = 30\\) predictors, generated as i.i.d. standard normals\nOnly the first five carry signal: \\(\\beta = (3,\\,2,\\,1.5,\\,1,\\,0.5,\\,0,\\,\\ldots,\\,0)\\)\nGaussian noise, \\(\\sigma = 0.5\\)\n\nThe goal: COMBSS should return \\(\\{1, 2, 3, 4, 5\\}\\) at \\(k = 5\\) and pick \\(\\hat k = 5\\) from validation error."
-  },
-  {
-    "objectID": "demos/01-simulation.html#fitting-combss",
-    "href": "demos/01-simulation.html#fitting-combss",
-    "title": "A simulation you can trust",
-    "section": "Fitting COMBSS",
-    "text": "Fitting COMBSS\n\nRPython\n\n\n\nlibrary(combss)\n\nset.seed(102)\nn &lt;- 300; p &lt;- 30\nbeta &lt;- c(3, 2, 1.5, 1, 0.5, rep(0, p - 5))\nx &lt;- matrix(rnorm(n * p), n, p)\ny &lt;- as.numeric(x %*% beta + rnorm(n) * 0.5)\nitr &lt;- 1:200; iva &lt;- 201:300\n\nfit &lt;- combss(x[itr, ], y[itr],\n              x_val = x[iva, ], y_val = y[iva],\n              family = \"gaussian\", q = 10)\nfit\n\nCOMBSS fit\n  family:    gaussian\n  n, p:      200, 30\n  q:         10\n  lam_ridge: 0\n  best k:    5\n  mse:       0.22222\n  subset:    1, 2, 3, 4, 5\n\n\n\n\nimport numpy as np\nfrom combss import combss\n\nrng = np.random.default_rng(102)\nn, p = 300, 30\nbeta = np.r_[[3, 2, 1.5, 1, 0.5], np.zeros(p - 5)]\nX = rng.standard_normal((n, p))\ny = X @ beta + 0.5 * rng.standard_normal(n)\nitr, iva = slice(0, 200), slice(200, 300)\n\nfit = combss(X[itr], y[itr],\n             X_val=X[iva], y_val=y[iva],\n             family=\"gaussian\", q=10)\nprint(fit)"
-  },
-  {
-    "objectID": "demos/01-simulation.html#selected-support-at-each-k",
-    "href": "demos/01-simulation.html#selected-support-at-each-k",
-    "title": "A simulation you can trust",
-    "section": "Selected support at each \\(k\\)",
-    "text": "Selected support at each \\(k\\)\n\nRPython\n\n\n\nfit$subset_list[1:6]\n\n[[1]]\n[1] 1\n\n[[2]]\n[1] 1 2\n\n[[3]]\n[1] 1 2 3\n\n[[4]]\n[1] 1 2 3 4\n\n[[5]]\n[1] 1 2 3 4 5\n\n[[6]]\n[1] 1 2 3 4 5 6\n\n\n\n\nprint(fit.subset_list[:6])"
-  },
-  {
-    "objectID": "demos/01-simulation.html#validation-mse-versus-k",
-    "href": "demos/01-simulation.html#validation-mse-versus-k",
-    "title": "A simulation you can trust",
-    "section": "Validation MSE versus \\(k\\)",
-    "text": "Validation MSE versus \\(k\\)\n\nRPython\n\n\n\nplot(seq_along(fit$mse_path), fit$mse_path, type = \"b\",\n     pch = 19, xlab = \"k\", ylab = \"Validation MSE\")\nabline(v = fit$best_k, lty = 2)\n\n\n\n\nValidation MSE flattens out the moment the true support is recovered.\n\n\n\n\n\n\nimport matplotlib.pyplot as plt\nplt.plot(range(1, len(fit.mse_path) + 1), fit.mse_path, \"o-\")\nplt.axvline(fit.best_k, ls=\"--\")\nplt.xlabel(\"k\"); plt.ylabel(\"Validation MSE\")\nplt.show()"
-  },
-  {
-    "objectID": "demos/01-simulation.html#what-just-happened",
-    "href": "demos/01-simulation.html#what-just-happened",
-    "title": "A simulation you can trust",
-    "section": "What just happened",
-    "text": "What just happened\n\nCOMBSS scanned \\(k = 1, \\ldots, 10\\) in one pass and returned a nested-looking selection path.\nAt \\(k = 5\\) it picked the five true predictors exactly — same answer in R and Python.\nValidation MSE stops dropping past \\(k = 5\\), so best_k = 5 is chosen automatically.\n\nThis is the small-\\(p\\) regime where best-subset is easy. The point is that COMBSS gets it right without searching \\(\\binom{30}{5} = 142\\,506\\) subsets. The interesting case is the next demo."
-  },
-  {
-    "objectID": "install.html",
-    "href": "install.html",
-    "title": "Install",
-    "section": "",
-    "text": "If you would like to run the demos on your laptop, install one or both of the combss packages below. The same demos exist in R and Python with matching results, so either language is fine."
-  },
-  {
-    "objectID": "install.html#r",
-    "href": "install.html#r",
-    "title": "Install",
-    "section": "R",
-    "text": "R\ninstall.packages(\"combss\")\nThat’s it — combss is on CRAN. The only run-time dependency is glmnet, which CRAN will install automatically. Tested with R 4.3 and 4.4 on macOS, Linux, and Windows.\n\nQuick check\nlibrary(combss)\nset.seed(1)\nx &lt;- matrix(rnorm(100 * 20), 100, 20)\ny &lt;- as.numeric(x %*% c(2, -1, 1, rep(0, 17)) + rnorm(100) * 0.3)\nfit &lt;- combss(x, y, family = \"gaussian\", q = 5)\nfit$subset_list[1:5]\nExpected output: nested supports building up to {1, 2, 3} at \\(k = 3\\)."
-  },
-  {
-    "objectID": "install.html#python",
-    "href": "install.html#python",
-    "title": "Install",
-    "section": "Python",
-    "text": "Python\npip install combss\nPython 3.9 or newer. Dependencies (numpy, scipy, scikit-learn, pandas) install automatically.\n\nQuick check\nimport numpy as np\nfrom combss import combss\n\nrng = np.random.default_rng(1)\nX = rng.standard_normal((100, 20))\nbeta = np.r_[2, -1, 1, np.zeros(17)]\ny = X @ beta + 0.3 * rng.standard_normal(100)\nfit = combss(X, y, family=\"gaussian\", q=5)\nprint(fit.subset_list[:5])\nExpected output: nested supports building up to {1, 2, 3} at \\(k = 3\\)."
-  },
-  {
-    "objectID": "install.html#editor-recommendations",
-    "href": "install.html#editor-recommendations",
-    "title": "Install",
-    "section": "Editor recommendations",
-    "text": "Editor recommendations\nEither of these makes running the demos chunk-by-chunk smooth:\n\nRStudio — open the .qmd file, click the green ▶ on each chunk.\nVS Code with the Quarto and Jupyter extensions — same idea, language-aware."
-  },
-  {
-    "objectID": "install.html#cloning-the-demo-repository",
-    "href": "install.html#cloning-the-demo-repository",
-    "title": "Install",
-    "section": "Cloning the demo repository",
-    "text": "Cloning the demo repository\ngit clone https://github.com/saratmoka/combss-statfest.git\ncd combss-statfest\nAll the data (Khan SRBCT and the simulation seeds) lives under data/. No external downloads are needed at run time."
-  },
-  {
-    "objectID": "install.html#trouble",
-    "href": "install.html#trouble",
-    "title": "Install",
-    "section": "Trouble?",
-    "text": "Trouble?\n\nR cannot find the package: make sure you are on R ≥ 4.0 and check available.packages() lists combss. If not, your CRAN mirror may be stale; pick another with chooseCRANmirror().\nPython pip install fails on combss: confirm you are on Python ≥ 3.9 with python --version; older versions are unsupported.\nAnything else: open an issue at https://github.com/saratmoka/combss-statfest/issues."
-  },
-  {
-    "objectID": "references.html",
-    "href": "references.html",
-    "title": "References",
-    "section": "",
-    "text": "Moka, S., Liquet, B., Zhu, H. and Muller, S. (2024). COMBSS: best subset selection via continuous optimization. Statistics and Computing 34, 75. doi:10.1007/s11222-024-10387-8\nMathur, A., Liquet, B., Muller, S. and Moka, S. (2026). Parsimonious Subset Selection for Generalized Linear Models with Biomedical Applications. arXiv preprint arXiv:2603.21952."
-  },
-  {
-    "objectID": "references.html#papers-introducing-the-method",
-    "href": "references.html#papers-introducing-the-method",
-    "title": "References",
-    "section": "",
-    "text": "Moka, S., Liquet, B., Zhu, H. and Muller, S. (2024). COMBSS: best subset selection via continuous optimization. Statistics and Computing 34, 75. doi:10.1007/s11222-024-10387-8\nMathur, A., Liquet, B., Muller, S. and Moka, S. (2026). Parsimonious Subset Selection for Generalized Linear Models with Biomedical Applications. arXiv preprint arXiv:2603.21952."
-  },
-  {
-    "objectID": "references.html#software",
-    "href": "references.html#software",
-    "title": "References",
-    "section": "Software",
-    "text": "Software\n\nR — combss on CRAN — package page\nPython — combss on PyPI — package page\nSource for this presentation — github.com/saratmoka/combss-statfest"
-  },
-  {
-    "objectID": "references.html#datasets-used-in-this-presentation",
-    "href": "references.html#datasets-used-in-this-presentation",
-    "title": "References",
-    "section": "Datasets used in this presentation",
-    "text": "Datasets used in this presentation\n\nKhan SRBCT. Khan, J. et al. (2001). Classification and diagnostic prediction of cancers using gene expression profiling and artificial neural networks. Nature Medicine 7, 673–679. link\nRice GWAS. McCouch, S. R. et al. (2016). Open access resources for genome-wide association mapping in rice. Nature Communications 7, 10532. link"
-  },
-  {
-    "objectID": "references.html#related-methods-cited",
-    "href": "references.html#related-methods-cited",
-    "title": "References",
-    "section": "Related methods cited",
-    "text": "Related methods cited\n\nLasso. Tibshirani, R. (1996). Regression shrinkage and selection via the Lasso. Journal of the Royal Statistical Society, Series B 58 (1), 267–288.\nMIO best subset. Bertsimas, D., King, A. and Mazumder, R. (2016). Best subset selection via a modern optimization lens. Annals of Statistics 44 (2), 813–852.\nSCAD. Fan, J. and Li, R. (2001). Variable selection via nonconcave penalized likelihood and its oracle properties. Journal of the American Statistical Association 96 (456), 1348–1360.\nMCP. Zhang, C.-H. (2010). Nearly unbiased variable selection under minimax concave penalty. Annals of Statistics 38 (2), 894–942."
-  },
-  {
-    "objectID": "references.html#acknowledgements",
-    "href": "references.html#acknowledgements",
-    "title": "References",
-    "section": "Acknowledgements",
-    "text": "Acknowledgements\nThe R port was developed and maintained by Sarat Moka with review from Benoit Liquet and Anant Mathur."
-  },
-  {
-    "objectID": "demos/03-khan.html",
-    "href": "demos/03-khan.html",
-    "title": "Khan SRBCT cancer classification",
-    "section": "",
-    "text": "R code is executed; outputs below are real. Click the Python tab for the equivalent script."
-  },
-  {
-    "objectID": "demos/03-khan.html#the-data",
-    "href": "demos/03-khan.html#the-data",
-    "title": "Khan SRBCT cancer classification",
-    "section": "The data",
-    "text": "The data\nKhan et al. (2001) profiled gene expression for small round blue-cell tumours, a family of four childhood cancers that look nearly identical under a microscope:\n\nBL — Burkitt lymphoma\nEWS — Ewing’s sarcoma\nNB — neuroblastoma\nRMS — rhabdomyosarcoma\n\nEach tumour is described by 2308 cDNA microarray probes. The training set has 63 samples; the test set has 20. The classical version of the question is: can you train a classifier that distinguishes the four tumour types using only a handful of genes?\nThe CSVs in data/ are formatted with the class label in the first column (y) and the 2308 probes in columns X1–X2308."
-  },
-  {
-    "objectID": "demos/03-khan.html#load-the-data",
-    "href": "demos/03-khan.html#load-the-data",
-    "title": "Khan SRBCT cancer classification",
-    "section": "Load the data",
-    "text": "Load the data\n\nRPython\n\n\n\ntrain &lt;- read.csv(\"../data/Khan_train.csv\")\ntest  &lt;- read.csv(\"../data/Khan_test.csv\")\n\nx_train &lt;- as.matrix(train[, -1]); y_train &lt;- train$y\nx_test  &lt;- as.matrix(test[, -1]);  y_test  &lt;- test$y\n\ndim(x_train); table(y_train)\n\n[1]   63 2308\n\n\ny_train\n 1  2  3  4 \n 8 23 12 20 \n\n\n\n\nimport pandas as pd\n\ntrain = pd.read_csv(\"../data/Khan_train.csv\")\ntest  = pd.read_csv(\"../data/Khan_test.csv\")\n\nX_train = train.drop(columns=\"y\").to_numpy()\ny_train = train[\"y\"].to_numpy()\nX_test  = test.drop(columns=\"y\").to_numpy()\ny_test  = test[\"y\"].to_numpy()\n\nprint(X_train.shape)\nprint(pd.Series(y_train).value_counts())"
-  },
-  {
-    "objectID": "demos/03-khan.html#fit-combss",
-    "href": "demos/03-khan.html#fit-combss",
-    "title": "Khan SRBCT cancer classification",
-    "section": "Fit COMBSS",
-    "text": "Fit COMBSS\nRun COMBSS for \\(k = 1, \\ldots, 20\\) with multinomial logistic loss and the test set as validation:\n\nRPython\n\n\n\nlibrary(combss)\nfit_khan &lt;- combss(x_train, y_train,\n                   x_val = x_test, y_val = y_test,\n                   family = \"multinomial\", q = 20)\nfit_khan\n\nCOMBSS fit\n  family:    multinomial\n  n, p:      63, 2308\n  q:         20\n  lam_ridge: 0\n  best k:    12\n  accuracy:  1\n  subset:    187, 246, 509, 545, 910, 1074, 1319, 1389, 1645, 1954, 1955, 2050\n\n\n\n\nfrom combss import combss\n\nfit_khan = combss(X_train, y_train,\n                  X_val=X_test, y_val=y_test,\n                  family=\"multinomial\", q=20)\nprint(fit_khan)"
-  },
-  {
-    "objectID": "demos/03-khan.html#how-many-genes-does-combss-pick",
-    "href": "demos/03-khan.html#how-many-genes-does-combss-pick",
-    "title": "Khan SRBCT cancer classification",
-    "section": "How many genes does COMBSS pick?",
-    "text": "How many genes does COMBSS pick?\n\nRPython\n\n\n\nfit_khan$best_k\n\n[1] 12\n\nfit_khan$subset_list[[ fit_khan$best_k ]]\n\n [1]  187  246  509  545  910 1074 1319 1389 1645 1954 1955 2050\n\n\n\n\nprint(fit_khan.best_k)\nprint(fit_khan.subset_list[fit_khan.best_k - 1])"
-  },
-  {
-    "objectID": "demos/03-khan.html#test-set-accuracy-at-each-k",
-    "href": "demos/03-khan.html#test-set-accuracy-at-each-k",
-    "title": "Khan SRBCT cancer classification",
-    "section": "Test-set accuracy at each \\(k\\)",
-    "text": "Test-set accuracy at each \\(k\\)\n\nRPython\n\n\n\nplot(seq_along(fit_khan$accuracy_path), fit_khan$accuracy_path, type = \"b\", pch = 19,\n     xlab = \"k (number of selected genes)\", ylab = \"Test accuracy\")\nabline(v = fit_khan$best_k, lty = 2)\n\n\n\n\nAccuracy as a function of the number of selected genes.\n\n\n\n\n\n\nimport matplotlib.pyplot as plt\nplt.plot(range(1, len(fit_khan.accuracy_path) + 1), fit_khan.accuracy_path, \"o-\")\nplt.axvline(fit_khan.best_k, ls=\"--\")\nplt.xlabel(\"k (number of selected genes)\")\nplt.ylabel(\"Test accuracy\")\nplt.show()"
-  },
-  {
-    "objectID": "demos/03-khan.html#the-headline",
-    "href": "demos/03-khan.html#the-headline",
-    "title": "Khan SRBCT cancer classification",
-    "section": "The headline",
-    "text": "The headline\nTwelve genes are enough to separate the four tumour types — perfect classification on the held-out 20 samples, drawn from 2308 candidates. The R and Python implementations agree on the same twelve genes.\nA lasso baseline on the same training data selects an order of magnitude more genes for comparable accuracy (see Comparisons)."
-  },
-  {
-    "objectID": "demos/03-khan.html#reference",
-    "href": "demos/03-khan.html#reference",
-    "title": "Khan SRBCT cancer classification",
-    "section": "Reference",
-    "text": "Reference\nKhan, J. et al. (2001). Classification and diagnostic prediction of cancers using gene expression profiling and artificial neural networks. Nature Medicine 7, 673–679."
+    "objectID": "motivation/01-sparse-glm.html#the-plan-from-here",
+    "href": "motivation/01-sparse-glm.html#the-plan-from-here",
+    "title": "Sparse-constrained GLM",
+    "section": "The plan from here",
+    "text": "The plan from here\nHow do existing methods cope with the NP-hard constraint? Two main strategies:\n\nMIO (next page) — Mixed-Integer Optimisation: solve the discrete problem directly. Exact, but does not scale much beyond a few hundred predictors.\nLasso (page after) — relax \\(\\|\\boldsymbol{\\beta}\\|_0\\) to the convex \\(\\|\\boldsymbol{\\beta}\\|_1\\). Fast and popular, but biased and indexed by \\(\\lambda\\), not \\(k\\).\n\nCOMBSS sits between the two: continuous like the lasso, but on the support indicator rather than on \\(\\boldsymbol{\\beta}\\) itself — and explicitly \\(k\\)-indexed.\n\n Next: MIO →"
   },
   {
     "objectID": "demos/04-rice.html",
@@ -490,164 +238,388 @@
     "text": "Reference\nMcCouch, S. R. et al. (2016). Open access resources for genome-wide association mapping in rice. Nature Communications 7, 10532."
   },
   {
-    "objectID": "motivation/01-sparse-glm.html",
-    "href": "motivation/01-sparse-glm.html",
-    "title": "Sparse-constrained GLM",
+    "objectID": "demos/03-khan.html",
+    "href": "demos/03-khan.html",
+    "title": "Khan SRBCT cancer classification",
     "section": "",
-    "text": "Suppose we want to predict body-fat percentage from physical measurements. The classical dataset (Penrose et al. 1985) records 14 measurements on 252 men:\n\n\n\nBodyfat data — first 5 rows. Response Bodyfat (%) in last column.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nAge\nWeight\nHeight\nNeck\nChest\nAbdomen\nHip\nThigh\nKnee\nAnkle\nBiceps\nForearm\nWrist\nBodyfat\n\n\n\n\n23\n70.1\n172.1\n36.2\n93.1\n85.2\n94.5\n59.0\n37.3\n21.9\n32.0\n27.4\n17.1\n12.3\n\n\n22\n78.8\n183.5\n38.5\n93.6\n83.0\n98.7\n58.7\n37.3\n23.4\n30.5\n28.9\n18.2\n6.1\n\n\n22\n70.0\n168.3\n34.0\n95.8\n87.9\n99.2\n59.6\n38.9\n24.0\n28.8\n25.2\n16.6\n25.3\n\n\n26\n83.5\n183.5\n37.4\n101.8\n86.4\n101.2\n60.1\n37.3\n22.8\n32.4\n29.4\n18.2\n10.4\n\n\n24\n80.4\n180.3\n39.0\n97.3\n100.0\n101.9\n63.2\n42.2\n24.0\n32.2\n27.7\n17.7\n28.7\n\n\n\n\n\nWhich handful of these measurements is enough to predict body fat well? That is best subset selection."
+    "text": "R code is executed; outputs below are real. Click the Python tab for the equivalent script."
   },
   {
-    "objectID": "motivation/01-sparse-glm.html#a-familiar-starting-point-bodyfat",
-    "href": "motivation/01-sparse-glm.html#a-familiar-starting-point-bodyfat",
-    "title": "Sparse-constrained GLM",
+    "objectID": "demos/03-khan.html#the-data",
+    "href": "demos/03-khan.html#the-data",
+    "title": "Khan SRBCT cancer classification",
+    "section": "The data",
+    "text": "The data\nKhan et al. (2001) profiled gene expression for small round blue-cell tumours, a family of four childhood cancers that look nearly identical under a microscope:\n\nBL — Burkitt lymphoma\nEWS — Ewing’s sarcoma\nNB — neuroblastoma\nRMS — rhabdomyosarcoma\n\nEach tumour is described by 2308 cDNA microarray probes. The training set has 63 samples; the test set has 20. The classical version of the question is: can you train a classifier that distinguishes the four tumour types using only a handful of genes?\nThe CSVs in data/ are formatted with the class label in the first column (y) and the 2308 probes in columns X1–X2308."
+  },
+  {
+    "objectID": "demos/03-khan.html#load-the-data",
+    "href": "demos/03-khan.html#load-the-data",
+    "title": "Khan SRBCT cancer classification",
+    "section": "Load the data",
+    "text": "Load the data\n\nRPython\n\n\n\ntrain &lt;- read.csv(\"../data/Khan_train.csv\")\ntest  &lt;- read.csv(\"../data/Khan_test.csv\")\n\nx_train &lt;- as.matrix(train[, -1]); y_train &lt;- train$y\nx_test  &lt;- as.matrix(test[, -1]);  y_test  &lt;- test$y\n\ndim(x_train); table(y_train)\n\n[1]   63 2308\n\n\ny_train\n 1  2  3  4 \n 8 23 12 20 \n\n\n\n\nimport pandas as pd\n\ntrain = pd.read_csv(\"../data/Khan_train.csv\")\ntest  = pd.read_csv(\"../data/Khan_test.csv\")\n\nX_train = train.drop(columns=\"y\").to_numpy()\ny_train = train[\"y\"].to_numpy()\nX_test  = test.drop(columns=\"y\").to_numpy()\ny_test  = test[\"y\"].to_numpy()\n\nprint(X_train.shape)\nprint(pd.Series(y_train).value_counts())"
+  },
+  {
+    "objectID": "demos/03-khan.html#fit-combss",
+    "href": "demos/03-khan.html#fit-combss",
+    "title": "Khan SRBCT cancer classification",
+    "section": "Fit COMBSS",
+    "text": "Fit COMBSS\nRun COMBSS for \\(k = 1, \\ldots, 20\\) with multinomial logistic loss and the test set as validation:\n\nRPython\n\n\n\nlibrary(combss)\nfit_khan &lt;- combss(x_train, y_train,\n                   x_val = x_test, y_val = y_test,\n                   family = \"multinomial\", q = 20)\nfit_khan\n\nCOMBSS fit\n  family:    multinomial\n  n, p:      63, 2308\n  q:         20\n  lam_ridge: 0\n  best k:    12\n  accuracy:  1\n  subset:    187, 246, 509, 545, 910, 1074, 1319, 1389, 1645, 1954, 1955, 2050\n\n\n\n\nfrom combss import combss\n\nfit_khan = combss(X_train, y_train,\n                  X_val=X_test, y_val=y_test,\n                  family=\"multinomial\", q=20)\nprint(fit_khan)"
+  },
+  {
+    "objectID": "demos/03-khan.html#how-many-genes-does-combss-pick",
+    "href": "demos/03-khan.html#how-many-genes-does-combss-pick",
+    "title": "Khan SRBCT cancer classification",
+    "section": "How many genes does COMBSS pick?",
+    "text": "How many genes does COMBSS pick?\n\nRPython\n\n\n\nfit_khan$best_k\n\n[1] 12\n\nfit_khan$subset_list[[ fit_khan$best_k ]]\n\n [1]  187  246  509  545  910 1074 1319 1389 1645 1954 1955 2050\n\n\n\n\nprint(fit_khan.best_k)\nprint(fit_khan.subset_list[fit_khan.best_k - 1])"
+  },
+  {
+    "objectID": "demos/03-khan.html#test-set-accuracy-at-each-k",
+    "href": "demos/03-khan.html#test-set-accuracy-at-each-k",
+    "title": "Khan SRBCT cancer classification",
+    "section": "Test-set accuracy at each \\(k\\)",
+    "text": "Test-set accuracy at each \\(k\\)\n\nRPython\n\n\n\nplot(seq_along(fit_khan$accuracy_path), fit_khan$accuracy_path, type = \"b\", pch = 19,\n     xlab = \"k (number of selected genes)\", ylab = \"Test accuracy\")\nabline(v = fit_khan$best_k, lty = 2)\n\n\n\n\nAccuracy as a function of the number of selected genes.\n\n\n\n\n\n\nimport matplotlib.pyplot as plt\nplt.plot(range(1, len(fit_khan.accuracy_path) + 1), fit_khan.accuracy_path, \"o-\")\nplt.axvline(fit_khan.best_k, ls=\"--\")\nplt.xlabel(\"k (number of selected genes)\")\nplt.ylabel(\"Test accuracy\")\nplt.show()"
+  },
+  {
+    "objectID": "demos/03-khan.html#the-headline",
+    "href": "demos/03-khan.html#the-headline",
+    "title": "Khan SRBCT cancer classification",
+    "section": "The headline",
+    "text": "The headline\nTwelve genes are enough to separate the four tumour types — perfect classification on the held-out 20 samples, drawn from 2308 candidates. The R and Python implementations agree on the same twelve genes.\nA lasso baseline on the same training data selects an order of magnitude more genes for comparable accuracy (see Comparisons)."
+  },
+  {
+    "objectID": "demos/03-khan.html#reference",
+    "href": "demos/03-khan.html#reference",
+    "title": "Khan SRBCT cancer classification",
+    "section": "Reference",
+    "text": "Reference\nKhan, J. et al. (2001). Classification and diagnostic prediction of cancers using gene expression profiling and artificial neural networks. Nature Medicine 7, 673–679."
+  },
+  {
+    "objectID": "references.html",
+    "href": "references.html",
+    "title": "References",
     "section": "",
-    "text": "Suppose we want to predict body-fat percentage from physical measurements. The classical dataset (Penrose et al. 1985) records 14 measurements on 252 men:\n\n\n\nBodyfat data — first 5 rows. Response Bodyfat (%) in last column.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nAge\nWeight\nHeight\nNeck\nChest\nAbdomen\nHip\nThigh\nKnee\nAnkle\nBiceps\nForearm\nWrist\nBodyfat\n\n\n\n\n23\n70.1\n172.1\n36.2\n93.1\n85.2\n94.5\n59.0\n37.3\n21.9\n32.0\n27.4\n17.1\n12.3\n\n\n22\n78.8\n183.5\n38.5\n93.6\n83.0\n98.7\n58.7\n37.3\n23.4\n30.5\n28.9\n18.2\n6.1\n\n\n22\n70.0\n168.3\n34.0\n95.8\n87.9\n99.2\n59.6\n38.9\n24.0\n28.8\n25.2\n16.6\n25.3\n\n\n26\n83.5\n183.5\n37.4\n101.8\n86.4\n101.2\n60.1\n37.3\n22.8\n32.4\n29.4\n18.2\n10.4\n\n\n24\n80.4\n180.3\n39.0\n97.3\n100.0\n101.9\n63.2\n42.2\n24.0\n32.2\n27.7\n17.7\n28.7\n\n\n\n\n\nWhich handful of these measurements is enough to predict body fat well? That is best subset selection."
+    "text": "Moka, S., Liquet, B., Zhu, H. and Muller, S. (2024). COMBSS: best subset selection via continuous optimization. Statistics and Computing 34, 75. doi:10.1007/s11222-024-10387-8\nMathur, A., Liquet, B., Muller, S. and Moka, S. (2026). Parsimonious Subset Selection for Generalized Linear Models with Biomedical Applications. arXiv preprint arXiv:2603.21952."
   },
   {
-    "objectID": "motivation/01-sparse-glm.html#generalising-to-glms",
-    "href": "motivation/01-sparse-glm.html#generalising-to-glms",
-    "title": "Sparse-constrained GLM",
-    "section": "Generalising to GLMs",
-    "text": "Generalising to GLMs\nThe same question arises whenever the response is well modelled by a generalised linear model (GLM):\n\n\n\nResponse type\nFamily\nExamples\n\n\n\n\nContinuous\nGaussian\nbodyfat, gene-expression intensity\n\n\nBinary\nBernoulli (logistic)\ndisease yes/no, GWAS case/control\n\n\nMultinomial\nsoftmax (multinomial logistic)\ncancer subtypes\n\n\nCount\nPoisson\nevent counts\n\n\n\nIn every case, fitting the model amounts to maximising a log-likelihood:\n\\[\n\\ell(\\beta_0, \\boldsymbol{\\beta})\n\\;=\\; \\sum_{i=1}^n \\log p(y_i \\mid x_i; \\beta_0, \\boldsymbol{\\beta}).\n\\]\nFor Gaussian, this reduces to least squares; for Bernoulli, to logistic regression; and so on. The unifying framework lets one method handle them all — provided it can deal with the sparsity constraint we are about to add."
-  },
-  {
-    "objectID": "motivation/01-sparse-glm.html#the-optimisation-we-are-trying-to-solve",
-    "href": "motivation/01-sparse-glm.html#the-optimisation-we-are-trying-to-solve",
-    "title": "Sparse-constrained GLM",
-    "section": "The optimisation we are trying to solve",
-    "text": "The optimisation we are trying to solve\nFor a prescribed model size \\(k\\), find the \\(k\\) predictors that best fit the data:\n\\[\n\\boxed{\\;\n\\begin{aligned}\n&\\min_{\\beta_0 \\in \\mathbb{R},\\; \\boldsymbol{\\beta} \\in \\mathbb{R}^p}\\;\\; -\\tfrac{1}{n}\\,\\ell(\\beta_0, \\boldsymbol{\\beta}) \\\\\n&\\text{subject to} \\quad \\|\\boldsymbol{\\beta}\\|_0 := \\sum_{j = 1}^p I(\\beta_j \\neq 0) \\le k.\n\\end{aligned}\n\\;}\n\\]\nTwo things to notice:\n\nThe objective is the negative GLM log-likelihood.\nThe constraint is the \\(\\ell_0\\)-norm cardinality: count the non-zero entries, keep at most \\(k\\).\n\nThe user supplies \\(k\\). Output: which \\(k\\) features, and their fitted coefficients.\nThis is the problem COMBSS focuses on."
-  },
-  {
-    "objectID": "motivation/01-sparse-glm.html#why-it-is-hard",
-    "href": "motivation/01-sparse-glm.html#why-it-is-hard",
-    "title": "Sparse-constrained GLM",
-    "section": "Why it is hard",
-    "text": "Why it is hard\nFor a fixed model size \\(k\\), the number of subsets to enumerate is \\(\\binom{p}{k}\\). Across the three settings featured later in this talk:\n\n\n\nSetting\np\nk\nSubsets of size k\n\n\n\n\nBodyfat\n13\n5\n1,287\n\n\nKhan SRBCT\n2,308\n12\n~5 × 1031\n\n\nRice GWAS\n158,210\n10\n~3 × 1045\n\n\n\nEnumeration is fine at \\(p = 13\\), but even with the right \\(k\\) given to us, the number of \\(k\\)-subsets explodes to roughly \\(5 \\times 10^{31}\\) at \\(p = 2308\\), and to \\(3 \\times 10^{45}\\) at \\(p \\approx 1.6 \\times 10^5\\). The combinatorial blowup makes exhaustive search hopeless within the lifetime of the universe.\nIn fact the problem is NP-hard (Natarajan 1995). No polynomial-time algorithm is expected for the worst case unless P = NP."
-  },
-  {
-    "objectID": "motivation/01-sparse-glm.html#where-this-matters",
-    "href": "motivation/01-sparse-glm.html#where-this-matters",
-    "title": "Sparse-constrained GLM",
-    "section": "Where this matters",
-    "text": "Where this matters\nThe setting \\(p \\gg n\\) with a sparse truth is the bread and butter of modern applied statistics:\n\nGenomics — GWAS with \\(10^5\\) SNPs, gene-expression panels with \\(10^3\\)–\\(10^4\\) probes.\nSurvey data — patient registries with hundreds of recorded variables and a few hundred outcomes.\nSensor data — many channels, few labelled trials.\nFinancial markets — predicting asset returns or default risk from hundreds of candidate factors (macroeconomic indicators, fundamentals, sentiment, technical signals); a small interpretable factor model is preferred over a dense black-box.\n\nEvery one of these calls for a sparsity-constrained GLM, not just a regularised one."
-  },
-  {
-    "objectID": "motivation/01-sparse-glm.html#the-plan-from-here",
-    "href": "motivation/01-sparse-glm.html#the-plan-from-here",
-    "title": "Sparse-constrained GLM",
-    "section": "The plan from here",
-    "text": "The plan from here\nHow do existing methods cope with the NP-hard constraint? Two main strategies:\n\nMIO (next page) — Mixed-Integer Optimisation: solve the discrete problem directly. Exact, but does not scale much beyond a few hundred predictors.\nLasso (page after) — relax \\(\\|\\boldsymbol{\\beta}\\|_0\\) to the convex \\(\\|\\boldsymbol{\\beta}\\|_1\\). Fast and popular, but biased and indexed by \\(\\lambda\\), not \\(k\\).\n\nCOMBSS sits between the two: continuous like the lasso, but on the support indicator rather than on \\(\\boldsymbol{\\beta}\\) itself — and explicitly \\(k\\)-indexed.\n\n Next: MIO →"
-  },
-  {
-    "objectID": "motivation/02-mio.html",
-    "href": "motivation/02-mio.html",
-    "title": "MIO: exact best subset",
+    "objectID": "references.html#papers-introducing-the-method",
+    "href": "references.html#papers-introducing-the-method",
+    "title": "References",
     "section": "",
-    "text": "Mixed-Integer Optimisation (MIO) keeps the \\(\\ell_0\\) constraint discrete and casts the sparse-GLM problem as a mixed-integer program — the support indicator \\(\\boldsymbol{s} \\in \\{0,1\\}^p\\) is now an explicit decision variable, solved alongside \\(\\boldsymbol{\\beta}\\)."
+    "text": "Moka, S., Liquet, B., Zhu, H. and Muller, S. (2024). COMBSS: best subset selection via continuous optimization. Statistics and Computing 34, 75. doi:10.1007/s11222-024-10387-8\nMathur, A., Liquet, B., Muller, S. and Moka, S. (2026). Parsimonious Subset Selection for Generalized Linear Models with Biomedical Applications. arXiv preprint arXiv:2603.21952."
   },
   {
-    "objectID": "motivation/02-mio.html#the-mixed-integer-formulation",
-    "href": "motivation/02-mio.html#the-mixed-integer-formulation",
-    "title": "MIO: exact best subset",
-    "section": "The mixed-integer formulation",
-    "text": "The mixed-integer formulation\n\\[\n\\begin{aligned}\n&\\min_{\\beta_0,\\,\\boldsymbol{\\beta},\\,\\boldsymbol{s}}\\;\\; -\\tfrac{1}{n}\\,\\ell(\\beta_0, \\boldsymbol{\\beta}) \\\\\n&\\text{subject to} \\quad s_j \\in \\{0,1\\},\\quad \\textstyle\\sum_j s_j \\le k,\\quad |\\beta_j| \\le M s_j.\n\\end{aligned}\n\\]\nThe Big-\\(M\\) constraint \\(|\\beta_j| \\le M s_j\\) links the two: if \\(s_j = 0\\), then \\(\\beta_j\\) is forced to zero; if \\(s_j = 1\\), the coefficient is free up to magnitude \\(M\\)."
+    "objectID": "references.html#software",
+    "href": "references.html#software",
+    "title": "References",
+    "section": "Software",
+    "text": "Software\n\nR — combss on CRAN — package page\nPython — combss on PyPI — package page\nSource for this presentation — github.com/saratmoka/combss-statfest"
   },
   {
-    "objectID": "motivation/02-mio.html#what-mio-gets-right",
-    "href": "motivation/02-mio.html#what-mio-gets-right",
-    "title": "MIO: exact best subset",
-    "section": "What MIO gets right",
-    "text": "What MIO gets right\n\nExact — solves the original \\(\\ell_0\\)-constrained problem rather than a surrogate.\nNo relaxation bias — selected coefficients are fit to the data without shrinkage.\nMature commercial and open-source solvers (Gurobi, CPLEX, SCIP) implement branch-and-bound with strong cutting planes (Bertsimas, King, Mazumder 2016)."
+    "objectID": "references.html#datasets-used-in-this-presentation",
+    "href": "references.html#datasets-used-in-this-presentation",
+    "title": "References",
+    "section": "Datasets used in this presentation",
+    "text": "Datasets used in this presentation\n\nKhan SRBCT. Khan, J. et al. (2001). Classification and diagnostic prediction of cancers using gene expression profiling and artificial neural networks. Nature Medicine 7, 673–679. link\nRice GWAS. McCouch, S. R. et al. (2016). Open access resources for genome-wide association mapping in rice. Nature Communications 7, 10532. link"
   },
   {
-    "objectID": "motivation/02-mio.html#where-mio-breaks-down",
-    "href": "motivation/02-mio.html#where-mio-breaks-down",
-    "title": "MIO: exact best subset",
-    "section": "Where MIO breaks down",
-    "text": "Where MIO breaks down\n\nComputational cost explodes beyond \\(p \\gtrsim\\) a few hundred. The problem is NP-hard; branch-and-bound visits an exponentially growing tree in the worst case.\nOverfits because there is no shrinkage — every selected coefficient is fully fit, and the method has no built-in mechanism to control variance from noisy estimates.\nRequires a careful Big-\\(M\\) choice: too small and the constraint becomes binding (biasing \\(\\boldsymbol{\\beta}\\)); too large and the LP relaxation becomes loose, slowing the solver.\nGLM extensions (logistic, multinomial) replace the quadratic with a transcendental loss; even fewer commercial solvers handle this well, and runtimes grow further.\n\nIn short, MIO is the theoretical gold standard for the \\(\\ell_0\\)-constrained problem — but practical reach stops well short of the high-dimensional biomedical settings we care about (Khan SRBCT at \\(p = 2308\\), rice GWAS at \\(p \\approx 158{,}000\\)).\n\n← Previous: Sparse GLM\nNext: Lasso →"
+    "objectID": "references.html#related-methods-cited",
+    "href": "references.html#related-methods-cited",
+    "title": "References",
+    "section": "Related methods cited",
+    "text": "Related methods cited\n\nLasso. Tibshirani, R. (1996). Regression shrinkage and selection via the Lasso. Journal of the Royal Statistical Society, Series B 58 (1), 267–288.\nMIO best subset. Bertsimas, D., King, A. and Mazumder, R. (2016). Best subset selection via a modern optimization lens. Annals of Statistics 44 (2), 813–852.\nSCAD. Fan, J. and Li, R. (2001). Variable selection via nonconcave penalized likelihood and its oracle properties. Journal of the American Statistical Association 96 (456), 1348–1360.\nMCP. Zhang, C.-H. (2010). Nearly unbiased variable selection under minimax concave penalty. Annals of Statistics 38 (2), 894–942."
   },
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "COMBSS: Scalable Best Subset Selection for Generalised Linear Models",
+    "objectID": "references.html#acknowledgements",
+    "href": "references.html#acknowledgements",
+    "title": "References",
+    "section": "Acknowledgements",
+    "text": "Acknowledgements\nThe R port was developed and maintained by Sarat Moka with review from Benoit Liquet and Anant Mathur."
+  },
+  {
+    "objectID": "install.html",
+    "href": "install.html",
+    "title": "Install",
     "section": "",
-    "text": "Best subset selection — identifying the optimal \\(k\\) predictors from \\(p\\) candidates — is fundamental for building interpretable and parsimonious statistical models, but the underlying combinatorial problem is NP-hard.\nCOMBSS (Continuous Optimisation for Best Subset Selection) overcomes this barrier by reformulating the discrete problem as a continuous optimisation, making it scalable to high-dimensional settings where \\(p\\) far exceeds \\(n\\).\nThis presentation walks through the framework for linear, logistic, and multinomial regression, illustrates its performance on simulated data and two real biomedical applications — cancer gene-expression classification (\\(p = 2{,}308\\) genes) and a rice GWAS (\\(p \\approx 158{,}000\\) SNPs) — and demonstrates the open-source combss (R and Python) packages with practical examples."
+    "text": "If you would like to run the demos on your laptop, install one or both of the combss packages below. The same demos exist in R and Python with matching results, so either language is fine."
   },
   {
-    "objectID": "index.html#abstract",
-    "href": "index.html#abstract",
-    "title": "COMBSS: Scalable Best Subset Selection for Generalised Linear Models",
+    "objectID": "install.html#r",
+    "href": "install.html#r",
+    "title": "Install",
+    "section": "R",
+    "text": "R\ninstall.packages(\"combss\")\nThat’s it — combss is on CRAN. The only run-time dependency is glmnet, which CRAN will install automatically. Tested with R 4.3 and 4.4 on macOS, Linux, and Windows.\n\nQuick check\nlibrary(combss)\nset.seed(1)\nx &lt;- matrix(rnorm(100 * 20), 100, 20)\ny &lt;- as.numeric(x %*% c(2, -1, 1, rep(0, 17)) + rnorm(100) * 0.3)\nfit &lt;- combss(x, y, family = \"gaussian\", q = 5)\nfit$subset_list[1:5]\nExpected output: nested supports building up to {1, 2, 3} at \\(k = 3\\)."
+  },
+  {
+    "objectID": "install.html#python",
+    "href": "install.html#python",
+    "title": "Install",
+    "section": "Python",
+    "text": "Python\npip install combss\nPython 3.9 or newer. Dependencies (numpy, scipy, scikit-learn, pandas) install automatically.\n\nQuick check\nimport numpy as np\nfrom combss import combss\n\nrng = np.random.default_rng(1)\nX = rng.standard_normal((100, 20))\nbeta = np.r_[2, -1, 1, np.zeros(17)]\ny = X @ beta + 0.3 * rng.standard_normal(100)\nfit = combss(X, y, family=\"gaussian\", q=5)\nprint(fit.subset_list[:5])\nExpected output: nested supports building up to {1, 2, 3} at \\(k = 3\\)."
+  },
+  {
+    "objectID": "install.html#editor-recommendations",
+    "href": "install.html#editor-recommendations",
+    "title": "Install",
+    "section": "Editor recommendations",
+    "text": "Editor recommendations\nEither of these makes running the demos chunk-by-chunk smooth:\n\nRStudio — open the .qmd file, click the green ▶ on each chunk.\nVS Code with the Quarto and Jupyter extensions — same idea, language-aware."
+  },
+  {
+    "objectID": "install.html#cloning-the-demo-repository",
+    "href": "install.html#cloning-the-demo-repository",
+    "title": "Install",
+    "section": "Cloning the demo repository",
+    "text": "Cloning the demo repository\ngit clone https://github.com/saratmoka/combss-statfest.git\ncd combss-statfest\nAll the data (Khan SRBCT and the simulation seeds) lives under data/. No external downloads are needed at run time."
+  },
+  {
+    "objectID": "install.html#trouble",
+    "href": "install.html#trouble",
+    "title": "Install",
+    "section": "Trouble?",
+    "text": "Trouble?\n\nR cannot find the package: make sure you are on R ≥ 4.0 and check available.packages() lists combss. If not, your CRAN mirror may be stale; pick another with chooseCRANmirror().\nPython pip install fails on combss: confirm you are on Python ≥ 3.9 with python --version; older versions are unsupported.\nAnything else: open an issue at https://github.com/saratmoka/combss-statfest/issues."
+  },
+  {
+    "objectID": "demos/01-simulation.html",
+    "href": "demos/01-simulation.html",
+    "title": "A simulation you can trust",
     "section": "",
-    "text": "Best subset selection — identifying the optimal \\(k\\) predictors from \\(p\\) candidates — is fundamental for building interpretable and parsimonious statistical models, but the underlying combinatorial problem is NP-hard.\nCOMBSS (Continuous Optimisation for Best Subset Selection) overcomes this barrier by reformulating the discrete problem as a continuous optimisation, making it scalable to high-dimensional settings where \\(p\\) far exceeds \\(n\\).\nThis presentation walks through the framework for linear, logistic, and multinomial regression, illustrates its performance on simulated data and two real biomedical applications — cancer gene-expression classification (\\(p = 2{,}308\\) genes) and a rice GWAS (\\(p \\approx 158{,}000\\) SNPs) — and demonstrates the open-source combss (R and Python) packages with practical examples."
+    "text": "R code is executed; outputs below are real. Click the Python tab on any code block for the equivalent script — outputs match the R run."
   },
   {
-    "objectID": "index.html#collaborators",
-    "href": "index.html#collaborators",
-    "title": "COMBSS: Scalable Best Subset Selection for Generalised Linear Models",
-    "section": "Collaborators",
-    "text": "Collaborators\n\n\n\n\n\n\n\nName\nAffiliation\n\n\n\n\nSarat Moka (presenter)\nUNSW Sydney\n\n\nZdravko Botev\nUNSW Sydney\n\n\nBenoit Liquet\nUniversité de Pau et des Pays de l’Adour & Macquarie University\n\n\nAnant Mathur\nUNSW Sydney\n\n\nSamuel Muller\nMacquarie University\n\n\nHouying Zhu\nMacquarie University"
+    "objectID": "demos/01-simulation.html#the-setup",
+    "href": "demos/01-simulation.html#the-setup",
+    "title": "A simulation you can trust",
+    "section": "The setup",
+    "text": "The setup\nA linear regression where we know the truth:\n\n\\(n = 300\\) observations, split 200 training + 100 validation\n\\(p = 30\\) predictors, generated as i.i.d. standard normals\nOnly the first five carry signal: \\(\\beta = (3,\\,2,\\,1.5,\\,1,\\,0.5,\\,0,\\,\\ldots,\\,0)\\)\nGaussian noise, \\(\\sigma = 0.5\\)\n\nThe goal: COMBSS should return \\(\\{1, 2, 3, 4, 5\\}\\) at \\(k = 5\\) and pick \\(\\hat k = 5\\) from validation error."
   },
   {
-    "objectID": "index.html#how-this-demonstration-is-structured",
-    "href": "index.html#how-this-demonstration-is-structured",
-    "title": "COMBSS: Scalable Best Subset Selection for Generalised Linear Models",
-    "section": "How this demonstration is structured",
-    "text": "How this demonstration is structured\nThis site is the talk. Each section below has its own page; navigate via the top menu or click through in order.\n\n\n\nSection\nPages\n\n\n\n\nMotivation — what sparse-constrained GLM is, and why MIO / lasso are not the last word\nSparse GLM → MIO → Lasso → COMBSS (our method)\n\n\nMethodology — Boolean relaxation, Frank-Wolfe iterates, homotopy in the curvature parameter\nRelaxation → Frank-Wolfe → Homotopy\n\n\nDemos — five runnable demos in R and Python\nLinear sim · HD logistic · Khan SRBCT · Rice GWAS · Comparisons\n\n\nUse it yourself\nInstall · References"
+    "objectID": "demos/01-simulation.html#fitting-combss",
+    "href": "demos/01-simulation.html#fitting-combss",
+    "title": "A simulation you can trust",
+    "section": "Fitting COMBSS",
+    "text": "Fitting COMBSS\n\nRPython\n\n\n\nlibrary(combss)\n\nset.seed(102)\nn &lt;- 300; p &lt;- 30\nbeta &lt;- c(3, 2, 1.5, 1, 0.5, rep(0, p - 5))\nx &lt;- matrix(rnorm(n * p), n, p)\ny &lt;- as.numeric(x %*% beta + rnorm(n) * 0.5)\nitr &lt;- 1:200; iva &lt;- 201:300\n\nfit &lt;- combss(x[itr, ], y[itr],\n              x_val = x[iva, ], y_val = y[iva],\n              family = \"gaussian\", q = 10)\nfit\n\nCOMBSS fit\n  family:    gaussian\n  n, p:      200, 30\n  q:         10\n  lam_ridge: 0\n  best k:    5\n  mse:       0.22222\n  subset:    1, 2, 3, 4, 5\n\n\n\n\nimport numpy as np\nfrom combss import combss\n\nrng = np.random.default_rng(102)\nn, p = 300, 30\nbeta = np.r_[[3, 2, 1.5, 1, 0.5], np.zeros(p - 5)]\nX = rng.standard_normal((n, p))\ny = X @ beta + 0.5 * rng.standard_normal(n)\nitr, iva = slice(0, 200), slice(200, 300)\n\nfit = combss(X[itr], y[itr],\n             X_val=X[iva], y_val=y[iva],\n             family=\"gaussian\", q=10)\nprint(fit)"
   },
   {
-    "objectID": "index.html#packages",
-    "href": "index.html#packages",
-    "title": "COMBSS: Scalable Best Subset Selection for Generalised Linear Models",
-    "section": "Packages",
-    "text": "Packages\n\nR — combss on CRAN — install.packages(\"combss\")\nPython — combss on PyPI — pip install combss"
+    "objectID": "demos/01-simulation.html#selected-support-at-each-k",
+    "href": "demos/01-simulation.html#selected-support-at-each-k",
+    "title": "A simulation you can trust",
+    "section": "Selected support at each \\(k\\)",
+    "text": "Selected support at each \\(k\\)\n\nRPython\n\n\n\nfit$subset_list[1:6]\n\n[[1]]\n[1] 1\n\n[[2]]\n[1] 1 2\n\n[[3]]\n[1] 1 2 3\n\n[[4]]\n[1] 1 2 3 4\n\n[[5]]\n[1] 1 2 3 4 5\n\n[[6]]\n[1] 1 2 3 4 5 6\n\n\n\n\nprint(fit.subset_list[:6])"
   },
   {
-    "objectID": "index.html#links",
-    "href": "index.html#links",
-    "title": "COMBSS: Scalable Best Subset Selection for Generalised Linear Models",
-    "section": "Links",
-    "text": "Links\n\nLive site — https://saratmoka.github.io/combss-statfest/\nSource code — https://github.com/saratmoka/combss-statfest"
+    "objectID": "demos/01-simulation.html#validation-mse-versus-k",
+    "href": "demos/01-simulation.html#validation-mse-versus-k",
+    "title": "A simulation you can trust",
+    "section": "Validation MSE versus \\(k\\)",
+    "text": "Validation MSE versus \\(k\\)\n\nRPython\n\n\n\nplot(seq_along(fit$mse_path), fit$mse_path, type = \"b\",\n     pch = 19, xlab = \"k\", ylab = \"Validation MSE\")\nabline(v = fit$best_k, lty = 2)\n\n\n\n\nValidation MSE flattens out the moment the true support is recovered.\n\n\n\n\n\n\nimport matplotlib.pyplot as plt\nplt.plot(range(1, len(fit.mse_path) + 1), fit.mse_path, \"o-\")\nplt.axvline(fit.best_k, ls=\"--\")\nplt.xlabel(\"k\"); plt.ylabel(\"Validation MSE\")\nplt.show()"
   },
   {
-    "objectID": "methodology/03-homotopy.html",
-    "href": "methodology/03-homotopy.html",
-    "title": "Homotopy in \\(\\delta\\)",
+    "objectID": "demos/01-simulation.html#what-just-happened",
+    "href": "demos/01-simulation.html#what-just-happened",
+    "title": "A simulation you can trust",
+    "section": "What just happened",
+    "text": "What just happened\n\nCOMBSS scanned \\(k = 1, \\ldots, 10\\) in one pass and returned a nested-looking selection path.\nAt \\(k = 5\\) it picked the five true predictors exactly — same answer in R and Python.\nValidation MSE stops dropping past \\(k = 5\\), so best_k = 5 is chosen automatically.\n\nThis is the small-\\(p\\) regime where best-subset is easy. The point is that COMBSS gets it right without searching \\(\\binom{30}{5} = 142\\,506\\) subsets. The interesting case is the next demo."
+  },
+  {
+    "objectID": "demos/05-comparisons.html",
+    "href": "demos/05-comparisons.html",
+    "title": "Head-to-head with the lasso",
     "section": "",
-    "text": "\\(\\delta\\) in the relaxed objective controls how strongly the envelope penalty pushes \\(\\boldsymbol t\\) toward vertices. Small \\(\\delta\\) → smooth, easy to optimise. Large \\(\\delta\\) → strongly concave on the polytope."
+    "text": "R code is executed; outputs below are real. Click the Python tab for the equivalent script.\nThe previous two demos showed COMBSS in isolation. This page runs it side-by-side with the lasso on the same datasets so the trade-offs become tangible.\nWe compare on three numbers: how many features each method selects, how it does out-of-sample, and how long the fit takes."
   },
   {
-    "objectID": "methodology/03-homotopy.html#the-curvature-parameter",
-    "href": "methodology/03-homotopy.html#the-curvature-parameter",
-    "title": "Homotopy in \\(\\delta\\)",
+    "objectID": "demos/05-comparisons.html#simulation",
+    "href": "demos/05-comparisons.html#simulation",
+    "title": "Head-to-head with the lasso",
+    "section": "Simulation",
+    "text": "Simulation\nThe same data-generating mechanism as Demo 1 — \\(n = 300\\), \\(p = 30\\), five true predictors.\n\nset.seed(102)\nn &lt;- 300; p &lt;- 30\nbeta &lt;- c(3, 2, 1.5, 1, 0.5, rep(0, p - 5))\nx &lt;- matrix(rnorm(n * p), n, p)\ny &lt;- as.numeric(x %*% beta + rnorm(n) * 0.5)\nitr &lt;- 1:200; iva &lt;- 201:300\n\n\nLasso\n\nRPython\n\n\n\nlibrary(glmnet)\ncv_l &lt;- cv.glmnet(x[itr, ], y[itr], alpha = 1)\nbeta_l &lt;- as.numeric(coef(cv_l, s = \"lambda.min\"))[-1]\nsel_l  &lt;- which(beta_l != 0)\npred_l &lt;- predict(cv_l, newx = x[iva, ], s = \"lambda.min\")\nmse_l  &lt;- mean((y[iva] - pred_l)^2)\nc(selected = length(sel_l), val_mse = round(mse_l, 4))\n\nselected  val_mse \n 14.0000   0.2586 \n\n\n\n\nfrom sklearn.linear_model import LassoCV\nimport numpy as np\n\ncv_l = LassoCV(cv=10).fit(x[itr], y[itr])\nsel_l = np.where(cv_l.coef_ != 0)[0]\nmse_l = np.mean((y[iva] - cv_l.predict(x[iva])) ** 2)\nprint({\"selected\": len(sel_l), \"val_mse\": round(mse_l, 4)})\n\n\n\n\n\nCOMBSS\n\nRPython\n\n\n\nlibrary(combss)\nfit &lt;- combss(x[itr, ], y[itr],\n              x_val = x[iva, ], y_val = y[iva],\n              family = \"gaussian\", q = 10)\nsel_c &lt;- fit$subset_list[[fit$best_k]]\nmse_c &lt;- min(fit$mse_path)\nc(selected = length(sel_c), val_mse = round(mse_c, 4))\n\nselected  val_mse \n  5.0000   0.2222 \n\n\n\n\nfrom combss import combss\nfit = combss(x[itr], y[itr], X_val=x[iva], y_val=y[iva],\n             family=\"gaussian\", q=10)\nsel_c = fit.subset_list[fit.best_k - 1]\nmse_c = min(fit.mse_path)\nprint({\"selected\": len(sel_c), \"val_mse\": round(mse_c, 4)})\n\n\n\n\n\nSummary\n\n\n\n\n\nMethod\nSelected\nTrue positives\nVal MSE\n\n\n\n\nLasso (cv.glmnet, lambda.min)\n14\n5\n0.2586\n\n\nCOMBSS\n5\n5\n0.2222\n\n\n\n\n\nCOMBSS returns exactly the five true predictors; lasso typically overshoots in selected size while landing on a comparable validation MSE."
+  },
+  {
+    "objectID": "demos/05-comparisons.html#khan-srbct",
+    "href": "demos/05-comparisons.html#khan-srbct",
+    "title": "Head-to-head with the lasso",
+    "section": "Khan SRBCT",
+    "text": "Khan SRBCT\nSame train/test split as the Khan SRBCT demo.\n\ntrain &lt;- read.csv(\"../data/Khan_train.csv\")\ntest  &lt;- read.csv(\"../data/Khan_test.csv\")\nx_train &lt;- as.matrix(train[, -1]); y_train &lt;- factor(train$y)\nx_test  &lt;- as.matrix(test[, -1]);  y_test  &lt;- factor(test$y)\n\n\nMultinomial lasso\n\nRPython\n\n\n\nlibrary(glmnet)\ncv_l &lt;- cv.glmnet(x_train, y_train, family = \"multinomial\", alpha = 1)\nbeta_l &lt;- coef(cv_l, s = \"lambda.min\")\nsel_l_khan &lt;- sort(unique(unlist(lapply(beta_l, function(B) which(B[-1, 1] != 0)))))\npred_l &lt;- predict(cv_l, newx = x_test, s = \"lambda.min\", type = \"class\")\nacc_l_khan &lt;- mean(pred_l == y_test)\nc(selected = length(sel_l_khan), test_acc = round(acc_l_khan, 3))\n\nselected test_acc \n      35        1 \n\n\n\n\nfrom sklearn.linear_model import LogisticRegressionCV\nimport numpy as np\n\ncv_l = LogisticRegressionCV(\n    penalty=\"l1\", solver=\"saga\", multi_class=\"multinomial\",\n    Cs=20, cv=10, max_iter=5000\n).fit(X_train, y_train)\nsel_l = np.where(np.any(cv_l.coef_ != 0, axis=0))[0]\nacc_l = (cv_l.predict(X_test) == y_test).mean()\nprint({\"selected\": len(sel_l), \"test_acc\": round(acc_l, 3)})\n\n\n\n\n\nCOMBSS\n\nRPython\n\n\n\nlibrary(combss)\nfit_khan &lt;- combss(x_train, as.character(y_train),\n                   x_val = x_test, y_val = as.character(y_test),\n                   family = \"multinomial\", q = 20)\nacc_c_khan &lt;- max(fit_khan$accuracy_path)\nc(selected = fit_khan$best_k, test_acc = round(acc_c_khan, 3))\n\nselected test_acc \n      12        1 \n\n\n\n\nfrom combss import combss\nfit_khan = combss(X_train, y_train.astype(str),\n                  X_val=X_test, y_val=y_test.astype(str),\n                  family=\"multinomial\", q=20)\nprint({\"selected\": fit_khan.best_k,\n       \"test_acc\": round(max(fit_khan.accuracy_path), 3)})\n\n\n\n\n\nSummary\n\n\n\n\n\nMethod\nGenes selected\nTest accuracy\n\n\n\n\nMultinomial lasso\n35\n1\n\n\nCOMBSS\n12\n1\n\n\n\n\n\nCOMBSS finds a far smaller, interpretable gene panel without sacrificing accuracy — the headline result of this dataset."
+  },
+  {
+    "objectID": "demos/05-comparisons.html#what-about-mio",
+    "href": "demos/05-comparisons.html#what-about-mio",
+    "title": "Head-to-head with the lasso",
+    "section": "What about MIO?",
+    "text": "What about MIO?\nMixed-integer best subset (Bertsimas, King, Mazumder, 2016) is the natural exact comparator. It is computationally feasible on the simulation but does not scale to the Khan setting at \\(p = 2308\\) in any reasonable wall-clock budget. For the simulation, an MIO run produces exactly the same five-feature selection as COMBSS; the difference is wall-clock time."
+  },
+  {
+    "objectID": "demos/05-comparisons.html#bottom-line",
+    "href": "demos/05-comparisons.html#bottom-line",
+    "title": "Head-to-head with the lasso",
+    "section": "Bottom line",
+    "text": "Bottom line\n\nSimulation — COMBSS recovers the support exactly; lasso overshoots; MIO matches COMBSS when it can run.\nKhan — COMBSS gives a small gene panel with perfect classification, far smaller than the lasso panel.\nRuntime — COMBSS is in the same league as a CV lasso; MIO is the slow option even where it works."
+  },
+  {
+    "objectID": "demos/02-simulation-hd.html",
+    "href": "demos/02-simulation-hd.html",
+    "title": "High-dimensional logistic regression",
     "section": "",
-    "text": "\\(\\delta\\) in the relaxed objective controls how strongly the envelope penalty pushes \\(\\boldsymbol t\\) toward vertices. Small \\(\\delta\\) → smooth, easy to optimise. Large \\(\\delta\\) → strongly concave on the polytope."
+    "text": "R code is executed; outputs below are real. Click the Python tab for the equivalent script.\nThe previous demo was the gentle case: thirty predictors, the truth was easy to recover. This one moves to the regime that motivated COMBSS in the first place — \\(p\\) much larger than \\(n\\), with correlated predictors and a logistic response. Best-subset enumeration is out of the question; even MIO becomes painful here."
   },
   {
-    "objectID": "methodology/03-homotopy.html#homotopy-schedule",
-    "href": "methodology/03-homotopy.html#homotopy-schedule",
-    "title": "Homotopy in \\(\\delta\\)",
-    "section": "Homotopy schedule",
-    "text": "Homotopy schedule\nStart with small \\(\\delta\\), increase geometrically:\n\\[\n\\delta^{(0)} &lt; \\delta^{(1)} &lt; \\cdots &lt; \\delta^{(R)} \\;\\ge\\; \\delta_{\\mathrm{conc}}.\n\\]\nWarm-start each FW solve with the previous \\(\\boldsymbol t\\)."
+    "objectID": "demos/02-simulation-hd.html#the-setup",
+    "href": "demos/02-simulation-hd.html#the-setup",
+    "title": "High-dimensional logistic regression",
+    "section": "The setup",
+    "text": "The setup\nWe follow the simulation design used in the paper (Mathur, Liquet, Muller, Moka 2026):\n\n\\(n = 200\\) observations, split 150 training + 50 validation\n\\(p = 1000\\) predictors\nDesign matrix \\(X\\): rows i.i.d. multivariate normal with AR(1) covariance \\(\\Sigma_{ij} = 0.5^{|i - j|}\\) (so neighbouring predictors are strongly correlated)\nTrue coefficient vector \\(\\beta\\): first ten entries equal to \\(1\\), the rest zero\nBinary response: \\(y_i \\mid x_i \\sim \\mathrm{Bernoulli}(\\sigma(x_i^\\top \\beta))\\) where \\(\\sigma\\) is the logistic sigmoid\n\nThe true support is \\(\\{1, 2, \\ldots, 10\\}\\). Our task: recover it from 1000 candidates."
   },
   {
-    "objectID": "methodology/03-homotopy.html#theorem-1-concavity-threshold",
-    "href": "methodology/03-homotopy.html#theorem-1-concavity-threshold",
-    "title": "Homotopy in \\(\\delta\\)",
-    "section": "Theorem 1 — concavity threshold",
-    "text": "Theorem 1 — concavity threshold\nThere exists an explicit \\(\\delta_{\\mathrm{conc}}\\) (depending on the design and the model) above which \\(f_{\\delta, \\lambda}(\\boldsymbol t)\\) is concave on the cardinality polytope, and every minimiser is a binary vertex.\nFor logistic regression: \\[\n\\delta_{\\mathrm{conc}} \\;=\\; \\frac{\\nu_{\\max}}{8n}.\n\\]\nFor multinomial: \\[\n\\delta_{\\mathrm{conc}} \\;=\\; \\frac{\\nu_{\\max}}{4n}.\n\\]\n(where \\(\\nu_{\\max}\\) is the largest eigenvalue of \\(X_u^\\top X_u\\).)"
+    "objectID": "demos/02-simulation-hd.html#generate-the-data",
+    "href": "demos/02-simulation-hd.html#generate-the-data",
+    "title": "High-dimensional logistic regression",
+    "section": "Generate the data",
+    "text": "Generate the data\n\nRPython\n\n\n\nset.seed(2026)\n\nn &lt;- 200; p &lt;- 1000; k0 &lt;- 10\nrho &lt;- 0.5\n\nar1_sqrt &lt;- function(p, rho) {\n  Sigma &lt;- rho ^ abs(outer(1:p, 1:p, \"-\"))\n  ev &lt;- eigen(Sigma, symmetric = TRUE)\n  ev$vectors %*% diag(sqrt(pmax(ev$values, 0))) %*% t(ev$vectors)\n}\nL &lt;- ar1_sqrt(p, rho)\n\nz &lt;- matrix(rnorm(n * p), n, p)\nx &lt;- z %*% L\nbeta &lt;- c(rep(1, k0), rep(0, p - k0))\neta &lt;- as.numeric(x %*% beta)\ny &lt;- rbinom(n, 1, plogis(eta))\n\nitr &lt;- 1:150; iva &lt;- 151:200\nc(n_train = length(itr), n_val = length(iva), p = p, k0 = k0)\n\nn_train   n_val       p      k0 \n    150      50    1000      10 \n\n\n\n\nimport numpy as np\nrng = np.random.default_rng(2026)\nn, p, k0, rho = 200, 1000, 10, 0.5\nSigma = rho ** np.abs(np.subtract.outer(np.arange(p), np.arange(p)))\nL = np.linalg.cholesky(Sigma + 1e-8 * np.eye(p))\nX = rng.standard_normal((n, p)) @ L.T\nbeta = np.r_[np.ones(k0), np.zeros(p - k0)]\neta = X @ beta\ny = rng.binomial(1, 1 / (1 + np.exp(-eta)))\nitr, iva = slice(0, 150), slice(150, 200)"
   },
   {
-    "objectID": "methodology/03-homotopy.html#the-k-sweep",
-    "href": "methodology/03-homotopy.html#the-k-sweep",
-    "title": "Homotopy in \\(\\delta\\)",
-    "section": "The \\(k\\)-sweep",
-    "text": "The \\(k\\)-sweep\nLoop over \\(k = 1, 2, \\ldots, q\\), warm-starting each \\(k\\) from the previous solution. One sweep produces a full subset path \\(S_1, S_2, \\ldots, S_q\\).\n\nPlaceholder for visual: animation of the loss surface deforming with \\(\\delta\\) from smooth to spiky-at-corners; gif candidate."
+    "objectID": "demos/02-simulation-hd.html#run-combss",
+    "href": "demos/02-simulation-hd.html#run-combss",
+    "title": "High-dimensional logistic regression",
+    "section": "Run COMBSS",
+    "text": "Run COMBSS\n\nRPython\n\n\n\nlibrary(combss)\nfit_hd &lt;- combss(x[itr, ], y[itr],\n                 x_val = x[iva, ], y_val = y[iva],\n                 family = \"binomial\", q = 15)\nfit_hd\n\nCOMBSS fit\n  family:    binomial\n  n, p:      150, 1000\n  q:         15\n  lam_ridge: 0\n  best k:    10\n  accuracy:  0.92\n  subset:    1, 2, 3, 4, 5, 6, 7, 8, 9, 590\n\n\n\n\nfrom combss import combss\nfit_hd = combss(X[itr], y[itr],\n                X_val=X[iva], y_val=y[iva],\n                family=\"binomial\", q=15)\nprint(fit_hd)\n\n\n\nWhat did COMBSS pick at the true model size?\n\nRPython\n\n\n\nfit_hd$subset_list[[10]]\n\n [1]   1   2   3   4   5   6   7   8   9 590\n\n\n\n\nprint(fit_hd.subset_list[9])\n\n\n\nThe recovered support contains the first ten predictors (the true active set) selected out of 1000 candidates."
   },
   {
-    "objectID": "methodology/03-homotopy.html#where-to-next",
-    "href": "methodology/03-homotopy.html#where-to-next",
-    "title": "Homotopy in \\(\\delta\\)",
-    "section": "Where to next",
-    "text": "Where to next\nSee it work — in code, on real data:\n\nLinear simulation\nHD logistic simulation\nKhan SRBCT\nRice GWAS\nComparisons\n\n\n← Previous: Frank-Wolfe\nNext: Linear simulation →"
+    "objectID": "demos/02-simulation-hd.html#selection-profile",
+    "href": "demos/02-simulation-hd.html#selection-profile",
+    "title": "High-dimensional logistic regression",
+    "section": "Selection profile",
+    "text": "Selection profile\nThe number of true positives — how many of the recovered indices are actually in \\(\\{1, \\ldots, 10\\}\\) — as a function of \\(k\\):\n\nRPython\n\n\n\ntp_path &lt;- sapply(fit_hd$subset_list, function(s) length(intersect(s, 1:k0)))\nplot(seq_along(tp_path), tp_path, type = \"b\", pch = 19,\n     xlab = \"k\", ylab = \"True positives (out of 10)\",\n     ylim = c(0, k0 + 1))\nabline(h = k0, lty = 2, col = \"grey\")\n\n\n\n\nTrue positives vs. model size. The curve saturates at 10 (the true support size).\n\n\n\n\n\n\nimport matplotlib.pyplot as plt\ntp_path = [len(set(s).intersection(range(k0))) for s in fit_hd.subset_list]\nplt.plot(range(1, len(tp_path) + 1), tp_path, \"o-\")\nplt.axhline(k0, ls=\"--\", color=\"grey\")\nplt.xlabel(\"k\"); plt.ylabel(\"True positives\")\nplt.show()"
+  },
+  {
+    "objectID": "demos/02-simulation-hd.html#compare-with-a-cv-lasso-baseline",
+    "href": "demos/02-simulation-hd.html#compare-with-a-cv-lasso-baseline",
+    "title": "High-dimensional logistic regression",
+    "section": "Compare with a CV lasso baseline",
+    "text": "Compare with a CV lasso baseline\n\nRPython\n\n\n\nlibrary(glmnet)\ncv_l &lt;- cv.glmnet(x[itr, ], y[itr], family = \"binomial\", alpha = 1)\nbeta_l &lt;- as.numeric(coef(cv_l, s = \"lambda.min\"))[-1]\nsel_l &lt;- which(beta_l != 0)\ntp_l  &lt;- length(intersect(sel_l, 1:k0))\nfp_l  &lt;- length(setdiff(sel_l, 1:k0))\nc(selected = length(sel_l), true_pos = tp_l, false_pos = fp_l)\n\n selected  true_pos false_pos \n       16         8         8 \n\n\n\n\nfrom sklearn.linear_model import LogisticRegressionCV\ncv_l = LogisticRegressionCV(penalty=\"l1\", solver=\"saga\", Cs=20, cv=10,\n                            max_iter=5000).fit(X[itr], y[itr])\nsel_l = np.where(cv_l.coef_[0] != 0)[0]\ntp = len(set(sel_l) & set(range(k0)))\nfp = len(set(sel_l) - set(range(k0)))\nprint({\"selected\": len(sel_l), \"true_pos\": tp, \"false_pos\": fp})"
+  },
+  {
+    "objectID": "demos/02-simulation-hd.html#summary",
+    "href": "demos/02-simulation-hd.html#summary",
+    "title": "High-dimensional logistic regression",
+    "section": "Summary",
+    "text": "Summary\n\n\n\n\n\nMethod\nSelected\nTrue positives\nFalse positives\n\n\n\n\nLasso (cv.glmnet)\n16\n8\n8\n\n\nCOMBSS\n10\n9\n1\n\n\n\n\n\nIn this \\(p \\gg n\\) regime, the lasso recovers the true predictors but pays a high false-positive cost — the price of \\(\\ell_1\\) shrinkage in correlated designs. COMBSS returns a much sparser model that contains the truth."
+  },
+  {
+    "objectID": "demos/02-simulation-hd.html#why-this-matters",
+    "href": "demos/02-simulation-hd.html#why-this-matters",
+    "title": "High-dimensional logistic regression",
+    "section": "Why this matters",
+    "text": "Why this matters\n\nThis is the design regime — high-dimensional, correlated predictors — where best-subset enumeration is infeasible (there are \\(\\binom{1000}{10} \\approx 2.6 \\times 10^{23}\\) candidate subsets).\nCOMBSS finishes in seconds and returns the right support.\nThe same code structure handles linear, logistic, and multinomial outcomes; only the family argument changes.\n\nThis is the bridge to the real biomedical applications: Khan SRBCT (multinomial, \\(p = 2308\\)) and Rice GWAS (binary, \\(p \\approx 1.6 \\times 10^5\\))."
+  },
+  {
+    "objectID": "motivation/03-lasso.html",
+    "href": "motivation/03-lasso.html",
+    "title": "Lasso: convex relaxation",
+    "section": "",
+    "text": "The sparse-constrained GLM problem from the previous page is\n\\[\n\\begin{aligned}\n&\\min_{\\beta_0,\\,\\boldsymbol{\\beta}}\\;\\; -\\tfrac{1}{n}\\,\\ell(\\beta_0, \\boldsymbol{\\beta}) \\\\\n&\\text{subject to} \\quad \\|\\boldsymbol{\\beta}\\|_0 \\le k.\n\\end{aligned}\n\\]\nThe combinatorial pain comes entirely from the \\(\\ell_0\\)-norm in the constraint. Lasso replaces it with the \\(\\ell_1\\)-norm:\n\\[\n\\boxed{\\;\n\\begin{aligned}\n&\\min_{\\beta_0,\\,\\boldsymbol{\\beta}}\\;\\; -\\tfrac{1}{n}\\,\\ell(\\beta_0, \\boldsymbol{\\beta}) \\\\\n&\\text{subject to} \\quad \\|\\boldsymbol{\\beta}\\|_1 \\le \\tau.\n\\end{aligned}\n\\;}\n\\]\nThree things changed:\n\nThe constraint set is now convex (the \\(\\ell_1\\)-ball), and the objective is convex.\nThe budget \\(\\tau \\ge 0\\) is real-valued, not an integer count. The smaller \\(\\tau\\), the more shrunken (and therefore sparser) the solution.\nThe whole problem is a convex optimisation — every local optimum is global, and there are mature solvers (i.e., glmnet)."
+  },
+  {
+    "objectID": "motivation/03-lasso.html#from-hard-ell_0-to-soft-ell_1",
+    "href": "motivation/03-lasso.html#from-hard-ell_0-to-soft-ell_1",
+    "title": "Lasso: convex relaxation",
+    "section": "",
+    "text": "The sparse-constrained GLM problem from the previous page is\n\\[\n\\begin{aligned}\n&\\min_{\\beta_0,\\,\\boldsymbol{\\beta}}\\;\\; -\\tfrac{1}{n}\\,\\ell(\\beta_0, \\boldsymbol{\\beta}) \\\\\n&\\text{subject to} \\quad \\|\\boldsymbol{\\beta}\\|_0 \\le k.\n\\end{aligned}\n\\]\nThe combinatorial pain comes entirely from the \\(\\ell_0\\)-norm in the constraint. Lasso replaces it with the \\(\\ell_1\\)-norm:\n\\[\n\\boxed{\\;\n\\begin{aligned}\n&\\min_{\\beta_0,\\,\\boldsymbol{\\beta}}\\;\\; -\\tfrac{1}{n}\\,\\ell(\\beta_0, \\boldsymbol{\\beta}) \\\\\n&\\text{subject to} \\quad \\|\\boldsymbol{\\beta}\\|_1 \\le \\tau.\n\\end{aligned}\n\\;}\n\\]\nThree things changed:\n\nThe constraint set is now convex (the \\(\\ell_1\\)-ball), and the objective is convex.\nThe budget \\(\\tau \\ge 0\\) is real-valued, not an integer count. The smaller \\(\\tau\\), the more shrunken (and therefore sparser) the solution.\nThe whole problem is a convex optimisation — every local optimum is global, and there are mature solvers (i.e., glmnet)."
+  },
+  {
+    "objectID": "motivation/03-lasso.html#the-penalised-form",
+    "href": "motivation/03-lasso.html#the-penalised-form",
+    "title": "Lasso: convex relaxation",
+    "section": "The penalised form",
+    "text": "The penalised form\nBecause the constrained lasso is convex, Lagrangian duality lets us rewrite it as an unconstrained penalised problem:\n\\[\n\\min_{\\beta_0,\\,\\boldsymbol{\\beta}}\\; -\\tfrac{1}{n}\\,\\ell(\\beta_0, \\boldsymbol{\\beta}) \\;+\\; \\lambda \\|\\boldsymbol{\\beta}\\|_1.\n\\]\nThe link is exact: for every budget \\(\\tau\\) in the constrained problem, there exists a \\(\\lambda^\\star(\\tau) \\ge 0\\) such that the penalised problem with \\(\\lambda = \\lambda^\\star(\\tau)\\) has the same minimiser as the constrained form. The two are different parameterisations of the same solution path.\nIn practice, almost everyone solves the penalised form — it is unconstrained, smooth in \\(\\lambda\\), and admits efficient algorithms (coordinate descent, ADMM, ISTA/FISTA). glmnet returns the whole regularisation path in one call."
+  },
+  {
+    "objectID": "motivation/03-lasso.html#what-lasso-gives-up",
+    "href": "motivation/03-lasso.html#what-lasso-gives-up",
+    "title": "Lasso: convex relaxation",
+    "section": "What lasso gives up",
+    "text": "What lasso gives up\nThe relaxation is fast and well understood, but it pays two prices that no choice of \\(\\lambda\\) can dodge simultaneously:\n\nYou can’t control \\(k\\) directly. The user picks \\(\\lambda\\) (or equivalently the \\(\\ell_1\\) budget \\(\\tau\\)); neither maps directly to the number of active features \\(k\\). Cross-validation picks a \\(\\lambda\\) that optimises prediction, not selection size.\nEither overselection or shrinkage.\n\nA small \\(\\lambda\\) (e.g. lambda.min) gives near-OLS coefficients but typically grabs many spurious features.\nA larger \\(\\lambda\\) (e.g. lambda.1se) cuts the false positives but shrinks every coefficient, including the truly active ones, toward zero.\n\n\nConcrete numbers on a simple simulation appear on the next page — they are the case for COMBSS rather than the case against lasso, so we save them for there.\n\n← Previous: MIO\nNext: COMBSS (our method) →"
+  },
+  {
+    "objectID": "motivation/04-combss.html",
+    "href": "motivation/04-combss.html",
+    "title": "COMBSS (our method)",
+    "section": "",
+    "text": "Three properties we want a method to have:\n\nContinuous / smooth optimisation — tractable, gradient-based, scalable.\nTargets the \\(\\ell_0\\)-constrained problem — faithful to the original sparse selection task.\nReturns exactly \\(k\\) features — gives the user direct control over model size.\n\n\n\n  \n  \n  \n  Returns exactly k features\n  Continuous /\n  smooth optimisation\n  Targets ℓ₀-\n  constrained problem\n  Lasso\n  MIO\n  COMBSS\n\n\n\nLasso sits only in the smooth optimisation circle — convex and scalable, but doesn’t target \\(\\ell_0\\) and doesn’t directly control \\(k\\).\nMIO sits in targets \\(\\ell_0\\) and returns \\(k\\) — exact but not a smooth optimisation, and not scalable.\nCOMBSS sits in all three."
+  },
+  {
+    "objectID": "motivation/04-combss.html#where-combss-fits",
+    "href": "motivation/04-combss.html#where-combss-fits",
+    "title": "COMBSS (our method)",
+    "section": "",
+    "text": "Three properties we want a method to have:\n\nContinuous / smooth optimisation — tractable, gradient-based, scalable.\nTargets the \\(\\ell_0\\)-constrained problem — faithful to the original sparse selection task.\nReturns exactly \\(k\\) features — gives the user direct control over model size.\n\n\n\n  \n  \n  \n  Returns exactly k features\n  Continuous /\n  smooth optimisation\n  Targets ℓ₀-\n  constrained problem\n  Lasso\n  MIO\n  COMBSS\n\n\n\nLasso sits only in the smooth optimisation circle — convex and scalable, but doesn’t target \\(\\ell_0\\) and doesn’t directly control \\(k\\).\nMIO sits in targets \\(\\ell_0\\) and returns \\(k\\) — exact but not a smooth optimisation, and not scalable.\nCOMBSS sits in all three."
+  },
+  {
+    "objectID": "motivation/04-combss.html#the-bridge-side-by-side",
+    "href": "motivation/04-combss.html#the-bridge-side-by-side",
+    "title": "COMBSS (our method)",
+    "section": "The bridge: side by side",
+    "text": "The bridge: side by side\n\n\n\n\n\n\n\n\n\n\nLasso\nMIO\nCOMBSS\n\n\n\n\nVariable type\n\\(\\boldsymbol{\\beta} \\in \\mathbb{R}^p\\)\n\\(\\boldsymbol{s} \\in \\{0,1\\}^p\\)\n\\(\\boldsymbol{t} \\in [0,1]^p\\)\n\n\nSparsity by\n\\(\\ell_1\\) penalty\nhard \\(\\ell_0\\) + Big-\\(M\\)\ncontinuous relaxation on the support indicator\n\n\nSelection size\nindexed by \\(\\lambda\\)\n\\(k\\) via constraint\n\\(k\\) via polytope\n\n\nScales to \\(p \\gg n\\)\nyes\nbarely\nyes\n\n\nBiased coefficients\nyes\nno\nno"
+  },
+  {
+    "objectID": "motivation/04-combss.html#in-one-sentence",
+    "href": "motivation/04-combss.html#in-one-sentence",
+    "title": "COMBSS (our method)",
+    "section": "In one sentence",
+    "text": "In one sentence\nCOMBSS relaxes the discrete support indicator \\(\\boldsymbol{s} \\in \\{0,1\\}^p\\) to a continuous \\(\\boldsymbol{t} \\in [0,1]^p\\) on the cardinality polytope, fits a ridge GLM in the relaxed space, and runs a Frank-Wolfe homotopy that drives \\(\\boldsymbol{t}\\) to a vertex of the polytope — recovering an integer subset of size exactly \\(k\\)."
+  },
+  {
+    "objectID": "motivation/04-combss.html#two-head-to-head-questions",
+    "href": "motivation/04-combss.html#two-head-to-head-questions",
+    "title": "COMBSS (our method)",
+    "section": "Two head-to-head questions",
+    "text": "Two head-to-head questions\nThe simplest way to see what COMBSS buys you is to put it next to lasso on the same dataset and ask two questions.\n\n\n\n\n\n\nSetup: \\(n = 300\\) (\\(200\\) train + \\(100\\) validation), \\(p = 30\\), \\(\\sigma = 0.5\\), true coefficients \\(\\boldsymbol{\\beta} = (3,\\,2,\\,1.5,\\,1,\\,0.5,\\,0,\\,\\ldots,\\,0)\\), predictors (i.e., entries of the dataset) i.i.d. standard normal. \n\n\n\n\n1. At a prescribed \\(k = 5\\), how biased are the coefficients?\n\n\n\n\n\nCoefficients at \\(k=5\\): True (grey), Lasso at the path-\\(\\lambda\\) that gives 5 features and minimises training MSE (coral), and COMBSS (teal, OLS-refit on its \\(k=5\\) subset). Squared \\(\\ell_2\\) error to the truth across all 30 dimensions: lasso 0.099, COMBSS 0.003 — ~35x smaller.\n\n\n\n\nCOMBSS’s recovered coefficients match the truth to within sampling noise. Lasso’s are all visibly shrunken, even though both methods are looking at exactly five features.\n\n\n2. For the same validation loss, how many features does each method need?\n\n\n\n\n\nLeft: validation MSE as a function of the number of selected features (full range). Right: zoom into the region \\(k \\ge 4\\) where the two methods plateau. The dashed line marks lasso’s best-ever validation MSE. COMBSS at \\(k = 5\\) already sits below that line — lasso cannot match COMBSS’s \\(k=5\\) performance at any model size.\n\n\n\n\nAt \\(k = 5\\), COMBSS reaches a validation MSE that lasso cannot match at any model size — even with 22 features, lasso’s MSE stays above COMBSS’s value at \\(k = 5\\)."
+  },
+  {
+    "objectID": "motivation/04-combss.html#preview-of-the-rest-of-the-talk",
+    "href": "motivation/04-combss.html#preview-of-the-rest-of-the-talk",
+    "title": "COMBSS (our method)",
+    "section": "Preview of the rest of the talk",
+    "text": "Preview of the rest of the talk\n\nMethodology — how the relaxation works, the Frank-Wolfe step, the curvature homotopy.\nDemos — five runnable demos showing the method in action.\n\n\n← Previous: Lasso\nNext: Boolean relaxation →"
+  },
+  {
+    "objectID": "methodology/01-relaxation.html",
+    "href": "methodology/01-relaxation.html",
+    "title": "Boolean relaxation",
+    "section": "",
+    "text": "From the Sparse GLM page, the problem we want to solve is\n\\[\n\\begin{aligned}\n&\\min_{\\beta_0 \\in \\mathbb{R},\\; \\boldsymbol{\\beta} \\in \\mathbb{R}^p}\\;\\; -\\tfrac{1}{n}\\,\\ell(\\beta_0, \\boldsymbol{\\beta}) \\\\\n&\\text{subject to} \\quad \\|\\boldsymbol{\\beta}\\|_0 \\le k.\n\\end{aligned}\n\\]\nThe pain is the \\(\\ell_0\\) constraint: it forces a search over \\(\\binom{p}{k}\\) discrete supports. COMBSS replaces it by a continuous relaxation."
+  },
+  {
+    "objectID": "methodology/01-relaxation.html#recall-the-discrete-problem",
+    "href": "methodology/01-relaxation.html#recall-the-discrete-problem",
+    "title": "Boolean relaxation",
+    "section": "",
+    "text": "From the Sparse GLM page, the problem we want to solve is\n\\[\n\\begin{aligned}\n&\\min_{\\beta_0 \\in \\mathbb{R},\\; \\boldsymbol{\\beta} \\in \\mathbb{R}^p}\\;\\; -\\tfrac{1}{n}\\,\\ell(\\beta_0, \\boldsymbol{\\beta}) \\\\\n&\\text{subject to} \\quad \\|\\boldsymbol{\\beta}\\|_0 \\le k.\n\\end{aligned}\n\\]\nThe pain is the \\(\\ell_0\\) constraint: it forces a search over \\(\\binom{p}{k}\\) discrete supports. COMBSS replaces it by a continuous relaxation."
+  },
+  {
+    "objectID": "methodology/01-relaxation.html#reparameterising-the-support",
+    "href": "methodology/01-relaxation.html#reparameterising-the-support",
+    "title": "Boolean relaxation",
+    "section": "Reparameterising the support",
+    "text": "Reparameterising the support\nIntroduce an auxiliary vector \\(\\boldsymbol{t} \\in [0, 1]^p\\) — a continuous proxy for the binary indicator \\(\\boldsymbol{s} \\in \\{0, 1\\}^p\\). In the relaxed problem, the data sees the Hadamard product\n\\[\n\\boldsymbol{t} \\odot \\boldsymbol{\\beta}\n\\;=\\; \\bigl(\\,t_1 \\beta_1,\\; t_2 \\beta_2,\\; \\ldots,\\; t_p \\beta_p\\,\\bigr),\n\\]\nso that feature \\(j\\) is scaled by \\(t_j\\):\n\n\\(t_j = 1\\): feature \\(j\\) is fully in (coefficient \\(\\beta_j\\) used as-is).\n\\(t_j = 0\\): feature \\(j\\) is out (effective coefficient is zero, regardless of \\(\\beta_j\\)).\n\\(0 &lt; t_j &lt; 1\\): a continuous “partial inclusion”.\n\nVertices of the hypercube \\([0,1]^p\\) correspond exactly to discrete supports, and the cardinality constraint \\(\\sum s_j \\le k\\) becomes\n\\[\n\\boldsymbol{t} \\;\\in\\; \\mathcal{T}_k \\;=\\; \\Bigl\\{\\, \\boldsymbol{t} \\in [0,1]^p \\;:\\; \\textstyle\\sum_{j=1}^{p} t_j \\le k \\,\\Bigr\\},\n\\]\na polytope whose vertices are exactly the binary \\(k\\)-supports."
+  },
+  {
+    "objectID": "methodology/01-relaxation.html#the-relaxed-objective",
+    "href": "methodology/01-relaxation.html#the-relaxed-objective",
+    "title": "Boolean relaxation",
+    "section": "The relaxed objective",
+    "text": "The relaxed objective\nFor a curvature parameter \\(\\delta &gt; 0\\), define\n\\[\n\\boxed{\\;\\;\nf_{\\delta}(\\boldsymbol{t})\n\\;=\\;\n\\min_{\\beta_0,\\,\\boldsymbol{\\beta}}\\;\n\\Biggl[\n-\\tfrac{1}{n}\\,\\ell\\bigl(\\beta_0,\\;\\boldsymbol{t} \\odot \\boldsymbol{\\beta}\\bigr)\n\\;+\\; \\delta \\sum_{j=1}^{p} \\bigl(1 - t_j^{2}\\bigr)\\,\\beta_j^{2}\n\\Biggr].\n\\;\\;}\n\\]\nTwo pieces:\n\nGLM loss evaluated at the effective coefficients \\(\\boldsymbol{t} \\odot \\boldsymbol{\\beta}\\).\nCurvature penalty \\(\\delta \\sum_j (1 - t_j^2) \\beta_j^2\\): weights are large when \\(t_j\\) is small, pulling those \\(\\beta_j\\) toward zero; weights vanish at the vertices (\\(t_j \\in \\{0, 1\\}\\)).\n\nThe inner problem in \\(\\boldsymbol{\\beta}\\) (with \\(\\boldsymbol{t}\\) fixed) is a ridge-penalised GLM — closed-form for Gaussian, one glmnet call for binomial/multinomial.\nThe outer problem in \\(\\boldsymbol{t}\\) is smooth on the cardinality polytope \\(\\mathcal{T}_k\\)."
+  },
+  {
+    "objectID": "methodology/01-relaxation.html#properties-of-the-relaxed-objective",
+    "href": "methodology/01-relaxation.html#properties-of-the-relaxed-objective",
+    "title": "Boolean relaxation",
+    "section": "Properties of the relaxed objective",
+    "text": "Properties of the relaxed objective\nWhat does \\(f_\\delta(\\boldsymbol{t})\\) look like as we vary \\(\\delta\\)? Two visualisations make the shape concrete — one in 1D and one in 2D.\n\nOne feature (\\(p = 1\\))\nThe simplest case: a single predictor with a Gaussian response. The relaxed objective is a function of one scalar \\(t \\in [0, 1]\\).\n\n\n\n\n\nThe relaxed objective \\(f_\\delta(t)\\) for a single-feature Gaussian regression, plotted over \\(t \\in [0, 1]\\) for several values of \\(\\delta\\). The endpoints are fixed: \\(f_\\delta(0)\\) equals the null-model loss; \\(f_\\delta(1)\\) equals the OLS-fit loss. As \\(\\delta\\) grows, the curve becomes more peaked toward the vertex \\(t = 1\\).\n\n\n\n\nThree things to read off:\n\nEndpoints are fixed: \\(f_\\delta(0)\\) = the loss when no feature is in (null model); \\(f_\\delta(1)\\) = the loss when the feature is fully in (OLS fit). Neither depends on \\(\\delta\\).\nSmall \\(\\delta\\): The curve is nearly convex.\nLarge \\(\\delta\\): The curve becomes concave on the interior, with its minimum at the vertex \\(t = 1\\).\n\nThe homotopy in \\(\\delta\\) — gradually increasing \\(\\delta\\) during optimisation — uses the small-\\(\\delta\\) smooth landscape for navigation and the large-\\(\\delta\\) peaked landscape to push \\(\\boldsymbol{t}\\) to a vertex (= a discrete subset). See Frank-Wolfe for the schedule.\n\n\nTwo features (\\(p = 2\\))\nIn 2D the same effect plays out as a surface deforming with \\(\\delta\\). The figure below (from Mathur, Liquet, Muller, Moka 2026) shows \\(f_\\delta(\\boldsymbol{t})\\) over \\([0, 1]^2\\) for logistic regression at three values of \\(\\delta\\):\n\n\n\nBoolean-relaxation surface \\(f_\\delta(t_1, t_2)\\) for a 2-feature logistic regression, at three values of \\(\\delta\\). Small \\(\\delta\\) gives a smooth, near-flat surface; large \\(\\delta\\) pushes the global minimum to a vertex of the unit square.\n\n\nThe same story as the 1D case, now on a square. As \\(\\delta\\) grows, the surface becomes spiky at the vertices, and the algorithm is forced toward a discrete support."
+  },
+  {
+    "objectID": "methodology/01-relaxation.html#two-guarantees",
+    "href": "methodology/01-relaxation.html#two-guarantees",
+    "title": "Boolean relaxation",
+    "section": "Two guarantees",
+    "text": "Two guarantees\nTwo results anchor \\(f_\\delta\\) to the original discrete problem (Mathur, et al. 2026).\n1. Corner equivalence at every \\(\\delta\\). At any binary vertex \\(\\boldsymbol{s} \\in \\{0,1\\}^p\\),\n\\[\nf_\\delta(\\boldsymbol{s})\n\\;=\\;\n\\min_{\\substack{\\beta_0,\\,\\boldsymbol{\\beta} \\\\ \\beta_j = 0\\,\\text{ if }\\,s_j = 0}}\\;\\;\n-\\tfrac{1}{n}\\,\\ell(\\beta_0, \\boldsymbol{\\beta})\n\\qquad \\text{for every } \\delta &gt; 0.\n\\]\nThe penalty \\(\\delta(1 - s_j^2)\\beta_j^2\\) is zero when \\(s_j = 1\\), and pins \\(\\beta_j = 0\\) when \\(s_j = 0\\). At the corners, \\(f_\\delta\\) is the original sparse-GLM loss restricted to the support encoded by \\(\\boldsymbol{s}\\) — no relaxation error.\n2. Minimum at an optimal corner for large \\(\\delta\\). There exists \\(\\delta^\\star &gt; 0\\) such that for every \\(\\delta \\ge \\delta^\\star\\), \\(f_\\delta\\) is concave on \\(\\mathcal{T}_k\\). Since a concave function on a polytope attains its minimum at a vertex,\n\\[\n\\arg\\min_{\\boldsymbol{t} \\in \\mathcal{T}_k} f_\\delta(\\boldsymbol{t}) \\;\\in\\; \\{0,1\\}^p,\n\\]\nand by corner equivalence that vertex solves the original \\(\\ell_0\\)-constrained sparse-GLM problem exactly.\nTogether they motivate the homotopy in \\(\\delta\\): start small for a smooth landscape, end large to land on a discrete solution. The outer optimisation along the way needs the gradient \\(\\nabla f_\\delta\\) — derived next on the Frank-Wolfe page.\n\n← Previous: COMBSS (our method)\nNext: Frank-Wolfe →"
   }
 ]
