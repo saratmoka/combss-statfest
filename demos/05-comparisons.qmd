@@ -76,11 +76,14 @@ c(selected = length(sel_c), val_mse = round(mse_c, 4))
 ## Python
 
 ```python
-from combss import combss
-fit = combss(x[itr], y[itr], X_val=x[iva], y_val=y[iva],
-             family="gaussian", q=10)
-sel_c = fit.subset_list[fit.best_k - 1]
-mse_c = min(fit.mse_path)
+import numpy as np
+from numpy.linalg import lstsq
+from combss import linear
+
+fit = linear.model()
+fit.fit(x[itr], y[itr], X_val=x[iva], y_val=y[iva], q=10, verbose=False)
+sel_c = fit.subset
+mse_c = fit.mse
 print({"selected": len(sel_c), "val_mse": round(mse_c, 4)})
 ```
 
@@ -171,12 +174,11 @@ c(selected = fit_khan$best_k, test_acc = round(acc_c_khan, 3))
 ## Python
 
 ```python
-from combss import combss
-fit_khan = combss(X_train, y_train.astype(str),
-                  X_val=X_test, y_val=y_test.astype(str),
-                  family="multinomial", q=20)
-print({"selected": fit_khan.best_k,
-       "test_acc": round(max(fit_khan.accuracy_path), 3)})
+from combss import multinomial
+fit_khan = multinomial.model()
+fit_khan.fit(X_train, y_train, X_val=X_test, y_val=y_test, q=20, verbose=False)
+print({"selected": len(fit_khan.subset),
+       "test_acc": round(fit_khan.accuracy, 3)})
 ```
 
 :::

@@ -76,12 +76,11 @@ fit_khan
 ## Python
 
 ```python
-from combss import combss
+from combss import multinomial
 
-fit_khan = combss(X_train, y_train,
-                  X_val=X_test, y_val=y_test,
-                  family="multinomial", q=20)
-print(fit_khan)
+fit_khan = multinomial.model()
+fit_khan.fit(X_train, y_train, X_val=X_test, y_val=y_test, q=20, verbose=False)
+print(fit_khan.subset)
 ```
 
 :::
@@ -101,8 +100,8 @@ fit_khan$subset_list[[ fit_khan$best_k ]]
 ## Python
 
 ```python
-print(fit_khan.best_k)
-print(fit_khan.subset_list[fit_khan.best_k - 1])
+print(len(fit_khan.subset), "genes selected at the best k")
+print(fit_khan.subset)
 ```
 
 :::
@@ -124,9 +123,18 @@ abline(v = fit_khan$best_k, lty = 2)
 ## Python
 
 ```python
+import numpy as np
 import matplotlib.pyplot as plt
-plt.plot(range(1, len(fit_khan.accuracy_path) + 1), fit_khan.accuracy_path, "o-")
-plt.axvline(fit_khan.best_k, ls="--")
+from sklearn.linear_model import LogisticRegression
+
+acc_path = []
+for s in fit_khan.subset_list:
+    clf = LogisticRegression(max_iter=2000).fit(X_train[:, s], y_train)
+    acc_path.append((clf.predict(X_test[:, s]) == y_test).mean())
+best_k = int(np.argmax(acc_path) + 1)
+
+plt.plot(range(1, len(acc_path) + 1), acc_path, "o-")
+plt.axvline(best_k, ls="--")
 plt.xlabel("k (number of selected genes)")
 plt.ylabel("Test accuracy")
 plt.show()

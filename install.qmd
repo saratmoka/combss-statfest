@@ -38,17 +38,19 @@ Python 3.9 or newer. Dependencies (`numpy`, `scipy`, `scikit-learn`, `pandas`) i
 
 ```python
 import numpy as np
-from combss import combss
+from combss import linear
 
 rng = np.random.default_rng(1)
 X = rng.standard_normal((100, 20))
 beta = np.r_[2, -1, 1, np.zeros(17)]
 y = X @ beta + 0.3 * rng.standard_normal(100)
-fit = combss(X, y, family="gaussian", q=5)
-print(fit.subset_list[:5])
+
+m = linear.model()
+m.fit(X, y, q=5, verbose=False)
+print(m.subset_list[:3])
 ```
 
-Expected output: nested supports building up to `{1, 2, 3}` at $k = 3$.
+Expected output: nested supports building up to `[0, 1, 2]` at $k = 3$ (Python is 0-indexed).
 
 ## Editor recommendations
 
@@ -64,7 +66,7 @@ git clone https://github.com/saratmoka/combss-statfest.git
 cd combss-statfest
 ```
 
-All the data (Khan SRBCT and the simulation seeds) lives under `data/`. No external downloads are needed at run time.
+The Khan SRBCT train/test CSVs live under `data/`; simulations use inline `set.seed()` / `np.random.default_rng()` calls. The rice GWAS demo is precomputed (the raw SNP matrix is too large to ship), and the figures are in `figures/rice/`. No external downloads at run time.
 
 ## Trouble?
 

@@ -87,11 +87,10 @@ fit_hd
 ## Python
 
 ```python
-from combss import combss
-fit_hd = combss(X[itr], y[itr],
-                X_val=X[iva], y_val=y[iva],
-                family="binomial", q=15)
-print(fit_hd)
+from combss import logistic
+fit_hd = logistic.model()
+fit_hd.fit(X[itr], y[itr], X_val=X[iva], y_val=y[iva], q=15, verbose=False)
+print(fit_hd.subset)
 ```
 
 :::

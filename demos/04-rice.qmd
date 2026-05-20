@@ -45,12 +45,13 @@ fit_rice$subset_list
 ## Python
 
 ```python
-from combss import combss
+from combss import logistic
 
 y_rice = dataYX["y"].to_numpy()
 X_snps = dataYX.drop(columns=["y", "intercept"]).to_numpy()
 
-fit_rice = combss(X_snps, y_rice, family="binomial", q=10)
+fit_rice = logistic.model()
+fit_rice.fit(X_snps, y_rice, q=10, verbose=False)
 print(fit_rice.subset_list)
 ```
 
