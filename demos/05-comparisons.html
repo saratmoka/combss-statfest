@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Head-to-head with the lasso – COMBSS @ StatFest</title>
+<title>Head-to-head with the lasso and others – COMBSS @ StatFest</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -258,11 +258,13 @@ window.Quarto = {
   <li><a href="#combss" id="toc-combss" class="nav-link" data-scroll-target="#combss">COMBSS</a></li>
   <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">Summary</a></li>
   </ul></li>
+  <li><a href="#benchmarks-against-scad-and-mcp" id="toc-benchmarks-against-scad-and-mcp" class="nav-link" data-scroll-target="#benchmarks-against-scad-and-mcp">Benchmarks against SCAD and MCP</a></li>
   <li><a href="#khan-srbct" id="toc-khan-srbct" class="nav-link" data-scroll-target="#khan-srbct">Khan SRBCT</a>
   <ul class="collapse">
   <li><a href="#multinomial-lasso" id="toc-multinomial-lasso" class="nav-link" data-scroll-target="#multinomial-lasso">Multinomial lasso</a></li>
   <li><a href="#combss-1" id="toc-combss-1" class="nav-link" data-scroll-target="#combss-1">COMBSS</a></li>
   <li><a href="#summary-1" id="toc-summary-1" class="nav-link" data-scroll-target="#summary-1">Summary</a></li>
+  <li><a href="#group-lasso-comparison-at-multiple-operating-points" id="toc-group-lasso-comparison-at-multiple-operating-points" class="nav-link" data-scroll-target="#group-lasso-comparison-at-multiple-operating-points">Group-lasso comparison at multiple operating points</a></li>
   </ul></li>
   <li><a href="#what-about-mio" id="toc-what-about-mio" class="nav-link" data-scroll-target="#what-about-mio">What about MIO?</a></li>
   <li><a href="#bottom-line" id="toc-bottom-line" class="nav-link" data-scroll-target="#bottom-line">Bottom line</a></li>
@@ -274,8 +276,8 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<div class="quarto-title-block"><div><h1 class="title">Head-to-head with the lasso</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
-<p class="subtitle lead">Same data, same train/validation split, three numbers each</p>
+<div class="quarto-title-block"><div><h1 class="title">Head-to-head with the lasso and others</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+<p class="subtitle lead">Same data, same train/validation split, different methods</p>
 </div>
 
 
@@ -328,10 +330,9 @@ window.Quarto = {
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>sel_l  <span class="ot">&lt;-</span> <span class="fu">which</span>(beta_l <span class="sc">!=</span> <span class="dv">0</span>)</span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>pred_l <span class="ot">&lt;-</span> <span class="fu">predict</span>(cv_l, <span class="at">newx =</span> x[iva, ], <span class="at">s =</span> <span class="st">"lambda.min"</span>)</span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>mse_l  <span class="ot">&lt;-</span> <span class="fu">mean</span>((y[iva] <span class="sc">-</span> pred_l)<span class="sc">^</span><span class="dv">2</span>)</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">selected =</span> <span class="fu">length</span>(sel_l), <span class="at">val_mse =</span> <span class="fu">round</span>(mse_l, <span class="dv">4</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"selected = %d, val_mse = %.4f</span><span class="sc">\n</span><span class="st">"</span>, <span class="fu">length</span>(sel_l), mse_l))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>selected  val_mse 
- 14.0000   0.2586 </code></pre>
+<pre><code>selected = 14, val_mse = 0.2586</code></pre>
 </div>
 </div>
 </div>
@@ -360,10 +361,9 @@ window.Quarto = {
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">family =</span> <span class="st">"gaussian"</span>, <span class="at">q =</span> <span class="dv">10</span>)</span>
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>sel_c <span class="ot">&lt;-</span> fit<span class="sc">$</span>subset_list[[fit<span class="sc">$</span>best_k]]</span>
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>mse_c <span class="ot">&lt;-</span> <span class="fu">min</span>(fit<span class="sc">$</span>mse_path)</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">selected =</span> <span class="fu">length</span>(sel_c), <span class="at">val_mse =</span> <span class="fu">round</span>(mse_c, <span class="dv">4</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"selected = %d, val_mse = %.4f</span><span class="sc">\n</span><span class="st">"</span>, <span class="fu">length</span>(sel_c), mse_c))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>selected  val_mse 
-  5.0000   0.2222 </code></pre>
+<pre><code>selected = 5, val_mse = 0.2222</code></pre>
 </div>
 </div>
 </div>
@@ -414,6 +414,46 @@ window.Quarto = {
 <p>COMBSS returns <em>exactly</em> the five true predictors; lasso typically overshoots in selected size while landing on a comparable validation MSE.</p>
 </section>
 </section>
+<section id="benchmarks-against-scad-and-mcp" class="level2">
+<h2 class="anchored" data-anchor-id="benchmarks-against-scad-and-mcp">Benchmarks against SCAD and MCP</h2>
+<p>The live block above pits COMBSS against the lasso on a single dataset. To see what happens systematically — and against the smarter non-convex penalties <strong>SCAD</strong> (<a href="#references">Fan &amp; Li, 2001</a>) and <strong>MCP</strong> (<a href="#references">Zhang, 2010</a>) — we lift one figure from the COMBSS-GLM paper (Mathur et al.&nbsp;2026).</p>
+<p>The setting: high-dimensional logistic regression, <span class="math inline">\(n = 200\)</span>, <span class="math inline">\(p = 1000\)</span>, true sparsity <span class="math inline">\(k = 10\)</span>, AR(1) predictor correlation <span class="math inline">\(\rho \in \{0,\,0.2,\,0.4,\,0.6\}\)</span>. Each method’s tuning parameter is chosen on an independent 10,000-observation test set. Averages over 50 replications; error bars are one SE.</p>
+<div class="quarto-layout-panel" data-layout-ncol="3">
+<div class="quarto-layout-row">
+<div class="quarto-layout-cell" style="flex-basis: 33.3%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../figures/sim/highcase1-MCC.png" class="img-fluid figure-img"></p>
+<figcaption><strong>MCC</strong> — selection quality. Higher = closer to the true support.</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 33.3%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../figures/sim/highcase1-F1.png" class="img-fluid figure-img"></p>
+<figcaption><strong>F1 score</strong> — harmonic mean of precision and recall.</figcaption>
+</figure>
+</div>
+</div>
+<div class="quarto-layout-cell" style="flex-basis: 33.3%;justify-content: flex-start;">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../figures/sim/highcase1-MCE.png" class="img-fluid figure-img"></p>
+<figcaption><strong>Prediction accuracy</strong> on the held-out test set.</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<p>Three things to take away:</p>
+<ul>
+<li><strong>MCC and F1.</strong> COMBSS sits clearly above SCAD, MCP, and lasso across all correlations, and the gap <em>widens</em> as <span class="math inline">\(\rho\)</span> grows. SCAD is the closest competitor; MCP actually <em>deteriorates</em> at <span class="math inline">\(\rho = 0.6\)</span>.</li>
+<li><strong>Prediction accuracy.</strong> All four methods land in a comparable band — the selection gains do not cost predictive performance.</li>
+<li><strong>Selection vs prediction.</strong> All four methods predict equally well — but lasso reaches that accuracy by keeping <em>many</em> features. MCC and F1 reward small, correct subsets; raw accuracy doesn’t.</li>
+</ul>
+<p>See the paper for more settings, including weaker signals and a different correlation structure.</p>
+</section>
 <section id="khan-srbct" class="level2">
 <h2 class="anchored" data-anchor-id="khan-srbct">Khan SRBCT</h2>
 <p>Same train/test split as the <a href="../demos/03-khan.html">Khan SRBCT demo</a>.</p>
@@ -436,10 +476,9 @@ window.Quarto = {
 <span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>sel_l_khan <span class="ot">&lt;-</span> <span class="fu">sort</span>(<span class="fu">unique</span>(<span class="fu">unlist</span>(<span class="fu">lapply</span>(beta_l, <span class="cf">function</span>(B) <span class="fu">which</span>(B[<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>] <span class="sc">!=</span> <span class="dv">0</span>)))))</span>
 <span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>pred_l <span class="ot">&lt;-</span> <span class="fu">predict</span>(cv_l, <span class="at">newx =</span> x_test, <span class="at">s =</span> <span class="st">"lambda.min"</span>, <span class="at">type =</span> <span class="st">"class"</span>)</span>
 <span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>acc_l_khan <span class="ot">&lt;-</span> <span class="fu">mean</span>(pred_l <span class="sc">==</span> y_test)</span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">selected =</span> <span class="fu">length</span>(sel_l_khan), <span class="at">test_acc =</span> <span class="fu">round</span>(acc_l_khan, <span class="dv">3</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"selected = %d, test_acc = %.3f</span><span class="sc">\n</span><span class="st">"</span>, <span class="fu">length</span>(sel_l_khan), acc_l_khan))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>selected test_acc 
-      35        1 </code></pre>
+<pre><code>selected = 35, test_acc = 1.000</code></pre>
 </div>
 </div>
 </div>
@@ -470,10 +509,9 @@ window.Quarto = {
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>                   <span class="at">x_val =</span> x_test, <span class="at">y_val =</span> <span class="fu">as.character</span>(y_test),</span>
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>                   <span class="at">family =</span> <span class="st">"multinomial"</span>, <span class="at">q =</span> <span class="dv">20</span>)</span>
 <span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>acc_c_khan <span class="ot">&lt;-</span> <span class="fu">max</span>(fit_khan<span class="sc">$</span>accuracy_path)</span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">selected =</span> fit_khan<span class="sc">$</span>best_k, <span class="at">test_acc =</span> <span class="fu">round</span>(acc_c_khan, <span class="dv">3</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"selected = %d, test_acc = %.3f</span><span class="sc">\n</span><span class="st">"</span>, fit_khan<span class="sc">$</span>best_k, acc_c_khan))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>selected test_acc 
-      12        1 </code></pre>
+<pre><code>selected = 12, test_acc = 1.000</code></pre>
 </div>
 </div>
 </div>
@@ -515,6 +553,56 @@ window.Quarto = {
 </div>
 </div>
 <p>COMBSS finds a far smaller, interpretable gene panel without sacrificing accuracy — the headline result of this dataset.</p>
+</section>
+<section id="group-lasso-comparison-at-multiple-operating-points" class="level3">
+<h3 class="anchored" data-anchor-id="group-lasso-comparison-at-multiple-operating-points">Group-lasso comparison at multiple operating points</h3>
+<p>The paper compares COMBSS against the <strong>multinomial group lasso</strong> at three principled <span class="math inline">\(\lambda\)</span> choices — the headline number is <em>35 genes for the group lasso vs 12 genes for COMBSS</em> at the same 100% accuracy:</p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Method</th>
+<th style="text-align: right;">Genes selected</th>
+<th style="text-align: right;">Test accuracy</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">COMBSS-GLM (k = 10)</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">0.85</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">COMBSS-GLM (k = 13)</td>
+<td style="text-align: right;">8</td>
+<td style="text-align: right;">0.95</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">COMBSS-GLM (k = 16)</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: right;">1.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Group lasso (<span class="math inline">\(\lambda_{1\text{se}}\)</span>)</td>
+<td style="text-align: right;">28</td>
+<td style="text-align: right;">0.95</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Group lasso (<span class="math inline">\(\lambda_{\min}\)</span>)</td>
+<td style="text-align: right;">30</td>
+<td style="text-align: right;">0.95</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Group lasso (best <span class="math inline">\(\lambda\)</span>)</td>
+<td style="text-align: right;">35</td>
+<td style="text-align: right;">1.00</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Source: Mathur, et al (2026), Table 1. The three COMBSS rows are different model sizes from the <em>same</em> run (the homotopy returns a path); the three group lasso rows are different <span class="math inline">\(\lambda\)</span> choices on a single CV path.</p>
 </section>
 </section>
 <section id="what-about-mio" class="level2">
@@ -991,8 +1079,8 @@ window.Quarto = {
   });
   </script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Head-to-head with the lasso"</span></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="an">subtitle:</span><span class="co"> "Same data, same train/validation split, three numbers each"</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "Head-to-head with the lasso and others"</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="an">subtitle:</span><span class="co"> "Same data, same train/validation split, different methods"</span></span>
 <span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
 <span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>::: {.callout-note appearance="minimal"}</span>
@@ -1031,7 +1119,7 @@ window.Quarto = {
 <span id="cb15-43"><a href="#cb15-43" aria-hidden="true" tabindex="-1"></a>sel_l  <span class="ot">&lt;-</span> <span class="fu">which</span>(beta_l <span class="sc">!=</span> <span class="dv">0</span>)</span>
 <span id="cb15-44"><a href="#cb15-44" aria-hidden="true" tabindex="-1"></a>pred_l <span class="ot">&lt;-</span> <span class="fu">predict</span>(cv_l, <span class="at">newx =</span> x[iva, ], <span class="at">s =</span> <span class="st">"lambda.min"</span>)</span>
 <span id="cb15-45"><a href="#cb15-45" aria-hidden="true" tabindex="-1"></a>mse_l  <span class="ot">&lt;-</span> <span class="fu">mean</span>((y[iva] <span class="sc">-</span> pred_l)<span class="sc">^</span><span class="dv">2</span>)</span>
-<span id="cb15-46"><a href="#cb15-46" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">selected =</span> <span class="fu">length</span>(sel_l), <span class="at">val_mse =</span> <span class="fu">round</span>(mse_l, <span class="dv">4</span>))</span>
+<span id="cb15-46"><a href="#cb15-46" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"selected = %d, val_mse = %.4f</span><span class="sc">\n</span><span class="st">"</span>, <span class="fu">length</span>(sel_l), mse_l))</span>
 <span id="cb15-47"><a href="#cb15-47" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb15-48"><a href="#cb15-48" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-49"><a href="#cb15-49" aria-hidden="true" tabindex="-1"></a><span class="fu">## Python</span></span>
@@ -1062,7 +1150,7 @@ window.Quarto = {
 <span id="cb15-76"><a href="#cb15-76" aria-hidden="true" tabindex="-1"></a>              <span class="at">family =</span> <span class="st">"gaussian"</span>, <span class="at">q =</span> <span class="dv">10</span>)</span>
 <span id="cb15-77"><a href="#cb15-77" aria-hidden="true" tabindex="-1"></a>sel_c <span class="ot">&lt;-</span> fit<span class="sc">$</span>subset_list[[fit<span class="sc">$</span>best_k]]</span>
 <span id="cb15-78"><a href="#cb15-78" aria-hidden="true" tabindex="-1"></a>mse_c <span class="ot">&lt;-</span> <span class="fu">min</span>(fit<span class="sc">$</span>mse_path)</span>
-<span id="cb15-79"><a href="#cb15-79" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">selected =</span> <span class="fu">length</span>(sel_c), <span class="at">val_mse =</span> <span class="fu">round</span>(mse_c, <span class="dv">4</span>))</span>
+<span id="cb15-79"><a href="#cb15-79" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"selected = %d, val_mse = %.4f</span><span class="sc">\n</span><span class="st">"</span>, <span class="fu">length</span>(sel_c), mse_c))</span>
 <span id="cb15-80"><a href="#cb15-80" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb15-81"><a href="#cb15-81" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-82"><a href="#cb15-82" aria-hidden="true" tabindex="-1"></a><span class="fu">## Python</span></span>
@@ -1100,112 +1188,159 @@ window.Quarto = {
 <span id="cb15-116"><a href="#cb15-116" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-117"><a href="#cb15-117" aria-hidden="true" tabindex="-1"></a>COMBSS returns *exactly* the five true predictors; lasso typically overshoots in selected size while landing on a comparable validation MSE.</span>
 <span id="cb15-118"><a href="#cb15-118" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-119"><a href="#cb15-119" aria-hidden="true" tabindex="-1"></a><span class="fu">## Khan SRBCT</span></span>
+<span id="cb15-119"><a href="#cb15-119" aria-hidden="true" tabindex="-1"></a><span class="fu">## Benchmarks against SCAD and MCP</span></span>
 <span id="cb15-120"><a href="#cb15-120" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-121"><a href="#cb15-121" aria-hidden="true" tabindex="-1"></a>Same train/test split as the <span class="co">[</span><span class="ot">Khan SRBCT demo</span><span class="co">](03-khan.qmd)</span>.</span>
+<span id="cb15-121"><a href="#cb15-121" aria-hidden="true" tabindex="-1"></a>The live block above pits COMBSS against the lasso on a single dataset. To see what happens systematically — and against the smarter non-convex penalties **SCAD** ([Fan &amp; Li, 2001](#references)) and **MCP** (<span class="co">[</span><span class="ot">Zhang, 2010</span><span class="co">](#references)</span>) — we lift one figure from the COMBSS-GLM paper (Mathur et al. 2026).</span>
 <span id="cb15-122"><a href="#cb15-122" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-125"><a href="#cb15-125" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb15-126"><a href="#cb15-126" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: khan-data</span></span>
-<span id="cb15-127"><a href="#cb15-127" aria-hidden="true" tabindex="-1"></a><span class="co">#| message: false</span></span>
-<span id="cb15-128"><a href="#cb15-128" aria-hidden="true" tabindex="-1"></a>train <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"../data/Khan_train.csv"</span>)</span>
-<span id="cb15-129"><a href="#cb15-129" aria-hidden="true" tabindex="-1"></a>test  <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"../data/Khan_test.csv"</span>)</span>
-<span id="cb15-130"><a href="#cb15-130" aria-hidden="true" tabindex="-1"></a>x_train <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(train[, <span class="sc">-</span><span class="dv">1</span>]); y_train <span class="ot">&lt;-</span> <span class="fu">factor</span>(train<span class="sc">$</span>y)</span>
-<span id="cb15-131"><a href="#cb15-131" aria-hidden="true" tabindex="-1"></a>x_test  <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(test[, <span class="sc">-</span><span class="dv">1</span>]);  y_test  <span class="ot">&lt;-</span> <span class="fu">factor</span>(test<span class="sc">$</span>y)</span>
-<span id="cb15-132"><a href="#cb15-132" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb15-133"><a href="#cb15-133" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-134"><a href="#cb15-134" aria-hidden="true" tabindex="-1"></a><span class="fu">### Multinomial lasso</span></span>
-<span id="cb15-135"><a href="#cb15-135" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-136"><a href="#cb15-136" aria-hidden="true" tabindex="-1"></a>::: {.panel-tabset group="lang"}</span>
-<span id="cb15-137"><a href="#cb15-137" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-138"><a href="#cb15-138" aria-hidden="true" tabindex="-1"></a><span class="fu">## R</span></span>
-<span id="cb15-139"><a href="#cb15-139" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-142"><a href="#cb15-142" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb15-143"><a href="#cb15-143" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: khan-lasso</span></span>
-<span id="cb15-144"><a href="#cb15-144" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(glmnet)</span>
-<span id="cb15-145"><a href="#cb15-145" aria-hidden="true" tabindex="-1"></a>cv_l <span class="ot">&lt;-</span> <span class="fu">cv.glmnet</span>(x_train, y_train, <span class="at">family =</span> <span class="st">"multinomial"</span>, <span class="at">alpha =</span> <span class="dv">1</span>)</span>
-<span id="cb15-146"><a href="#cb15-146" aria-hidden="true" tabindex="-1"></a>beta_l <span class="ot">&lt;-</span> <span class="fu">coef</span>(cv_l, <span class="at">s =</span> <span class="st">"lambda.min"</span>)</span>
-<span id="cb15-147"><a href="#cb15-147" aria-hidden="true" tabindex="-1"></a>sel_l_khan <span class="ot">&lt;-</span> <span class="fu">sort</span>(<span class="fu">unique</span>(<span class="fu">unlist</span>(<span class="fu">lapply</span>(beta_l, <span class="cf">function</span>(B) <span class="fu">which</span>(B[<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>] <span class="sc">!=</span> <span class="dv">0</span>)))))</span>
-<span id="cb15-148"><a href="#cb15-148" aria-hidden="true" tabindex="-1"></a>pred_l <span class="ot">&lt;-</span> <span class="fu">predict</span>(cv_l, <span class="at">newx =</span> x_test, <span class="at">s =</span> <span class="st">"lambda.min"</span>, <span class="at">type =</span> <span class="st">"class"</span>)</span>
-<span id="cb15-149"><a href="#cb15-149" aria-hidden="true" tabindex="-1"></a>acc_l_khan <span class="ot">&lt;-</span> <span class="fu">mean</span>(pred_l <span class="sc">==</span> y_test)</span>
-<span id="cb15-150"><a href="#cb15-150" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">selected =</span> <span class="fu">length</span>(sel_l_khan), <span class="at">test_acc =</span> <span class="fu">round</span>(acc_l_khan, <span class="dv">3</span>))</span>
-<span id="cb15-151"><a href="#cb15-151" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb15-152"><a href="#cb15-152" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-153"><a href="#cb15-153" aria-hidden="true" tabindex="-1"></a><span class="fu">## Python</span></span>
-<span id="cb15-154"><a href="#cb15-154" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-155"><a href="#cb15-155" aria-hidden="true" tabindex="-1"></a><span class="in">```python</span></span>
-<span id="cb15-156"><a href="#cb15-156" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LogisticRegressionCV</span>
-<span id="cb15-157"><a href="#cb15-157" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb15-158"><a href="#cb15-158" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-159"><a href="#cb15-159" aria-hidden="true" tabindex="-1"></a>cv_l <span class="op">=</span> LogisticRegressionCV(</span>
-<span id="cb15-160"><a href="#cb15-160" aria-hidden="true" tabindex="-1"></a>    penalty<span class="op">=</span><span class="st">"l1"</span>, solver<span class="op">=</span><span class="st">"saga"</span>, multi_class<span class="op">=</span><span class="st">"multinomial"</span>,</span>
-<span id="cb15-161"><a href="#cb15-161" aria-hidden="true" tabindex="-1"></a>    Cs<span class="op">=</span><span class="dv">20</span>, cv<span class="op">=</span><span class="dv">10</span>, max_iter<span class="op">=</span><span class="dv">5000</span></span>
-<span id="cb15-162"><a href="#cb15-162" aria-hidden="true" tabindex="-1"></a>).fit(X_train, y_train)</span>
-<span id="cb15-163"><a href="#cb15-163" aria-hidden="true" tabindex="-1"></a>sel_l <span class="op">=</span> np.where(np.<span class="bu">any</span>(cv_l.coef_ <span class="op">!=</span> <span class="dv">0</span>, axis<span class="op">=</span><span class="dv">0</span>))[<span class="dv">0</span>]</span>
-<span id="cb15-164"><a href="#cb15-164" aria-hidden="true" tabindex="-1"></a>acc_l <span class="op">=</span> (cv_l.predict(X_test) <span class="op">==</span> y_test).mean()</span>
-<span id="cb15-165"><a href="#cb15-165" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>({<span class="st">"selected"</span>: <span class="bu">len</span>(sel_l), <span class="st">"test_acc"</span>: <span class="bu">round</span>(acc_l, <span class="dv">3</span>)})</span>
-<span id="cb15-166"><a href="#cb15-166" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb15-167"><a href="#cb15-167" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-168"><a href="#cb15-168" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb15-169"><a href="#cb15-169" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-170"><a href="#cb15-170" aria-hidden="true" tabindex="-1"></a><span class="fu">### COMBSS</span></span>
-<span id="cb15-171"><a href="#cb15-171" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-172"><a href="#cb15-172" aria-hidden="true" tabindex="-1"></a>::: {.panel-tabset group="lang"}</span>
-<span id="cb15-173"><a href="#cb15-173" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-174"><a href="#cb15-174" aria-hidden="true" tabindex="-1"></a><span class="fu">## R</span></span>
-<span id="cb15-175"><a href="#cb15-175" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-178"><a href="#cb15-178" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb15-179"><a href="#cb15-179" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: khan-combss</span></span>
-<span id="cb15-180"><a href="#cb15-180" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(combss)</span>
-<span id="cb15-181"><a href="#cb15-181" aria-hidden="true" tabindex="-1"></a>fit_khan <span class="ot">&lt;-</span> <span class="fu">combss</span>(x_train, <span class="fu">as.character</span>(y_train),</span>
-<span id="cb15-182"><a href="#cb15-182" aria-hidden="true" tabindex="-1"></a>                   <span class="at">x_val =</span> x_test, <span class="at">y_val =</span> <span class="fu">as.character</span>(y_test),</span>
-<span id="cb15-183"><a href="#cb15-183" aria-hidden="true" tabindex="-1"></a>                   <span class="at">family =</span> <span class="st">"multinomial"</span>, <span class="at">q =</span> <span class="dv">20</span>)</span>
-<span id="cb15-184"><a href="#cb15-184" aria-hidden="true" tabindex="-1"></a>acc_c_khan <span class="ot">&lt;-</span> <span class="fu">max</span>(fit_khan<span class="sc">$</span>accuracy_path)</span>
-<span id="cb15-185"><a href="#cb15-185" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">selected =</span> fit_khan<span class="sc">$</span>best_k, <span class="at">test_acc =</span> <span class="fu">round</span>(acc_c_khan, <span class="dv">3</span>))</span>
-<span id="cb15-186"><a href="#cb15-186" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb15-187"><a href="#cb15-187" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-188"><a href="#cb15-188" aria-hidden="true" tabindex="-1"></a><span class="fu">## Python</span></span>
-<span id="cb15-189"><a href="#cb15-189" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-190"><a href="#cb15-190" aria-hidden="true" tabindex="-1"></a><span class="in">```python</span></span>
-<span id="cb15-191"><a href="#cb15-191" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> combss <span class="im">import</span> multinomial</span>
-<span id="cb15-192"><a href="#cb15-192" aria-hidden="true" tabindex="-1"></a>fit_khan <span class="op">=</span> multinomial.model()</span>
-<span id="cb15-193"><a href="#cb15-193" aria-hidden="true" tabindex="-1"></a>fit_khan.fit(X_train, y_train, X_val<span class="op">=</span>X_test, y_val<span class="op">=</span>y_test, q<span class="op">=</span><span class="dv">20</span>, verbose<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb15-194"><a href="#cb15-194" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>({<span class="st">"selected"</span>: <span class="bu">len</span>(fit_khan.subset),</span>
-<span id="cb15-195"><a href="#cb15-195" aria-hidden="true" tabindex="-1"></a>       <span class="st">"test_acc"</span>: <span class="bu">round</span>(fit_khan.accuracy, <span class="dv">3</span>)})</span>
-<span id="cb15-196"><a href="#cb15-196" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb15-123"><a href="#cb15-123" aria-hidden="true" tabindex="-1"></a>The setting: high-dimensional logistic regression, $n = 200$, $p = 1000$, true sparsity $k = 10$, AR(1) predictor correlation $\rho \in <span class="sc">\{</span>0,\,0.2,\,0.4,\,0.6<span class="sc">\}</span>$. Each method's tuning parameter is chosen on an independent 10,000-observation test set. Averages over 50 replications; error bars are one SE.</span>
+<span id="cb15-124"><a href="#cb15-124" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-125"><a href="#cb15-125" aria-hidden="true" tabindex="-1"></a>::: {layout-ncol=3}</span>
+<span id="cb15-126"><a href="#cb15-126" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-127"><a href="#cb15-127" aria-hidden="true" tabindex="-1"></a><span class="al">![**MCC** — selection quality. Higher = closer to the true support.](../figures/sim/highcase1-MCC.png)</span>{fig-align="center"}</span>
+<span id="cb15-128"><a href="#cb15-128" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-129"><a href="#cb15-129" aria-hidden="true" tabindex="-1"></a><span class="al">![**F1 score** — harmonic mean of precision and recall.](../figures/sim/highcase1-F1.png)</span>{fig-align="center"}</span>
+<span id="cb15-130"><a href="#cb15-130" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-131"><a href="#cb15-131" aria-hidden="true" tabindex="-1"></a><span class="al">![**Prediction accuracy** on the held-out test set.](../figures/sim/highcase1-MCE.png)</span>{fig-align="center"}</span>
+<span id="cb15-132"><a href="#cb15-132" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-133"><a href="#cb15-133" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb15-134"><a href="#cb15-134" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-135"><a href="#cb15-135" aria-hidden="true" tabindex="-1"></a>Three things to take away:</span>
+<span id="cb15-136"><a href="#cb15-136" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-137"><a href="#cb15-137" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**MCC and F1.** COMBSS sits clearly above SCAD, MCP, and lasso across all correlations, and the gap *widens* as $\rho$ grows. SCAD is the closest competitor; MCP actually *deteriorates* at $\rho = 0.6$.</span>
+<span id="cb15-138"><a href="#cb15-138" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Prediction accuracy.** All four methods land in a comparable band — the selection gains do not cost predictive performance.</span>
+<span id="cb15-139"><a href="#cb15-139" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Selection vs prediction.** All four methods predict equally well — but lasso reaches that accuracy by keeping *many* features. MCC and F1 reward small, correct subsets; raw accuracy doesn't.</span>
+<span id="cb15-140"><a href="#cb15-140" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-141"><a href="#cb15-141" aria-hidden="true" tabindex="-1"></a>See the paper for more settings, including weaker signals and a different correlation structure.</span>
+<span id="cb15-142"><a href="#cb15-142" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-143"><a href="#cb15-143" aria-hidden="true" tabindex="-1"></a><span class="fu">## Khan SRBCT</span></span>
+<span id="cb15-144"><a href="#cb15-144" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-145"><a href="#cb15-145" aria-hidden="true" tabindex="-1"></a>Same train/test split as the <span class="co">[</span><span class="ot">Khan SRBCT demo</span><span class="co">](03-khan.qmd)</span>.</span>
+<span id="cb15-146"><a href="#cb15-146" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-149"><a href="#cb15-149" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb15-150"><a href="#cb15-150" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: khan-data</span></span>
+<span id="cb15-151"><a href="#cb15-151" aria-hidden="true" tabindex="-1"></a><span class="co">#| message: false</span></span>
+<span id="cb15-152"><a href="#cb15-152" aria-hidden="true" tabindex="-1"></a>train <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"../data/Khan_train.csv"</span>)</span>
+<span id="cb15-153"><a href="#cb15-153" aria-hidden="true" tabindex="-1"></a>test  <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"../data/Khan_test.csv"</span>)</span>
+<span id="cb15-154"><a href="#cb15-154" aria-hidden="true" tabindex="-1"></a>x_train <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(train[, <span class="sc">-</span><span class="dv">1</span>]); y_train <span class="ot">&lt;-</span> <span class="fu">factor</span>(train<span class="sc">$</span>y)</span>
+<span id="cb15-155"><a href="#cb15-155" aria-hidden="true" tabindex="-1"></a>x_test  <span class="ot">&lt;-</span> <span class="fu">as.matrix</span>(test[, <span class="sc">-</span><span class="dv">1</span>]);  y_test  <span class="ot">&lt;-</span> <span class="fu">factor</span>(test<span class="sc">$</span>y)</span>
+<span id="cb15-156"><a href="#cb15-156" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb15-157"><a href="#cb15-157" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-158"><a href="#cb15-158" aria-hidden="true" tabindex="-1"></a><span class="fu">### Multinomial lasso</span></span>
+<span id="cb15-159"><a href="#cb15-159" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-160"><a href="#cb15-160" aria-hidden="true" tabindex="-1"></a>::: {.panel-tabset group="lang"}</span>
+<span id="cb15-161"><a href="#cb15-161" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-162"><a href="#cb15-162" aria-hidden="true" tabindex="-1"></a><span class="fu">## R</span></span>
+<span id="cb15-163"><a href="#cb15-163" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-166"><a href="#cb15-166" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb15-167"><a href="#cb15-167" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: khan-lasso</span></span>
+<span id="cb15-168"><a href="#cb15-168" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(glmnet)</span>
+<span id="cb15-169"><a href="#cb15-169" aria-hidden="true" tabindex="-1"></a>cv_l <span class="ot">&lt;-</span> <span class="fu">cv.glmnet</span>(x_train, y_train, <span class="at">family =</span> <span class="st">"multinomial"</span>, <span class="at">alpha =</span> <span class="dv">1</span>)</span>
+<span id="cb15-170"><a href="#cb15-170" aria-hidden="true" tabindex="-1"></a>beta_l <span class="ot">&lt;-</span> <span class="fu">coef</span>(cv_l, <span class="at">s =</span> <span class="st">"lambda.min"</span>)</span>
+<span id="cb15-171"><a href="#cb15-171" aria-hidden="true" tabindex="-1"></a>sel_l_khan <span class="ot">&lt;-</span> <span class="fu">sort</span>(<span class="fu">unique</span>(<span class="fu">unlist</span>(<span class="fu">lapply</span>(beta_l, <span class="cf">function</span>(B) <span class="fu">which</span>(B[<span class="sc">-</span><span class="dv">1</span>, <span class="dv">1</span>] <span class="sc">!=</span> <span class="dv">0</span>)))))</span>
+<span id="cb15-172"><a href="#cb15-172" aria-hidden="true" tabindex="-1"></a>pred_l <span class="ot">&lt;-</span> <span class="fu">predict</span>(cv_l, <span class="at">newx =</span> x_test, <span class="at">s =</span> <span class="st">"lambda.min"</span>, <span class="at">type =</span> <span class="st">"class"</span>)</span>
+<span id="cb15-173"><a href="#cb15-173" aria-hidden="true" tabindex="-1"></a>acc_l_khan <span class="ot">&lt;-</span> <span class="fu">mean</span>(pred_l <span class="sc">==</span> y_test)</span>
+<span id="cb15-174"><a href="#cb15-174" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"selected = %d, test_acc = %.3f</span><span class="sc">\n</span><span class="st">"</span>, <span class="fu">length</span>(sel_l_khan), acc_l_khan))</span>
+<span id="cb15-175"><a href="#cb15-175" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb15-176"><a href="#cb15-176" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-177"><a href="#cb15-177" aria-hidden="true" tabindex="-1"></a><span class="fu">## Python</span></span>
+<span id="cb15-178"><a href="#cb15-178" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-179"><a href="#cb15-179" aria-hidden="true" tabindex="-1"></a><span class="in">```python</span></span>
+<span id="cb15-180"><a href="#cb15-180" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LogisticRegressionCV</span>
+<span id="cb15-181"><a href="#cb15-181" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb15-182"><a href="#cb15-182" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-183"><a href="#cb15-183" aria-hidden="true" tabindex="-1"></a>cv_l <span class="op">=</span> LogisticRegressionCV(</span>
+<span id="cb15-184"><a href="#cb15-184" aria-hidden="true" tabindex="-1"></a>    penalty<span class="op">=</span><span class="st">"l1"</span>, solver<span class="op">=</span><span class="st">"saga"</span>, multi_class<span class="op">=</span><span class="st">"multinomial"</span>,</span>
+<span id="cb15-185"><a href="#cb15-185" aria-hidden="true" tabindex="-1"></a>    Cs<span class="op">=</span><span class="dv">20</span>, cv<span class="op">=</span><span class="dv">10</span>, max_iter<span class="op">=</span><span class="dv">5000</span></span>
+<span id="cb15-186"><a href="#cb15-186" aria-hidden="true" tabindex="-1"></a>).fit(X_train, y_train)</span>
+<span id="cb15-187"><a href="#cb15-187" aria-hidden="true" tabindex="-1"></a>sel_l <span class="op">=</span> np.where(np.<span class="bu">any</span>(cv_l.coef_ <span class="op">!=</span> <span class="dv">0</span>, axis<span class="op">=</span><span class="dv">0</span>))[<span class="dv">0</span>]</span>
+<span id="cb15-188"><a href="#cb15-188" aria-hidden="true" tabindex="-1"></a>acc_l <span class="op">=</span> (cv_l.predict(X_test) <span class="op">==</span> y_test).mean()</span>
+<span id="cb15-189"><a href="#cb15-189" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>({<span class="st">"selected"</span>: <span class="bu">len</span>(sel_l), <span class="st">"test_acc"</span>: <span class="bu">round</span>(acc_l, <span class="dv">3</span>)})</span>
+<span id="cb15-190"><a href="#cb15-190" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb15-191"><a href="#cb15-191" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-192"><a href="#cb15-192" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb15-193"><a href="#cb15-193" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-194"><a href="#cb15-194" aria-hidden="true" tabindex="-1"></a><span class="fu">### COMBSS</span></span>
+<span id="cb15-195"><a href="#cb15-195" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-196"><a href="#cb15-196" aria-hidden="true" tabindex="-1"></a>::: {.panel-tabset group="lang"}</span>
 <span id="cb15-197"><a href="#cb15-197" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-198"><a href="#cb15-198" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb15-198"><a href="#cb15-198" aria-hidden="true" tabindex="-1"></a><span class="fu">## R</span></span>
 <span id="cb15-199"><a href="#cb15-199" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-200"><a href="#cb15-200" aria-hidden="true" tabindex="-1"></a><span class="fu">### Summary</span></span>
-<span id="cb15-201"><a href="#cb15-201" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-204"><a href="#cb15-204" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb15-205"><a href="#cb15-205" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: khan-summary</span></span>
-<span id="cb15-206"><a href="#cb15-206" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
-<span id="cb15-207"><a href="#cb15-207" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
-<span id="cb15-208"><a href="#cb15-208" aria-hidden="true" tabindex="-1"></a>  <span class="at">Method =</span> <span class="fu">c</span>(<span class="st">"Multinomial lasso"</span>, <span class="st">"COMBSS"</span>),</span>
-<span id="cb15-209"><a href="#cb15-209" aria-hidden="true" tabindex="-1"></a>  <span class="st">`</span><span class="at">Genes selected</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="fu">length</span>(sel_l_khan), fit_khan<span class="sc">$</span>best_k),</span>
-<span id="cb15-210"><a href="#cb15-210" aria-hidden="true" tabindex="-1"></a>  <span class="st">`</span><span class="at">Test accuracy</span><span class="st">`</span>  <span class="ot">=</span> <span class="fu">c</span>(<span class="fu">round</span>(acc_l_khan, <span class="dv">3</span>), <span class="fu">round</span>(acc_c_khan, <span class="dv">3</span>)),</span>
-<span id="cb15-211"><a href="#cb15-211" aria-hidden="true" tabindex="-1"></a>  <span class="at">check.names =</span> <span class="cn">FALSE</span></span>
-<span id="cb15-212"><a href="#cb15-212" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb15-213"><a href="#cb15-213" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(df, <span class="at">digits =</span> <span class="fu">c</span>(<span class="cn">NA</span>, <span class="dv">0</span>, <span class="dv">3</span>))</span>
-<span id="cb15-214"><a href="#cb15-214" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb15-215"><a href="#cb15-215" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-216"><a href="#cb15-216" aria-hidden="true" tabindex="-1"></a>COMBSS finds a far smaller, interpretable gene panel without sacrificing accuracy — the headline result of this dataset.</span>
-<span id="cb15-217"><a href="#cb15-217" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-218"><a href="#cb15-218" aria-hidden="true" tabindex="-1"></a><span class="fu">## What about MIO?</span></span>
-<span id="cb15-219"><a href="#cb15-219" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-220"><a href="#cb15-220" aria-hidden="true" tabindex="-1"></a>Mixed-integer best subset (Bertsimas, King, Mazumder, 2016) is the natural exact comparator. It is computationally feasible on the simulation but does **not** scale to the Khan setting at $p = 2308$ in any reasonable wall-clock budget. For the simulation, an MIO run produces exactly the same five-feature selection as COMBSS; the difference is wall-clock time.</span>
+<span id="cb15-202"><a href="#cb15-202" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb15-203"><a href="#cb15-203" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: khan-combss</span></span>
+<span id="cb15-204"><a href="#cb15-204" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(combss)</span>
+<span id="cb15-205"><a href="#cb15-205" aria-hidden="true" tabindex="-1"></a>fit_khan <span class="ot">&lt;-</span> <span class="fu">combss</span>(x_train, <span class="fu">as.character</span>(y_train),</span>
+<span id="cb15-206"><a href="#cb15-206" aria-hidden="true" tabindex="-1"></a>                   <span class="at">x_val =</span> x_test, <span class="at">y_val =</span> <span class="fu">as.character</span>(y_test),</span>
+<span id="cb15-207"><a href="#cb15-207" aria-hidden="true" tabindex="-1"></a>                   <span class="at">family =</span> <span class="st">"multinomial"</span>, <span class="at">q =</span> <span class="dv">20</span>)</span>
+<span id="cb15-208"><a href="#cb15-208" aria-hidden="true" tabindex="-1"></a>acc_c_khan <span class="ot">&lt;-</span> <span class="fu">max</span>(fit_khan<span class="sc">$</span>accuracy_path)</span>
+<span id="cb15-209"><a href="#cb15-209" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">sprintf</span>(<span class="st">"selected = %d, test_acc = %.3f</span><span class="sc">\n</span><span class="st">"</span>, fit_khan<span class="sc">$</span>best_k, acc_c_khan))</span>
+<span id="cb15-210"><a href="#cb15-210" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb15-211"><a href="#cb15-211" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-212"><a href="#cb15-212" aria-hidden="true" tabindex="-1"></a><span class="fu">## Python</span></span>
+<span id="cb15-213"><a href="#cb15-213" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-214"><a href="#cb15-214" aria-hidden="true" tabindex="-1"></a><span class="in">```python</span></span>
+<span id="cb15-215"><a href="#cb15-215" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> combss <span class="im">import</span> multinomial</span>
+<span id="cb15-216"><a href="#cb15-216" aria-hidden="true" tabindex="-1"></a>fit_khan <span class="op">=</span> multinomial.model()</span>
+<span id="cb15-217"><a href="#cb15-217" aria-hidden="true" tabindex="-1"></a>fit_khan.fit(X_train, y_train, X_val<span class="op">=</span>X_test, y_val<span class="op">=</span>y_test, q<span class="op">=</span><span class="dv">20</span>, verbose<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb15-218"><a href="#cb15-218" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>({<span class="st">"selected"</span>: <span class="bu">len</span>(fit_khan.subset),</span>
+<span id="cb15-219"><a href="#cb15-219" aria-hidden="true" tabindex="-1"></a>       <span class="st">"test_acc"</span>: <span class="bu">round</span>(fit_khan.accuracy, <span class="dv">3</span>)})</span>
+<span id="cb15-220"><a href="#cb15-220" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb15-221"><a href="#cb15-221" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-222"><a href="#cb15-222" aria-hidden="true" tabindex="-1"></a><span class="fu">## Bottom line</span></span>
+<span id="cb15-222"><a href="#cb15-222" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb15-223"><a href="#cb15-223" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-224"><a href="#cb15-224" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Simulation** — COMBSS recovers the support exactly; lasso overshoots; MIO matches COMBSS when it can run.</span>
-<span id="cb15-225"><a href="#cb15-225" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Khan** — COMBSS gives a small gene panel with perfect classification, far smaller than the lasso panel.</span>
-<span id="cb15-226"><a href="#cb15-226" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Runtime** — COMBSS is in the same league as a CV lasso; MIO is the slow option even where it works.</span>
-<span id="cb15-227"><a href="#cb15-227" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-228"><a href="#cb15-228" aria-hidden="true" tabindex="-1"></a>::: {.page-nav}</span>
-<span id="cb15-229"><a href="#cb15-229" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">← Previous: Rice GWAS</span><span class="co">](04-rice.qmd)</span></span>
-<span id="cb15-230"><a href="#cb15-230" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-231"><a href="#cb15-231" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">Next: References →</span><span class="co">](../references.qmd)</span></span>
-<span id="cb15-232"><a href="#cb15-232" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb15-224"><a href="#cb15-224" aria-hidden="true" tabindex="-1"></a><span class="fu">### Summary</span></span>
+<span id="cb15-225"><a href="#cb15-225" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-228"><a href="#cb15-228" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb15-229"><a href="#cb15-229" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: khan-summary</span></span>
+<span id="cb15-230"><a href="#cb15-230" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
+<span id="cb15-231"><a href="#cb15-231" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb15-232"><a href="#cb15-232" aria-hidden="true" tabindex="-1"></a>  <span class="at">Method =</span> <span class="fu">c</span>(<span class="st">"Multinomial lasso"</span>, <span class="st">"COMBSS"</span>),</span>
+<span id="cb15-233"><a href="#cb15-233" aria-hidden="true" tabindex="-1"></a>  <span class="st">`</span><span class="at">Genes selected</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="fu">length</span>(sel_l_khan), fit_khan<span class="sc">$</span>best_k),</span>
+<span id="cb15-234"><a href="#cb15-234" aria-hidden="true" tabindex="-1"></a>  <span class="st">`</span><span class="at">Test accuracy</span><span class="st">`</span>  <span class="ot">=</span> <span class="fu">c</span>(<span class="fu">round</span>(acc_l_khan, <span class="dv">3</span>), <span class="fu">round</span>(acc_c_khan, <span class="dv">3</span>)),</span>
+<span id="cb15-235"><a href="#cb15-235" aria-hidden="true" tabindex="-1"></a>  <span class="at">check.names =</span> <span class="cn">FALSE</span></span>
+<span id="cb15-236"><a href="#cb15-236" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb15-237"><a href="#cb15-237" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(df, <span class="at">digits =</span> <span class="fu">c</span>(<span class="cn">NA</span>, <span class="dv">0</span>, <span class="dv">3</span>))</span>
+<span id="cb15-238"><a href="#cb15-238" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb15-239"><a href="#cb15-239" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-240"><a href="#cb15-240" aria-hidden="true" tabindex="-1"></a>COMBSS finds a far smaller, interpretable gene panel without sacrificing accuracy — the headline result of this dataset.</span>
+<span id="cb15-241"><a href="#cb15-241" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-242"><a href="#cb15-242" aria-hidden="true" tabindex="-1"></a><span class="fu">### Group-lasso comparison at multiple operating points</span></span>
+<span id="cb15-243"><a href="#cb15-243" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-244"><a href="#cb15-244" aria-hidden="true" tabindex="-1"></a>The paper compares COMBSS against the **multinomial group lasso** at three principled $\lambda$ choices — the headline number is *35 genes for the group lasso vs 12 genes for COMBSS* at the same 100% accuracy:</span>
+<span id="cb15-245"><a href="#cb15-245" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-248"><a href="#cb15-248" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb15-249"><a href="#cb15-249" aria-hidden="true" tabindex="-1"></a><span class="co">#| label: khan-paper-table</span></span>
+<span id="cb15-250"><a href="#cb15-250" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
+<span id="cb15-251"><a href="#cb15-251" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb15-252"><a href="#cb15-252" aria-hidden="true" tabindex="-1"></a>  <span class="at">Method =</span> <span class="fu">c</span>(<span class="st">"COMBSS-GLM (k = 10)"</span>,</span>
+<span id="cb15-253"><a href="#cb15-253" aria-hidden="true" tabindex="-1"></a>             <span class="st">"COMBSS-GLM (k = 13)"</span>,</span>
+<span id="cb15-254"><a href="#cb15-254" aria-hidden="true" tabindex="-1"></a>             <span class="st">"COMBSS-GLM (k = 16)"</span>,</span>
+<span id="cb15-255"><a href="#cb15-255" aria-hidden="true" tabindex="-1"></a>             <span class="st">"Group lasso ($</span><span class="sc">\\</span><span class="st">lambda_{1</span><span class="sc">\\</span><span class="st">text{se}}$)"</span>,</span>
+<span id="cb15-256"><a href="#cb15-256" aria-hidden="true" tabindex="-1"></a>             <span class="st">"Group lasso ($</span><span class="sc">\\</span><span class="st">lambda_{</span><span class="sc">\\</span><span class="st">min}$)"</span>,</span>
+<span id="cb15-257"><a href="#cb15-257" aria-hidden="true" tabindex="-1"></a>             <span class="st">"Group lasso (best $</span><span class="sc">\\</span><span class="st">lambda$)"</span>),</span>
+<span id="cb15-258"><a href="#cb15-258" aria-hidden="true" tabindex="-1"></a>  <span class="st">`</span><span class="at">Genes selected</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">8</span>, <span class="dv">12</span>, <span class="dv">28</span>, <span class="dv">30</span>, <span class="dv">35</span>),</span>
+<span id="cb15-259"><a href="#cb15-259" aria-hidden="true" tabindex="-1"></a>  <span class="st">`</span><span class="at">Test accuracy</span><span class="st">`</span>  <span class="ot">=</span> <span class="fu">c</span>(<span class="fl">0.85</span>, <span class="fl">0.95</span>, <span class="fl">1.00</span>, <span class="fl">0.95</span>, <span class="fl">0.95</span>, <span class="fl">1.00</span>),</span>
+<span id="cb15-260"><a href="#cb15-260" aria-hidden="true" tabindex="-1"></a>  <span class="at">check.names =</span> <span class="cn">FALSE</span></span>
+<span id="cb15-261"><a href="#cb15-261" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb15-262"><a href="#cb15-262" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(df, <span class="at">digits =</span> <span class="fu">c</span>(<span class="cn">NA</span>, <span class="dv">0</span>, <span class="dv">2</span>))</span>
+<span id="cb15-263"><a href="#cb15-263" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb15-264"><a href="#cb15-264" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-265"><a href="#cb15-265" aria-hidden="true" tabindex="-1"></a>Source: Mathur, et al (2026), Table 1. The three COMBSS rows are different model sizes from the *same* run (the homotopy returns a path); the three group lasso rows are different $\lambda$ choices on a single CV path.</span>
+<span id="cb15-266"><a href="#cb15-266" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-267"><a href="#cb15-267" aria-hidden="true" tabindex="-1"></a><span class="fu">## What about MIO?</span></span>
+<span id="cb15-268"><a href="#cb15-268" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-269"><a href="#cb15-269" aria-hidden="true" tabindex="-1"></a>Mixed-integer best subset (Bertsimas, King, Mazumder, 2016) is the natural exact comparator. It is computationally feasible on the simulation but does **not** scale to the Khan setting at $p = 2308$ in any reasonable wall-clock budget. For the simulation, an MIO run produces exactly the same five-feature selection as COMBSS; the difference is wall-clock time.</span>
+<span id="cb15-270"><a href="#cb15-270" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-271"><a href="#cb15-271" aria-hidden="true" tabindex="-1"></a><span class="fu">## Bottom line</span></span>
+<span id="cb15-272"><a href="#cb15-272" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-273"><a href="#cb15-273" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Simulation** — COMBSS recovers the support exactly; lasso overshoots; MIO matches COMBSS when it can run.</span>
+<span id="cb15-274"><a href="#cb15-274" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Khan** — COMBSS gives a small gene panel with perfect classification, far smaller than the lasso panel.</span>
+<span id="cb15-275"><a href="#cb15-275" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Runtime** — COMBSS is in the same league as a CV lasso; MIO is the slow option even where it works.</span>
+<span id="cb15-276"><a href="#cb15-276" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-277"><a href="#cb15-277" aria-hidden="true" tabindex="-1"></a>::: {.page-nav}</span>
+<span id="cb15-278"><a href="#cb15-278" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">← Previous: Rice GWAS</span><span class="co">](04-rice.qmd)</span></span>
+<span id="cb15-279"><a href="#cb15-279" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-280"><a href="#cb15-280" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">Next: References →</span><span class="co">](../references.qmd)</span></span>
+<span id="cb15-281"><a href="#cb15-281" aria-hidden="true" tabindex="-1"></a>:::</span>
 </code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
