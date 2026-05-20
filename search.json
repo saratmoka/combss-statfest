@@ -364,6 +364,13 @@
     "text": "Moka, S., Liquet, B., Zhu, H. and Muller, S. (2024). COMBSS: best subset selection via continuous optimization. Statistics and Computing 34, 75. doi:10.1007/s11222-024-10387-8\nMathur, A., Liquet, B., Muller, S. and Moka, S. (2026). Parsimonious Subset Selection for Generalized Linear Models with Biomedical Applications. arXiv preprint arXiv:2603.21952."
   },
   {
+    "objectID": "references.html#combss-extensions",
+    "href": "references.html#combss-extensions",
+    "title": "References",
+    "section": "COMBSS extensions",
+    "text": "COMBSS extensions\n\nMathur, A., Moka, S. and Botev, Z. (2023). Column Subset Selection and Nyström Approximation via Continuous Optimization. Proceedings of the 2023 Winter Simulation Conference (WSC), 3601–3612. arXiv:2304.09678.\nLiquet, B., Moka, S. and Muller, S. (2025). Best subset solution path for linear dimension reduction models using continuous optimization (sparse PCA and sparse PLS). Biometrical Journal 67 (1), e70015. arXiv:2403.20007.\nMathur, A., Moka, S., Liquet, B. and Botev, Z. (2024). Group COMBSS: group selection via continuous optimization. 2024 Winter Simulation Conference (WSC), IEEE, 3217–3228. arXiv:2404.13339.\nReimann, H., Moka, S. and Sofronov, G. (2024). Continuous Optimization for Offline Change Point Detection and Estimation. Proceedings of the 2024 Winter Simulation Conference (WSC).\nMoka, S., Quiroz, M., Asimit, V. and Muller, S. (2025). A Scalable Gradient-Based Optimization Framework for Sparse Minimum-Variance Portfolio Selection. arXiv preprint arXiv:2505.10099."
+  },
+  {
     "objectID": "references.html#software",
     "href": "references.html#software",
     "title": "References",
@@ -389,7 +396,7 @@
     "href": "references.html#acknowledgements",
     "title": "References",
     "section": "Acknowledgements",
-    "text": "Acknowledgements\nThe R port was developed and maintained by Sarat Moka with review from Benoit Liquet and Anant Mathur."
+    "text": "Acknowledgements\nThe R port was developed and maintained by Sarat Moka with review from Benoit Liquet and Anant Mathur.\n\n← Previous: What’s next"
   },
   {
     "objectID": "demos/03-khan.html",
