@@ -1095,7 +1095,7 @@ window.Quarto = {
 <span id="cb15-111"><a href="#cb15-111" aria-hidden="true" tabindex="-1"></a>  <span class="st">`</span><span class="at">Val MSE</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="fu">round</span>(mse_l, <span class="dv">4</span>), <span class="fu">round</span>(mse_c, <span class="dv">4</span>)),</span>
 <span id="cb15-112"><a href="#cb15-112" aria-hidden="true" tabindex="-1"></a>  <span class="at">check.names =</span> <span class="cn">FALSE</span></span>
 <span id="cb15-113"><a href="#cb15-113" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb15-114"><a href="#cb15-114" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(df)</span>
+<span id="cb15-114"><a href="#cb15-114" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(df, <span class="at">digits =</span> <span class="fu">c</span>(<span class="cn">NA</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">4</span>))</span>
 <span id="cb15-115"><a href="#cb15-115" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb15-116"><a href="#cb15-116" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-117"><a href="#cb15-117" aria-hidden="true" tabindex="-1"></a>COMBSS returns *exactly* the five true predictors; lasso typically overshoots in selected size while landing on a comparable validation MSE.</span>
@@ -1186,7 +1186,7 @@ window.Quarto = {
 <span id="cb15-210"><a href="#cb15-210" aria-hidden="true" tabindex="-1"></a>  <span class="st">`</span><span class="at">Test accuracy</span><span class="st">`</span>  <span class="ot">=</span> <span class="fu">c</span>(<span class="fu">round</span>(acc_l_khan, <span class="dv">3</span>), <span class="fu">round</span>(acc_c_khan, <span class="dv">3</span>)),</span>
 <span id="cb15-211"><a href="#cb15-211" aria-hidden="true" tabindex="-1"></a>  <span class="at">check.names =</span> <span class="cn">FALSE</span></span>
 <span id="cb15-212"><a href="#cb15-212" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb15-213"><a href="#cb15-213" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(df)</span>
+<span id="cb15-213"><a href="#cb15-213" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(df, <span class="at">digits =</span> <span class="fu">c</span>(<span class="cn">NA</span>, <span class="dv">0</span>, <span class="dv">3</span>))</span>
 <span id="cb15-214"><a href="#cb15-214" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb15-215"><a href="#cb15-215" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-216"><a href="#cb15-216" aria-hidden="true" tabindex="-1"></a>COMBSS finds a far smaller, interpretable gene panel without sacrificing accuracy — the headline result of this dataset.</span>

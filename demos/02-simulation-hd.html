@@ -1171,7 +1171,7 @@ window.Quarto = {
 <span id="cb15-206"><a href="#cb15-206" aria-hidden="true" tabindex="-1"></a>  <span class="st">`</span><span class="at">False positives</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">c</span>(fp_l, fp_c),</span>
 <span id="cb15-207"><a href="#cb15-207" aria-hidden="true" tabindex="-1"></a>  <span class="at">check.names =</span> <span class="cn">FALSE</span></span>
 <span id="cb15-208"><a href="#cb15-208" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb15-209"><a href="#cb15-209" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(df)</span>
+<span id="cb15-209"><a href="#cb15-209" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">kable</span>(df, <span class="at">digits =</span> <span class="fu">c</span>(<span class="cn">NA</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>))</span>
 <span id="cb15-210"><a href="#cb15-210" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb15-211"><a href="#cb15-211" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-212"><a href="#cb15-212" aria-hidden="true" tabindex="-1"></a>In this $p \gg n$ regime, the lasso recovers the true predictors but pays a high false-positive cost — the price of $\ell_1$ shrinkage in correlated designs. COMBSS returns a much sparser model that contains the truth.</span>

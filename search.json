@@ -228,7 +228,7 @@
     "href": "demos/04-rice.html#why-this-matters",
     "title": "Rice GWAS",
     "section": "Why this matters",
-    "text": "Why this matters\n\nCOMBSS scans 158{,}210 SNPs in a few minutes on a laptop — the regime where exact best-subset is hopeless and lasso typically returns hundreds of correlated SNPs.\nThe single best SNP it returns lands on the known functional locus, with no prior biological input.\nFor a breeder, ten SNPs is a tractable downstream panel; several hundred is not."
+    "text": "Why this matters\n\nCOMBSS scans 158,210 SNPs in a few minutes on a laptop — the regime where exact best-subset is hopeless and lasso typically returns hundreds of correlated SNPs.\nThe single best SNP it returns lands on the known functional locus, with no prior biological input.\nFor a breeder, ten SNPs is a tractable downstream panel; several hundred is not."
   },
   {
     "objectID": "demos/04-rice.html#reference",
@@ -380,42 +380,42 @@
   {
     "objectID": "demos/01-simulation.html",
     "href": "demos/01-simulation.html",
-    "title": "A simulation you can trust",
+    "title": "A synthetic simulation test",
     "section": "",
     "text": "R code is executed; outputs below are real. Click the Python tab on any code block for the equivalent script — outputs match the R run."
   },
   {
     "objectID": "demos/01-simulation.html#the-setup",
     "href": "demos/01-simulation.html#the-setup",
-    "title": "A simulation you can trust",
+    "title": "A synthetic simulation test",
     "section": "The setup",
     "text": "The setup\nA linear regression where we know the truth:\n\n\\(n = 300\\) observations, split 200 training + 100 validation\n\\(p = 30\\) predictors, generated as i.i.d. standard normals\nOnly the first five carry signal: \\(\\beta = (3,\\,2,\\,1.5,\\,1,\\,0.5,\\,0,\\,\\ldots,\\,0)\\)\nGaussian noise, \\(\\sigma = 0.5\\)\n\nThe goal: COMBSS should return \\(\\{1, 2, 3, 4, 5\\}\\) at \\(k = 5\\) and pick \\(\\hat k = 5\\) from validation error."
   },
   {
     "objectID": "demos/01-simulation.html#fitting-combss",
     "href": "demos/01-simulation.html#fitting-combss",
-    "title": "A simulation you can trust",
+    "title": "A synthetic simulation test",
     "section": "Fitting COMBSS",
     "text": "Fitting COMBSS\n\nRPython\n\n\n\nlibrary(combss)\n\nset.seed(102)\nn &lt;- 300; p &lt;- 30\nbeta &lt;- c(3, 2, 1.5, 1, 0.5, rep(0, p - 5))\nx &lt;- matrix(rnorm(n * p), n, p)\ny &lt;- as.numeric(x %*% beta + rnorm(n) * 0.5)\nitr &lt;- 1:200; iva &lt;- 201:300\n\nfit &lt;- combss(x[itr, ], y[itr],\n              x_val = x[iva, ], y_val = y[iva],\n              family = \"gaussian\", q = 10)\nfit\n\nCOMBSS fit\n  family:    gaussian\n  n, p:      200, 30\n  q:         10\n  lam_ridge: 0\n  best k:    5\n  mse:       0.22222\n  subset:    1, 2, 3, 4, 5\n\n\n\n\nimport numpy as np\nfrom combss import linear\n\nrng = np.random.default_rng(102)\nn, p = 300, 30\nbeta = np.r_[[3, 2, 1.5, 1, 0.5], np.zeros(p - 5)]\nX = rng.standard_normal((n, p))\ny = X @ beta + 0.5 * rng.standard_normal(n)\nitr, iva = slice(0, 200), slice(200, 300)\n\nfit = linear.model()\nfit.fit(X[itr], y[itr], X_val=X[iva], y_val=y[iva], q=10, verbose=False)\nprint(fit.subset)"
   },
   {
     "objectID": "demos/01-simulation.html#selected-support-at-each-k",
     "href": "demos/01-simulation.html#selected-support-at-each-k",
-    "title": "A simulation you can trust",
+    "title": "A synthetic simulation test",
     "section": "Selected support at each \\(k\\)",
     "text": "Selected support at each \\(k\\)\n\nRPython\n\n\n\nfit$subset_list[1:6]\n\n[[1]]\n[1] 1\n\n[[2]]\n[1] 1 2\n\n[[3]]\n[1] 1 2 3\n\n[[4]]\n[1] 1 2 3 4\n\n[[5]]\n[1] 1 2 3 4 5\n\n[[6]]\n[1] 1 2 3 4 5 6\n\n\n\n\nprint(fit.subset_list[:6])"
   },
   {
     "objectID": "demos/01-simulation.html#validation-mse-versus-k",
     "href": "demos/01-simulation.html#validation-mse-versus-k",
-    "title": "A simulation you can trust",
+    "title": "A synthetic simulation test",
     "section": "Validation MSE versus \\(k\\)",
     "text": "Validation MSE versus \\(k\\)\n\nRPython\n\n\n\nplot(seq_along(fit$mse_path), fit$mse_path, type = \"b\",\n     pch = 19, xlab = \"k\", ylab = \"Validation MSE\")\nabline(v = fit$best_k, lty = 2)\n\n\n\n\nValidation MSE flattens out the moment the true support is recovered.\n\n\n\n\n\n\nimport matplotlib.pyplot as plt\nfrom numpy.linalg import lstsq\n\nmse_path = []\nfor s in fit.subset_list:\n    b, *_ = lstsq(X[itr][:, s], y[itr], rcond=None)\n    mse_path.append(float(np.mean((y[iva] - X[iva][:, s] @ b) ** 2)))\nbest_k = int(np.argmin(mse_path) + 1)\n\nplt.plot(range(1, len(mse_path) + 1), mse_path, \"o-\")\nplt.axvline(best_k, ls=\"--\")\nplt.xlabel(\"k\"); plt.ylabel(\"Validation MSE\")\nplt.show()"
   },
   {
     "objectID": "demos/01-simulation.html#what-just-happened",
     "href": "demos/01-simulation.html#what-just-happened",
-    "title": "A simulation you can trust",
+    "title": "A synthetic simulation test",
     "section": "What just happened",
     "text": "What just happened\n\nCOMBSS scanned \\(k = 1, \\ldots, 10\\) in one pass and returned a nested-looking selection path.\nAt \\(k = 5\\) it picked the five true predictors exactly — same answer in R and Python.\nValidation MSE stops dropping past \\(k = 5\\), so best_k = 5 is chosen automatically.\n\nThis is the small-\\(p\\) regime where best-subset is easy. The point is that COMBSS gets it right without searching \\(\\binom{30}{5} = 142\\,506\\) subsets. The interesting case is the next demo.\n\n← Previous: Homotopy Frank-Wolfe\nNext: HD logistic simulation →"
   },
