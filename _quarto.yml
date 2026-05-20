@@ -39,6 +39,8 @@ website:
             text: "4. Rice GWAS"
           - href: demos/05-comparisons.qmd
             text: "5. Comparisons"
+      - href: whats-next.qmd
+        text: What's next
       - href: references.qmd
         text: References
     right:

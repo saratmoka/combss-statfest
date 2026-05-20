@@ -259,5 +259,5 @@ Mixed-integer best subset (Bertsimas, King, Mazumder, 2016) is the natural exact
 ::: {.page-nav}
 [← Previous: Rice GWAS](04-rice.qmd)
 
-[Next: References →](../references.qmd)
+[Next: What's next →](../whats-next.qmd)
 :::
