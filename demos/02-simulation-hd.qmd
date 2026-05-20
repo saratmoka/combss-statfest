@@ -194,7 +194,7 @@ df <- data.frame(
   `False positives` = c(fp_l, fp_c),
   check.names = FALSE
 )
-knitr::kable(df)
+knitr::kable(df, digits = c(NA, 0, 0, 0))
 ```
 
 In this $p \gg n$ regime, the lasso recovers the true predictors but pays a high false-positive cost — the price of $\ell_1$ shrinkage in correlated designs. COMBSS returns a much sparser model that contains the truth.

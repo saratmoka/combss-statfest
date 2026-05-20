@@ -110,7 +110,7 @@ The block-diagonal structure tells the right biological story: SNPs from the sam
 
 ## Why this matters
 
-- COMBSS scans 158{,}210 SNPs in a few minutes on a laptop — the regime where exact best-subset is hopeless and lasso typically returns hundreds of correlated SNPs.
+- COMBSS scans 158,210 SNPs in a few minutes on a laptop — the regime where exact best-subset is hopeless and lasso typically returns hundreds of correlated SNPs.
 - The single best SNP it returns lands on the **known** functional locus, with no prior biological input.
 - For a breeder, *ten SNPs* is a tractable downstream panel; *several hundred* is not.
 

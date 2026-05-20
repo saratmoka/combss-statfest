@@ -103,7 +103,7 @@ df <- data.frame(
   `Val MSE` = c(round(mse_l, 4), round(mse_c, 4)),
   check.names = FALSE
 )
-knitr::kable(df)
+knitr::kable(df, digits = c(NA, 0, 0, 4))
 ```
 
 COMBSS returns *exactly* the five true predictors; lasso typically overshoots in selected size while landing on a comparable validation MSE.
@@ -194,7 +194,7 @@ df <- data.frame(
   `Test accuracy`  = c(round(acc_l_khan, 3), round(acc_c_khan, 3)),
   check.names = FALSE
 )
-knitr::kable(df)
+knitr::kable(df, digits = c(NA, 0, 3))
 ```
 
 COMBSS finds a far smaller, interpretable gene panel without sacrificing accuracy — the headline result of this dataset.

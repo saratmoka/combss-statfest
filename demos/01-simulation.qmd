@@ -1,5 +1,5 @@
 ---
-title: "A simulation you can trust"
+title: "A synthetic simulation test"
 subtitle: "Linear regression with five truly active predictors among thirty"
 ---
 
