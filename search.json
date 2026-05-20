@@ -18,7 +18,7 @@
     "href": "methodology/02-frank-wolfe.html#the-frank-wolfe-iteration",
     "title": "Frank-Wolfe on the polytope",
     "section": "The Frank-Wolfe iteration",
-    "text": "The Frank-Wolfe iteration\nAt iterate \\(\\boldsymbol t^{(r)}\\):\n\nLinear minimisation oracle (LMO):\n\n\\[\n\\boldsymbol s^{(r)} \\;\\in\\;\n\\arg\\min_{\\boldsymbol u \\in \\mathcal{T}_k}\n\\langle \\boldsymbol g(\\boldsymbol t^{(r)}),\\,\\boldsymbol u\\rangle\n\\;\\;\\Longleftrightarrow\\;\\;\n\\boldsymbol s^{(r)} = \\text{vertex with the $k$ smallest entries of $\\boldsymbol g(\\boldsymbol t^{(r)})$.}\n\\]\n\nStep: \\(\\boldsymbol t^{(r+1)} = (1 - \\alpha)\\,\\boldsymbol t^{(r)} + \\alpha\\,\\boldsymbol s^{(r)}.\\)\nIterate until \\(\\boldsymbol t^{(r)}\\) converges to a vertex."
+    "text": "The Frank-Wolfe iteration\nAt iterate \\(\\boldsymbol t^{(i)}\\) with scheduled curvature \\(\\delta_i\\):\n\nLinear minimisation oracle (LMO):\n\n\\[\n\\boldsymbol s^{(i)} \\;\\in\\;\n\\arg\\min_{\\boldsymbol u \\in \\mathcal{T}_k}\n\\langle \\nabla f_{\\delta_i}(\\boldsymbol t^{(i)}),\\,\\boldsymbol u\\rangle\n\\;\\;\\Longleftrightarrow\\;\\;\n\\boldsymbol s^{(i)} = \\text{vertex with the $k$ smallest entries of } \\nabla f_{\\delta_i}(\\boldsymbol t^{(i)}).\n\\]\n\nStep: \\(\\boldsymbol t^{(i+1)} = (1 - \\alpha)\\,\\boldsymbol t^{(i)} + \\alpha\\,\\boldsymbol s^{(i)}.\\)\nIterate until \\(\\boldsymbol t^{(i)}\\) converges to a vertex."
   },
   {
     "objectID": "methodology/02-frank-wolfe.html#why-no-projections",
@@ -28,11 +28,18 @@
     "text": "Why no projections\nThe cardinality polytope is a combinatorial set; projecting onto it is itself a hard problem. Frank-Wolfe avoids the projection — every step just requires the LMO, which is a sort."
   },
   {
+    "objectID": "methodology/02-frank-wolfe.html#initialisation-and-the-homotopy-fix",
+    "href": "methodology/02-frank-wolfe.html#initialisation-and-the-homotopy-fix",
+    "title": "Frank-Wolfe on the polytope",
+    "section": "Initialisation and the homotopy fix",
+    "text": "Initialisation and the homotopy fix\nWhy does the iteration need a schedule \\(\\delta_i\\) at all? Because a fixed \\(\\delta\\) doesn’t work.\nFixed \\(\\delta\\) traps initialisation. Running the iteration above at a single, large \\(\\delta\\) does drive \\(\\boldsymbol{t}\\) to a corner — but the concave landscape has one basin per vertex, so the corner you land on depends on where you start.\n\n\n\nFixed-\\(\\delta\\) trajectories on the cardinality polytope (\\(p = 2\\)). Iterates from different starting points end at different corners.\n\n\nHomotopy fixes it. Start at small \\(\\delta_0\\) where \\(f_\\delta\\) is (near) convex, so descent is well-behaved everywhere; then grow \\(\\delta\\) along a schedule \\(\\delta_0 &lt; \\delta_1 &lt; \\cdots\\). The landscape deforms continuously from smooth to peaked-at-vertices, sliding the iterate into an optimal corner rather than the nearest one.\n\n\n\nFrank-Wolfe iterates as \\(\\delta\\) grows along the schedule: smooth motion through the interior at small \\(\\delta\\), then a snap to the optimal vertex once \\(\\delta\\) is large enough to dominate.\n\n\nSchedule details are on the Homotopy page."
+  },
+  {
     "objectID": "methodology/02-frank-wolfe.html#vertex-approach-guarantee",
     "href": "methodology/02-frank-wolfe.html#vertex-approach-guarantee",
     "title": "Frank-Wolfe on the polytope",
     "section": "Vertex-approach guarantee",
-    "text": "Vertex-approach guarantee\n\\[\n\\|\\boldsymbol t^{(r)} - \\boldsymbol s^*\\|_\\infty\n\\;\\le\\;\n(1 - \\alpha)^r \\,\\|\\boldsymbol t^{(0)} - \\boldsymbol s^*\\|_\\infty.\n\\]\nLinear convergence to the chosen vertex once the LMO direction settles.\n\nPlaceholder for visual: a small 3D figure of FW iterates marching toward a vertex of the polytope.\n\n\n← Previous: Boolean relaxation\nNext: Homotopy →"
+    "text": "Vertex-approach guarantee\n\\[\n\\|\\boldsymbol t^{(i)} - \\boldsymbol s^*\\|_\\infty\n\\;\\le\\;\n(1 - \\alpha)^i \\,\\|\\boldsymbol t^{(0)} - \\boldsymbol s^*\\|_\\infty.\n\\]\nLinear convergence to the chosen vertex once the LMO direction settles.\n\nPlaceholder for visual: a small 3D figure of FW iterates marching toward a vertex of the polytope.\n\n\n← Previous: Boolean relaxation\nNext: Homotopy →"
   },
   {
     "objectID": "methodology/01-relaxation.html",

@@ -259,6 +259,7 @@ window.Quarto = {
   <li><a href="#envelope-gradient" id="toc-envelope-gradient" class="nav-link active" data-scroll-target="#envelope-gradient">Envelope gradient</a></li>
   <li><a href="#the-frank-wolfe-iteration" id="toc-the-frank-wolfe-iteration" class="nav-link" data-scroll-target="#the-frank-wolfe-iteration">The Frank-Wolfe iteration</a></li>
   <li><a href="#why-no-projections" id="toc-why-no-projections" class="nav-link" data-scroll-target="#why-no-projections">Why no projections</a></li>
+  <li><a href="#initialisation-and-the-homotopy-fix" id="toc-initialisation-and-the-homotopy-fix" class="nav-link" data-scroll-target="#initialisation-and-the-homotopy-fix">Initialisation and the homotopy fix</a></li>
   <li><a href="#vertex-approach-guarantee" id="toc-vertex-approach-guarantee" class="nav-link" data-scroll-target="#vertex-approach-guarantee">Vertex-approach guarantee</a></li>
   </ul>
 </nav>
@@ -300,32 +301,51 @@ window.Quarto = {
 </section>
 <section id="the-frank-wolfe-iteration" class="level2">
 <h2 class="anchored" data-anchor-id="the-frank-wolfe-iteration">The Frank-Wolfe iteration</h2>
-<p>At iterate <span class="math inline">\(\boldsymbol t^{(r)}\)</span>:</p>
+<p>At iterate <span class="math inline">\(\boldsymbol t^{(i)}\)</span> with scheduled curvature <span class="math inline">\(\delta_i\)</span>:</p>
 <ol type="1">
 <li><strong>Linear minimisation oracle (LMO)</strong>:</li>
 </ol>
 <p><span class="math display">\[
-\boldsymbol s^{(r)} \;\in\;
+\boldsymbol s^{(i)} \;\in\;
 \arg\min_{\boldsymbol u \in \mathcal{T}_k}
-\langle \boldsymbol g(\boldsymbol t^{(r)}),\,\boldsymbol u\rangle
+\langle \nabla f_{\delta_i}(\boldsymbol t^{(i)}),\,\boldsymbol u\rangle
 \;\;\Longleftrightarrow\;\;
-\boldsymbol s^{(r)} = \text{vertex with the $k$ smallest entries of $\boldsymbol g(\boldsymbol t^{(r)})$.}
+\boldsymbol s^{(i)} = \text{vertex with the $k$ smallest entries of } \nabla f_{\delta_i}(\boldsymbol t^{(i)}).
 \]</span></p>
 <ol start="2" type="1">
-<li><p><strong>Step</strong>: <span class="math inline">\(\boldsymbol t^{(r+1)} = (1 - \alpha)\,\boldsymbol t^{(r)} + \alpha\,\boldsymbol s^{(r)}.\)</span></p></li>
-<li><p><strong>Iterate</strong> until <span class="math inline">\(\boldsymbol t^{(r)}\)</span> converges to a vertex.</p></li>
+<li><p><strong>Step</strong>: <span class="math inline">\(\boldsymbol t^{(i+1)} = (1 - \alpha)\,\boldsymbol t^{(i)} + \alpha\,\boldsymbol s^{(i)}.\)</span></p></li>
+<li><p><strong>Iterate</strong> until <span class="math inline">\(\boldsymbol t^{(i)}\)</span> converges to a vertex.</p></li>
 </ol>
 </section>
 <section id="why-no-projections" class="level2">
 <h2 class="anchored" data-anchor-id="why-no-projections">Why no projections</h2>
 <p>The cardinality polytope is a <em>combinatorial</em> set; projecting onto it is itself a hard problem. Frank-Wolfe avoids the projection — every step just requires the LMO, which is a sort.</p>
 </section>
+<section id="initialisation-and-the-homotopy-fix" class="level2">
+<h2 class="anchored" data-anchor-id="initialisation-and-the-homotopy-fix">Initialisation and the homotopy fix</h2>
+<p>Why does the iteration need a <em>schedule</em> <span class="math inline">\(\delta_i\)</span> at all? Because a fixed <span class="math inline">\(\delta\)</span> doesn’t work.</p>
+<p><strong>Fixed <span class="math inline">\(\delta\)</span> traps initialisation.</strong> Running the iteration above at a single, large <span class="math inline">\(\delta\)</span> does drive <span class="math inline">\(\boldsymbol{t}\)</span> to a corner — but the concave landscape has one basin per vertex, so the corner you land on depends on where you start.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../figures/score_polytope_t1_t2.jpeg" class="img-fluid figure-img" style="width:78.0%"></p>
+<figcaption>Fixed-<span class="math inline">\(\delta\)</span> trajectories on the cardinality polytope (<span class="math inline">\(p = 2\)</span>). Iterates from different starting points end at different corners.</figcaption>
+</figure>
+</div>
+<p><strong>Homotopy fixes it.</strong> Start at small <span class="math inline">\(\delta_0\)</span> where <span class="math inline">\(f_\delta\)</span> is (near) convex, so descent is well-behaved everywhere; then grow <span class="math inline">\(\delta\)</span> along a schedule <span class="math inline">\(\delta_0 &lt; \delta_1 &lt; \cdots\)</span>. The landscape deforms continuously from smooth to peaked-at-vertices, sliding the iterate into an <em>optimal</em> corner rather than the nearest one.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../figures/3d-convergence.gif" class="img-fluid figure-img" style="width:80.0%"></p>
+<figcaption>Frank-Wolfe iterates as <span class="math inline">\(\delta\)</span> grows along the schedule: smooth motion through the interior at small <span class="math inline">\(\delta\)</span>, then a snap to the optimal vertex once <span class="math inline">\(\delta\)</span> is large enough to dominate.</figcaption>
+</figure>
+</div>
+<p>Schedule details are on the <a href="../methodology/03-homotopy.html">Homotopy</a> page.</p>
+</section>
 <section id="vertex-approach-guarantee" class="level2">
 <h2 class="anchored" data-anchor-id="vertex-approach-guarantee">Vertex-approach guarantee</h2>
 <p><span class="math display">\[
-\|\boldsymbol t^{(r)} - \boldsymbol s^*\|_\infty
+\|\boldsymbol t^{(i)} - \boldsymbol s^*\|_\infty
 \;\le\;
-(1 - \alpha)^r \,\|\boldsymbol t^{(0)} - \boldsymbol s^*\|_\infty.
+(1 - \alpha)^i \,\|\boldsymbol t^{(0)} - \boldsymbol s^*\|_\infty.
 \]</span></p>
 <p>Linear convergence to the chosen vertex once the LMO direction settles.</p>
 <blockquote class="blockquote">
@@ -815,43 +835,57 @@ window.Quarto = {
 <span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="fu">## The Frank-Wolfe iteration</span></span>
 <span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>At iterate $\boldsymbol t^{(r)}$:</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>At iterate $\boldsymbol t^{(i)}$ with scheduled curvature $\delta_i$:</span>
 <span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Linear minimisation oracle (LMO)**:</span>
 <span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>\boldsymbol s^{(r)} \;\in\;</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>\boldsymbol s^{(i)} \;\in\;</span>
 <span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>\arg\min_{\boldsymbol u \in \mathcal{T}_k}</span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>\langle \boldsymbol g(\boldsymbol t^{(r)}),\,\boldsymbol u\rangle</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>\langle \nabla f_{\delta_i}(\boldsymbol t^{(i)}),\,\boldsymbol u\rangle</span>
 <span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>\;\;\Longleftrightarrow\;\;</span>
-<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>\boldsymbol s^{(r)} = \text{vertex with the $k$ smallest entries of $\boldsymbol g(\boldsymbol t^{(r)})$.}</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>\boldsymbol s^{(i)} = \text{vertex with the $k$ smallest entries of } \nabla f_{\delta_i}(\boldsymbol t^{(i)}).</span>
 <span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Step**: $\boldsymbol t^{(r+1)} = (1 - \alpha)\,\boldsymbol t^{(r)} + \alpha\,\boldsymbol s^{(r)}.$</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Step**: $\boldsymbol t^{(i+1)} = (1 - \alpha)\,\boldsymbol t^{(i)} + \alpha\,\boldsymbol s^{(i)}.$</span>
 <span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Iterate** until $\boldsymbol t^{(r)}$ converges to a vertex.</span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Iterate** until $\boldsymbol t^{(i)}$ converges to a vertex.</span>
 <span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a><span class="fu">## Why no projections</span></span>
 <span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>The cardinality polytope is a *combinatorial* set; projecting onto it is itself a hard problem. Frank-Wolfe avoids the projection — every step just requires the LMO, which is a sort.</span>
 <span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a><span class="fu">## Vertex-approach guarantee</span></span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a><span class="fu">## Initialisation and the homotopy fix</span></span>
 <span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a><span class="sc">\|</span>\boldsymbol t^{(r)} - \boldsymbol s^*<span class="sc">\|</span>_\infty</span>
-<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>\;\le\;</span>
-<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>(1 - \alpha)^r \,<span class="sc">\|</span>\boldsymbol t^{(0)} - \boldsymbol s^*<span class="sc">\|</span>_\infty.</span>
-<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>Why does the iteration need a *schedule* $\delta_i$ at all? Because a fixed $\delta$ doesn't work.</span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>**Fixed $\delta$ traps initialisation.** Running the iteration above at a single, large $\delta$ does drive $\boldsymbol{t}$ to a corner — but the concave landscape has one basin per vertex, so the corner you land on depends on where you start.</span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a><span class="al">![Fixed-$\delta$ trajectories on the cardinality polytope ($p = 2$). Iterates from different starting points end at different corners.](../figures/score_polytope_t1_t2.jpeg)</span>{fig-align="center" width="78%"}</span>
 <span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>Linear convergence to the chosen vertex once the LMO direction settles.</span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>**Homotopy fixes it.** Start at small $\delta_0$ where $f_\delta$ is (near) convex, so descent is well-behaved everywhere; then grow $\delta$ along a schedule $\delta_0 &lt; \delta_1 &lt; \cdots$. The landscape deforms continuously from smooth to peaked-at-vertices, sliding the iterate into an *optimal* corner rather than the nearest one.</span>
 <span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; Placeholder for visual: a small 3D figure of FW iterates marching toward a vertex of the polytope.</span></span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a><span class="al">![Frank-Wolfe iterates as $\delta$ grows along the schedule: smooth motion through the interior at small $\delta$, then a snap to the optimal vertex once $\delta$ is large enough to dominate.](../figures/3d-convergence.gif)</span>{fig-align="center" width="80%"}</span>
 <span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a>::: {.page-nav}</span>
-<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">← Previous: Boolean relaxation</span><span class="co">](01-relaxation.qmd)</span></span>
-<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">Next: Homotopy →</span><span class="co">](03-homotopy.qmd)</span></span>
-<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a>:::</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a>Schedule details are on the <span class="co">[</span><span class="ot">Homotopy</span><span class="co">](03-homotopy.qmd)</span> page.</span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a><span class="fu">## Vertex-approach guarantee</span></span>
+<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a><span class="sc">\|</span>\boldsymbol t^{(i)} - \boldsymbol s^*<span class="sc">\|</span>_\infty</span>
+<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a>\;\le\;</span>
+<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a>(1 - \alpha)^i \,<span class="sc">\|</span>\boldsymbol t^{(0)} - \boldsymbol s^*<span class="sc">\|</span>_\infty.</span>
+<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a>Linear convergence to the chosen vertex once the LMO direction settles.</span>
+<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; Placeholder for visual: a small 3D figure of FW iterates marching toward a vertex of the polytope.</span></span>
+<span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-69"><a href="#cb1-69" aria-hidden="true" tabindex="-1"></a>::: {.page-nav}</span>
+<span id="cb1-70"><a href="#cb1-70" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">← Previous: Boolean relaxation</span><span class="co">](01-relaxation.qmd)</span></span>
+<span id="cb1-71"><a href="#cb1-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-72"><a href="#cb1-72" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">Next: Homotopy →</span><span class="co">](03-homotopy.qmd)</span></span>
+<span id="cb1-73"><a href="#cb1-73" aria-hidden="true" tabindex="-1"></a>:::</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 
