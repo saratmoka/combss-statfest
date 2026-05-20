@@ -206,3 +206,9 @@ Mixed-integer best subset (Bertsimas, King, Mazumder, 2016) is the natural exact
 - **Simulation** — COMBSS recovers the support exactly; lasso overshoots; MIO matches COMBSS when it can run.
 - **Khan** — COMBSS gives a small gene panel with perfect classification, far smaller than the lasso panel.
 - **Runtime** — COMBSS is in the same league as a CV lasso; MIO is the slow option even where it works.
+
+::: {.page-nav}
+[← Previous: Rice GWAS](04-rice.qmd)
+
+[Next: References →](../references.qmd)
+:::

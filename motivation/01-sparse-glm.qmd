@@ -115,6 +115,7 @@ How do existing methods cope with the NP-hard constraint? Two main strategies:
 COMBSS sits between the two: continuous like the lasso, but on the *support indicator* rather than on $\boldsymbol{\beta}$ itself — and explicitly $k$-indexed.
 
 ::: {.page-nav}
-<span class="nav-spacer"></span>
+[← Previous: Home](../index.qmd)
+
 [Next: MIO →](02-mio.qmd)
 :::

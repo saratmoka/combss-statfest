@@ -44,3 +44,9 @@ This site is the talk. Each section below has its own page; navigate via the top
 
 - **Live site** — <https://saratmoka.github.io/combss-statfest/>
 - **Source code** — <https://github.com/saratmoka/combss-statfest>
+
+::: {.page-nav}
+<span class="nav-spacer"></span>
+
+[Next: Sparse GLM →](motivation/01-sparse-glm.qmd)
+:::

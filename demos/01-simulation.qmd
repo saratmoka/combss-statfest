@@ -114,3 +114,9 @@ plt.show()
 - Validation MSE stops dropping past $k = 5$, so `best_k = 5` is chosen automatically.
 
 This is the small-$p$ regime where best-subset is easy. The point is that COMBSS gets it right without searching $\binom{30}{5} = 142\,506$ subsets. The interesting case is the next demo.
+
+::: {.page-nav}
+[← Previous: Homotopy Frank-Wolfe](../methodology/02-frank-wolfe.qmd)
+
+[Next: HD logistic simulation →](02-simulation-hd.qmd)
+:::

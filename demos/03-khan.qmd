@@ -143,3 +143,9 @@ A lasso baseline on the same training data selects an order of magnitude more ge
 ## Reference
 
 Khan, J. et al. (2001). *Classification and diagnostic prediction of cancers using gene expression profiling and artificial neural networks*. **Nature Medicine** 7, 673–679.
+
+::: {.page-nav}
+[← Previous: HD logistic simulation](02-simulation-hd.qmd)
+
+[Next: Rice GWAS →](04-rice.qmd)
+:::

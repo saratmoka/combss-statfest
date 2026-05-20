@@ -207,3 +207,9 @@ In this $p \gg n$ regime, the lasso recovers the true predictors but pays a high
 - The same code structure handles linear, logistic, and multinomial outcomes; only the `family` argument changes.
 
 This is the bridge to the real biomedical applications: [Khan SRBCT](03-khan.qmd) (multinomial, $p = 2308$) and [Rice GWAS](04-rice.qmd) (binary, $p \approx 1.6 \times 10^5$).
+
+::: {.page-nav}
+[← Previous: Linear simulation](01-simulation.qmd)
+
+[Next: Khan SRBCT →](03-khan.qmd)
+:::

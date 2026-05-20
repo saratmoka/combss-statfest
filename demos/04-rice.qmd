@@ -116,3 +116,9 @@ The block-diagonal structure tells the right biological story: SNPs from the sam
 ## Reference
 
 McCouch, S. R. et al. (2016). *Open access resources for genome-wide association mapping in rice*. **Nature Communications** 7, 10532.
+
+::: {.page-nav}
+[← Previous: Khan SRBCT](03-khan.qmd)
+
+[Next: Comparisons →](05-comparisons.qmd)
+:::
