@@ -1,11 +1,22 @@
 ---
-title: "Frank-Wolfe on the polytope"
+title: "Homotopy Frank-Wolfe on the polytope"
 subtitle: "Linear minimisation oracle, no projections"
 ---
 
 ## Envelope gradient
 
-The outer problem $\min_{\boldsymbol{t} \in \mathcal{T}_k} f_\delta(\boldsymbol{t})$ is a smooth optimisation, but $f_\delta$ is itself the value of an *inner* minimisation over $\boldsymbol{\beta}$. Differentiating it directly would mean tracking how $\hat{\boldsymbol{\beta}}(\boldsymbol{t})$ moves as $\boldsymbol{t}$ changes — a chain through the inner solver.
+The outer problem $$\min_{\boldsymbol{t} \in \mathcal{T}_k} f_\delta(\boldsymbol{t})$$ is a smooth optimisation, but $f_\delta$ is itself the value of an *inner* minimisation over $\boldsymbol{\beta}$: recall that 
+$$
+f_{\delta}(\boldsymbol{t})
+\;=\;
+\min_{\beta_0,\,\boldsymbol{\beta}}\;
+\Biggl[
+-\tfrac{1}{n}\,\ell\bigl(\beta_0,\;\boldsymbol{t} \odot \boldsymbol{\beta}\bigr)
+\;+\; \delta \sum_{j=1}^{p} \bigl(1 - t_j^{2}\bigr)\,\beta_j^{2}
+\Biggr].
+$$
+
+Differentiating it directly would mean tracking how $\hat{\boldsymbol{\beta}}(\boldsymbol{t})$ moves as $\boldsymbol{t}$ changes — a chain through the inner solver.
 
 The **envelope theorem** (Danskin) sidesteps this. Because $\hat{\boldsymbol{\beta}}(\boldsymbol{t})$ is optimal for the inner problem, those derivative terms cancel, and the gradient of $f_\delta$ has a closed form in terms of $\hat{\boldsymbol{\beta}}(\boldsymbol{t})$ alone:
 
@@ -16,9 +27,9 @@ $$
 \;\;}
 $$
 
-One ridge-GLM solve gives $\hat{\boldsymbol{\beta}}(\boldsymbol{t})$; the gradient is then $O(p)$ arithmetic — no implicit differentiation through the inner solver.
+In practice, one `glmnet` call returns the effective coefficients $\hat{\boldsymbol{\xi}}(\boldsymbol{t}) = \boldsymbol{t} \odot \hat{\boldsymbol{\beta}}(\boldsymbol{t})$ (the reparameterisation that makes the inner problem a standard ridge GLM). We then recover $\hat{\beta}_j(\boldsymbol{t}) = \hat{\xi}_j(\boldsymbol{t}) / t_j$ before plugging into the gradient. No implicit differentiation through the inner solver.
 
-## The Frank-Wolfe iteration
+## The Homotopy Frank-Wolfe iteration
 
 At iterate $\boldsymbol t^{(i)}$ with scheduled curvature $\delta_i$:
 
@@ -38,22 +49,63 @@ $$
 
 ## Why no projections
 
-The cardinality polytope is a *combinatorial* set; projecting onto it is itself a hard problem. Frank-Wolfe avoids the projection — every step just requires the LMO, which is a sort.
+The cardinality polytope is a *combinatorial* set; projecting onto it is itself a hard problem. Frank-Wolfe avoids the projection — every step just requires the linear minimisation oracle, which is a sort.
 
 ## Initialisation and the homotopy fix
 
 Why does the iteration need a *schedule* $\delta_i$ at all? Because a fixed $\delta$ doesn't work.
 
-**Fixed $\delta$ traps initialisation.** Running the iteration above at a single, large $\delta$ does drive $\boldsymbol{t}$ to a corner — but the concave landscape has one basin per vertex, so the corner you land on depends on where you start.
+**Fixed $\delta$ traps initialisation.** Running the iteration above at a single, large $\delta$ does drive $\boldsymbol{t}$ to a corner. However, due to the  concave landscape of the objective at large $\delta$, the corner you land on highly depends on where you start.
 
-![Fixed-$\delta$ trajectories on the cardinality polytope ($p = 2$). Iterates from different starting points end at different corners.](../figures/score_polytope_t1_t2.jpeg){fig-align="center" width="78%"}
+![Fixed-$\delta$ trajectories on the cardinality polytope ($p = 2$). Iterates from different starting points end at different corners.](../figures/score_polytope_t1_t2.jpeg){fig-align="center" width="55%"}
 
 **Homotopy fixes it.** Start at small $\delta_0$ where $f_\delta$ is (near) convex, so descent is well-behaved everywhere; then grow $\delta$ along a schedule $\delta_0 < \delta_1 < \cdots$. The landscape deforms continuously from smooth to peaked-at-vertices, sliding the iterate into an *optimal* corner rather than the nearest one.
 
-![Frank-Wolfe iterates as $\delta$ grows along the schedule: smooth motion through the interior at small $\delta$, then a snap to the optimal vertex once $\delta$ is large enough to dominate.](../figures/3d-convergence.gif){fig-align="center" width="80%"}
+![Frank-Wolfe iterates as $\delta$ grows along the schedule: smooth motion through the interior at small $\delta$, then a snap to the optimal vertex once $\delta$ is large enough to dominate.](../figures/3d-convergence.gif){fig-align="center" width="95%"}
 
-Schedule details are on the [Homotopy](03-homotopy.qmd) page.
+## The $\delta$ schedule
 
+Two practical questions: what schedule, and how large does $\delta$ ultimately need to be?
+
+**Geometric growth, warm-started.** A geometric ladder works well:
+
+$$
+\delta_{i+1} \;=\; r\,\delta_i, \qquad r > 1, \qquad i = 0, 1, \ldots, N-1.
+$$
+
+Each Frank-Wolfe step is warm-started from the previous $\boldsymbol t^{(i)}$, so the iterate drifts smoothly along the deforming landscape rather than restarting from scratch at every $\delta_i$.
+
+**Concavity threshold (Mathur, Liquet, Muller, Moka 2026).** There is an explicit $\delta^\star$ above which $f_\delta$ is concave on $[0, 1]^p$, so every minimiser on the polytope $\mathcal{T}_k$ is a binary vertex:
+
+$$
+\delta^\star_{\text{logistic}} \;=\; \frac{\nu_{\max}}{8n},
+\qquad
+\delta^\star_{\text{multinomial}} \;=\; \frac{\nu_{\max}}{4n},
+$$
+
+where $\nu_{\max}$ is the largest eigenvalue of $X_S^\top X_S$ on a feasible support $S$. The schedule only needs to terminate at $\delta_N \ge \delta^\star$.
+
+<!--
+## The $k$-sweep
+
+For a *path* of subset sizes, loop $k = 1, 2, \ldots, q$ and warm-start each $k$ from the solution at $k-1$. One sweep returns the full sequence $S_1, S_2, \ldots, S_q$ for the price of a single tight homotopy at $k = q$.
+-->
+
+## Why the schedule converges
+
+Two results make the homotopy work — one classical, one tailored to our approximate algorithm.
+
+::: {.callout-note title="1. Continuity in $\delta$ (Berge's Maximum Theorem)"}
+If $\delta$ changes a little, the minimiser of $f_\delta$ also changes a little — it cannot jump to a different corner of the polytope. So warm-starting the next Frank-Wolfe step from the previous iterate is reliable: the new optimum sits *near* where we already are.
+:::
+
+::: {.callout-tip title="2. Approximate solves are good enough (Mathur et al. 2026)"}
+The inner ridge-GLM is solved to a tolerance, and the Frank-Wolfe step is approximate — neither is exact. This is fine: along the schedule, the approximate iterates concentrate at a binary corner of the polytope, giving a feasible discrete solution to the sparse-GLM problem. In the asymptotic limit (continuous schedule, vanishing tolerance) that corner is a global optimum; for the finite schedule we actually run, the result is a high-quality binary subset rather than a certified global one.
+:::
+
+The first result says the *path* is safe; the second says we *land at a corner* — and in the limit, the right one.
+
+<!--
 ## Vertex-approach guarantee
 
 $$
@@ -63,11 +115,19 @@ $$
 $$
 
 Linear convergence to the chosen vertex once the LMO direction settles.
+-->
+## Where to next
 
-> Placeholder for visual: a small 3D figure of FW iterates marching toward a vertex of the polytope.
+See it work — in code, on real data:
+
+- [Linear simulation](../demos/01-simulation.qmd)
+- [HD logistic simulation](../demos/02-simulation-hd.qmd)
+- [Khan SRBCT](../demos/03-khan.qmd)
+- [Rice GWAS](../demos/04-rice.qmd)
+- [Comparisons](../demos/05-comparisons.qmd)
 
 ::: {.page-nav}
 [← Previous: Boolean relaxation](01-relaxation.qmd)
 
-[Next: Homotopy →](03-homotopy.qmd)
+[Next: Linear simulation →](../demos/01-simulation.qmd)
 :::

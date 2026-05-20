@@ -24,9 +24,7 @@ website:
           - href: methodology/01-relaxation.qmd
             text: "1. Boolean relaxation"
           - href: methodology/02-frank-wolfe.qmd
-            text: "2. Frank-Wolfe"
-          - href: methodology/03-homotopy.qmd
-            text: "3. Homotopy"
+            text: "2. Homotopy Frank-Wolfe"
       - href: install.qmd
         text: Install
       - text: Demos

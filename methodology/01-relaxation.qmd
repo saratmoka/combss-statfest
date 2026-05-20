@@ -135,7 +135,7 @@ Three things to read off:
 - **Small $\delta$**: The curve is nearly convex.
 - **Large $\delta$**: The curve becomes *concave on the interior*, with its minimum at the vertex $t = 1$.
 
-The homotopy in $\delta$ — gradually increasing $\delta$ during optimisation — uses the small-$\delta$ smooth landscape for navigation and the large-$\delta$ peaked landscape to push $\boldsymbol{t}$ to a vertex (= a discrete subset). See [Homotopy](03-homotopy.qmd).
+The homotopy in $\delta$ — gradually increasing $\delta$ during optimisation — uses the small-$\delta$ smooth landscape for navigation and the large-$\delta$ peaked landscape to push $\boldsymbol{t}$ to a vertex (= a discrete subset). See [Frank-Wolfe](02-frank-wolfe.qmd) for the schedule.
 
 ### Two features ($p = 2$)
 
@@ -169,7 +169,7 @@ $$
 
 and by corner equivalence that vertex solves the original $\ell_0$-constrained sparse-GLM problem exactly.
 
-Together they motivate the **homotopy in $\delta$**: start small for a smooth landscape, end large to land on a discrete solution (see [Homotopy](03-homotopy.qmd)). The outer optimisation along the way needs the gradient $\nabla f_\delta$ — derived next on the [Frank-Wolfe](02-frank-wolfe.qmd) page.
+Together they motivate the **homotopy in $\delta$**: start small for a smooth landscape, end large to land on a discrete solution. The outer optimisation along the way needs the gradient $\nabla f_\delta$ — derived next on the [Frank-Wolfe](02-frank-wolfe.qmd) page.
 
 ::: {.page-nav}
 [← Previous: COMBSS (our method)](../motivation/04-combss.qmd)
