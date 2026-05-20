@@ -56,12 +56,6 @@ format:
     code-fold: false
     code-tools: true
     code-copy: true
-  pdf:
-    documentclass: scrartcl
-    toc: true
-    number-sections: false
-    geometry:
-      - margin=22mm
 
 execute:
   freeze: auto
