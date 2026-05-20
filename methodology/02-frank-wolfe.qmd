@@ -20,32 +20,46 @@ One ridge-GLM solve gives $\hat{\boldsymbol{\beta}}(\boldsymbol{t})$; the gradie
 
 ## The Frank-Wolfe iteration
 
-At iterate $\boldsymbol t^{(r)}$:
+At iterate $\boldsymbol t^{(i)}$ with scheduled curvature $\delta_i$:
 
 1. **Linear minimisation oracle (LMO)**:
 
 $$
-\boldsymbol s^{(r)} \;\in\;
+\boldsymbol s^{(i)} \;\in\;
 \arg\min_{\boldsymbol u \in \mathcal{T}_k}
-\langle \boldsymbol g(\boldsymbol t^{(r)}),\,\boldsymbol u\rangle
+\langle \nabla f_{\delta_i}(\boldsymbol t^{(i)}),\,\boldsymbol u\rangle
 \;\;\Longleftrightarrow\;\;
-\boldsymbol s^{(r)} = \text{vertex with the $k$ smallest entries of $\boldsymbol g(\boldsymbol t^{(r)})$.}
+\boldsymbol s^{(i)} = \text{vertex with the $k$ smallest entries of } \nabla f_{\delta_i}(\boldsymbol t^{(i)}).
 $$
 
-2. **Step**: $\boldsymbol t^{(r+1)} = (1 - \alpha)\,\boldsymbol t^{(r)} + \alpha\,\boldsymbol s^{(r)}.$
+2. **Step**: $\boldsymbol t^{(i+1)} = (1 - \alpha)\,\boldsymbol t^{(i)} + \alpha\,\boldsymbol s^{(i)}.$
 
-3. **Iterate** until $\boldsymbol t^{(r)}$ converges to a vertex.
+3. **Iterate** until $\boldsymbol t^{(i)}$ converges to a vertex.
 
 ## Why no projections
 
 The cardinality polytope is a *combinatorial* set; projecting onto it is itself a hard problem. Frank-Wolfe avoids the projection — every step just requires the LMO, which is a sort.
 
+## Initialisation and the homotopy fix
+
+Why does the iteration need a *schedule* $\delta_i$ at all? Because a fixed $\delta$ doesn't work.
+
+**Fixed $\delta$ traps initialisation.** Running the iteration above at a single, large $\delta$ does drive $\boldsymbol{t}$ to a corner — but the concave landscape has one basin per vertex, so the corner you land on depends on where you start.
+
+![Fixed-$\delta$ trajectories on the cardinality polytope ($p = 2$). Iterates from different starting points end at different corners.](../figures/score_polytope_t1_t2.jpeg){fig-align="center" width="78%"}
+
+**Homotopy fixes it.** Start at small $\delta_0$ where $f_\delta$ is (near) convex, so descent is well-behaved everywhere; then grow $\delta$ along a schedule $\delta_0 < \delta_1 < \cdots$. The landscape deforms continuously from smooth to peaked-at-vertices, sliding the iterate into an *optimal* corner rather than the nearest one.
+
+![Frank-Wolfe iterates as $\delta$ grows along the schedule: smooth motion through the interior at small $\delta$, then a snap to the optimal vertex once $\delta$ is large enough to dominate.](../figures/3d-convergence.gif){fig-align="center" width="80%"}
+
+Schedule details are on the [Homotopy](03-homotopy.qmd) page.
+
 ## Vertex-approach guarantee
 
 $$
-\|\boldsymbol t^{(r)} - \boldsymbol s^*\|_\infty
+\|\boldsymbol t^{(i)} - \boldsymbol s^*\|_\infty
 \;\le\;
-(1 - \alpha)^r \,\|\boldsymbol t^{(0)} - \boldsymbol s^*\|_\infty.
+(1 - \alpha)^i \,\|\boldsymbol t^{(0)} - \boldsymbol s^*\|_\infty.
 $$
 
 Linear convergence to the chosen vertex once the LMO direction settles.
