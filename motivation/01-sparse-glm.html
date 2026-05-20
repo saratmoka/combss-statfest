@@ -464,7 +464,7 @@ window.Quarto = {
 \boxed{\;
 \begin{aligned}
 &amp;\min_{\beta_0 \in \mathbb{R},\; \boldsymbol{\beta} \in \mathbb{R}^p}\;\; -\tfrac{1}{n}\,\ell(\beta_0, \boldsymbol{\beta}) \\
-&amp;\text{subject to} \quad \|\boldsymbol{\beta}\|_0 \le k.
+&amp;\text{subject to} \quad \|\boldsymbol{\beta}\|_0 := \sum_{j = 1}^p I(\beta_j \neq 0) \le k.
 \end{aligned}
 \;}
 \]</span></p>
@@ -1053,7 +1053,7 @@ window.Quarto = {
 <span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a>\boxed{\;</span>
 <span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a>\begin{aligned}</span>
 <span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a>&amp;\min_{\beta_0 \in \mathbb{R},\; \boldsymbol{\beta} \in \mathbb{R}^p}\;\; -\tfrac{1}{n}\,\ell(\beta_0, \boldsymbol{\beta}) <span class="sc">\\</span></span>
-<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a>&amp;\text{subject to} \quad <span class="sc">\|</span>\boldsymbol{\beta}<span class="sc">\|</span>_0 \le k.</span>
+<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a>&amp;\text{subject to} \quad <span class="sc">\|</span>\boldsymbol{\beta}<span class="sc">\|</span>_0 := \sum_{j = 1}^p I(\beta_j \neq 0) \le k.</span>
 <span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a>\end{aligned}</span>
 <span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a>\;}</span>
 <span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a>$$</span>

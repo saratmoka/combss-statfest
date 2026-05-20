@@ -256,7 +256,8 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#the-frank-wolfe-iteration" id="toc-the-frank-wolfe-iteration" class="nav-link active" data-scroll-target="#the-frank-wolfe-iteration">The Frank-Wolfe iteration</a></li>
+  <li><a href="#envelope-gradient" id="toc-envelope-gradient" class="nav-link active" data-scroll-target="#envelope-gradient">Envelope gradient</a></li>
+  <li><a href="#the-frank-wolfe-iteration" id="toc-the-frank-wolfe-iteration" class="nav-link" data-scroll-target="#the-frank-wolfe-iteration">The Frank-Wolfe iteration</a></li>
   <li><a href="#why-no-projections" id="toc-why-no-projections" class="nav-link" data-scroll-target="#why-no-projections">Why no projections</a></li>
   <li><a href="#vertex-approach-guarantee" id="toc-vertex-approach-guarantee" class="nav-link" data-scroll-target="#vertex-approach-guarantee">Vertex-approach guarantee</a></li>
   </ul>
@@ -285,6 +286,18 @@ window.Quarto = {
 </header>
 
 
+<section id="envelope-gradient" class="level2">
+<h2 class="anchored" data-anchor-id="envelope-gradient">Envelope gradient</h2>
+<p>The outer problem <span class="math inline">\(\min_{\boldsymbol{t} \in \mathcal{T}_k} f_\delta(\boldsymbol{t})\)</span> is a smooth optimisation, but <span class="math inline">\(f_\delta\)</span> is itself the value of an <em>inner</em> minimisation over <span class="math inline">\(\boldsymbol{\beta}\)</span>. Differentiating it directly would mean tracking how <span class="math inline">\(\hat{\boldsymbol{\beta}}(\boldsymbol{t})\)</span> moves as <span class="math inline">\(\boldsymbol{t}\)</span> changes — a chain through the inner solver.</p>
+<p>The <strong>envelope theorem</strong> (Danskin) sidesteps this. Because <span class="math inline">\(\hat{\boldsymbol{\beta}}(\boldsymbol{t})\)</span> is optimal for the inner problem, those derivative terms cancel, and the gradient of <span class="math inline">\(f_\delta\)</span> has a closed form in terms of <span class="math inline">\(\hat{\boldsymbol{\beta}}(\boldsymbol{t})\)</span> alone:</p>
+<p><span class="math display">\[
+\boxed{\;\;
+\bigl[\nabla f_{\delta}(\boldsymbol{t})\bigr]_j
+\;=\; -\,\frac{2\,\delta\,\hat\beta_j(\boldsymbol{t})^{2}}{t_j}.
+\;\;}
+\]</span></p>
+<p>One ridge-GLM solve gives <span class="math inline">\(\hat{\boldsymbol{\beta}}(\boldsymbol{t})\)</span>; the gradient is then <span class="math inline">\(O(p)\)</span> arithmetic — no implicit differentiation through the inner solver.</p>
+</section>
 <section id="the-frank-wolfe-iteration" class="level2">
 <h2 class="anchored" data-anchor-id="the-frank-wolfe-iteration">The Frank-Wolfe iteration</h2>
 <p>At iterate <span class="math inline">\(\boldsymbol t^{(r)}\)</span>:</p>
@@ -785,45 +798,60 @@ window.Quarto = {
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="an">subtitle:</span><span class="co"> "Linear minimisation oracle, no projections"</span></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">## The Frank-Wolfe iteration</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">## Envelope gradient</span></span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>At iterate $\boldsymbol t^{(r)}$:</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>The outer problem $\min_{\boldsymbol{t} \in \mathcal{T}_k} f_\delta(\boldsymbol{t})$ is a smooth optimisation, but $f_\delta$ is itself the value of an *inner* minimisation over $\boldsymbol{\beta}$. Differentiating it directly would mean tracking how $\hat{\boldsymbol{\beta}}(\boldsymbol{t})$ moves as $\boldsymbol{t}$ changes — a chain through the inner solver.</span>
 <span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Linear minimisation oracle (LMO)**:</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>The **envelope theorem** (Danskin) sidesteps this. Because $\hat{\boldsymbol{\beta}}(\boldsymbol{t})$ is optimal for the inner problem, those derivative terms cancel, and the gradient of $f_\delta$ has a closed form in terms of $\hat{\boldsymbol{\beta}}(\boldsymbol{t})$ alone:</span>
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>\boldsymbol s^{(r)} \;\in\;</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>\arg\min_{\boldsymbol u \in \mathcal{T}_k}</span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>\langle \boldsymbol g(\boldsymbol t^{(r)}),\,\boldsymbol u\rangle</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>\;\;\Longleftrightarrow\;\;</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>\boldsymbol s^{(r)} = \text{vertex with the $k$ smallest entries of $\boldsymbol g(\boldsymbol t^{(r)})$.}</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Step**: $\boldsymbol t^{(r+1)} = (1 - \alpha)\,\boldsymbol t^{(r)} + \alpha\,\boldsymbol s^{(r)}.$</span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Iterate** until $\boldsymbol t^{(r)}$ converges to a vertex.</span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="fu">## Why no projections</span></span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>The cardinality polytope is a *combinatorial* set; projecting onto it is itself a hard problem. Frank-Wolfe avoids the projection — every step just requires the LMO, which is a sort.</span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="fu">## Vertex-approach guarantee</span></span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a><span class="sc">\|</span>\boldsymbol t^{(r)} - \boldsymbol s^*<span class="sc">\|</span>_\infty</span>
-<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>\;\le\;</span>
-<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>(1 - \alpha)^r \,<span class="sc">\|</span>\boldsymbol t^{(0)} - \boldsymbol s^*<span class="sc">\|</span>_\infty.</span>
-<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>Linear convergence to the chosen vertex once the LMO direction settles.</span>
-<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; Placeholder for visual: a small 3D figure of FW iterates marching toward a vertex of the polytope.</span></span>
-<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>::: {.page-nav}</span>
-<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">← Previous: Boolean relaxation</span><span class="co">](01-relaxation.qmd)</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>\boxed{\;\;</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>\bigl<span class="co">[</span><span class="ot">\nabla f_{\delta}(\boldsymbol{t})\bigr</span><span class="co">]</span>_j</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>\;=\; -\,\frac{2\,\delta\,\hat\beta_j(\boldsymbol{t})^{2}}{t_j}.</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>\;\;}</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>One ridge-GLM solve gives $\hat{\boldsymbol{\beta}}(\boldsymbol{t})$; the gradient is then $O(p)$ arithmetic — no implicit differentiation through the inner solver.</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="fu">## The Frank-Wolfe iteration</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>At iterate $\boldsymbol t^{(r)}$:</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>**Linear minimisation oracle (LMO)**:</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>\boldsymbol s^{(r)} \;\in\;</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>\arg\min_{\boldsymbol u \in \mathcal{T}_k}</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>\langle \boldsymbol g(\boldsymbol t^{(r)}),\,\boldsymbol u\rangle</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>\;\;\Longleftrightarrow\;\;</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>\boldsymbol s^{(r)} = \text{vertex with the $k$ smallest entries of $\boldsymbol g(\boldsymbol t^{(r)})$.}</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>**Step**: $\boldsymbol t^{(r+1)} = (1 - \alpha)\,\boldsymbol t^{(r)} + \alpha\,\boldsymbol s^{(r)}.$</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a><span class="ss">3. </span>**Iterate** until $\boldsymbol t^{(r)}$ converges to a vertex.</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a><span class="fu">## Why no projections</span></span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>The cardinality polytope is a *combinatorial* set; projecting onto it is itself a hard problem. Frank-Wolfe avoids the projection — every step just requires the LMO, which is a sort.</span>
 <span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">Next: Homotopy →</span><span class="co">](03-homotopy.qmd)</span></span>
-<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>:::</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a><span class="fu">## Vertex-approach guarantee</span></span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a><span class="sc">\|</span>\boldsymbol t^{(r)} - \boldsymbol s^*<span class="sc">\|</span>_\infty</span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>\;\le\;</span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>(1 - \alpha)^r \,<span class="sc">\|</span>\boldsymbol t^{(0)} - \boldsymbol s^*<span class="sc">\|</span>_\infty.</span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>Linear convergence to the chosen vertex once the LMO direction settles.</span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a><span class="at">&gt; Placeholder for visual: a small 3D figure of FW iterates marching toward a vertex of the polytope.</span></span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a>::: {.page-nav}</span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">← Previous: Boolean relaxation</span><span class="co">](01-relaxation.qmd)</span></span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">Next: Homotopy →</span><span class="co">](03-homotopy.qmd)</span></span>
+<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a>:::</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 
