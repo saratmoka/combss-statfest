@@ -95,7 +95,7 @@
     "href": "index.html#links",
     "title": "COMBSS: Scalable Best Subset Selection for Generalised Linear Models",
     "section": "Links",
-    "text": "Links\n\nLive site — https://saratmoka.github.io/combss-statfest/\nSource code — https://github.com/saratmoka/combss-statfest"
+    "text": "Links\n\nLive site — https://saratmoka.github.io/combss-statfest/\nSource code — https://github.com/saratmoka/combss-statfest\n\n\n\nNext: Sparse GLM →"
   },
   {
     "objectID": "motivation/02-mio.html",
@@ -172,7 +172,7 @@
     "href": "motivation/01-sparse-glm.html#the-plan-from-here",
     "title": "Sparse-constrained GLM",
     "section": "The plan from here",
-    "text": "The plan from here\nHow do existing methods cope with the NP-hard constraint? Two main strategies:\n\nMIO (next page) — Mixed-Integer Optimisation: solve the discrete problem directly. Exact, but does not scale much beyond a few hundred predictors.\nLasso (page after) — relax \\(\\|\\boldsymbol{\\beta}\\|_0\\) to the convex \\(\\|\\boldsymbol{\\beta}\\|_1\\). Fast and popular, but biased and indexed by \\(\\lambda\\), not \\(k\\).\n\nCOMBSS sits between the two: continuous like the lasso, but on the support indicator rather than on \\(\\boldsymbol{\\beta}\\) itself — and explicitly \\(k\\)-indexed.\n\n Next: MIO →"
+    "text": "The plan from here\nHow do existing methods cope with the NP-hard constraint? Two main strategies:\n\nMIO (next page) — Mixed-Integer Optimisation: solve the discrete problem directly. Exact, but does not scale much beyond a few hundred predictors.\nLasso (page after) — relax \\(\\|\\boldsymbol{\\beta}\\|_0\\) to the convex \\(\\|\\boldsymbol{\\beta}\\|_1\\). Fast and popular, but biased and indexed by \\(\\lambda\\), not \\(k\\).\n\nCOMBSS sits between the two: continuous like the lasso, but on the support indicator rather than on \\(\\boldsymbol{\\beta}\\) itself — and explicitly \\(k\\)-indexed.\n\n← Previous: Home\nNext: MIO →"
   },
   {
     "objectID": "demos/04-rice.html",
@@ -235,7 +235,7 @@
     "href": "demos/04-rice.html#reference",
     "title": "Rice GWAS",
     "section": "Reference",
-    "text": "Reference\nMcCouch, S. R. et al. (2016). Open access resources for genome-wide association mapping in rice. Nature Communications 7, 10532."
+    "text": "Reference\nMcCouch, S. R. et al. (2016). Open access resources for genome-wide association mapping in rice. Nature Communications 7, 10532.\n\n← Previous: Khan SRBCT\nNext: Comparisons →"
   },
   {
     "objectID": "demos/03-khan.html",
@@ -291,7 +291,7 @@
     "href": "demos/03-khan.html#reference",
     "title": "Khan SRBCT cancer classification",
     "section": "Reference",
-    "text": "Reference\nKhan, J. et al. (2001). Classification and diagnostic prediction of cancers using gene expression profiling and artificial neural networks. Nature Medicine 7, 673–679."
+    "text": "Reference\nKhan, J. et al. (2001). Classification and diagnostic prediction of cancers using gene expression profiling and artificial neural networks. Nature Medicine 7, 673–679.\n\n← Previous: HD logistic simulation\nNext: Rice GWAS →"
   },
   {
     "objectID": "references.html",
@@ -417,7 +417,7 @@
     "href": "demos/01-simulation.html#what-just-happened",
     "title": "A simulation you can trust",
     "section": "What just happened",
-    "text": "What just happened\n\nCOMBSS scanned \\(k = 1, \\ldots, 10\\) in one pass and returned a nested-looking selection path.\nAt \\(k = 5\\) it picked the five true predictors exactly — same answer in R and Python.\nValidation MSE stops dropping past \\(k = 5\\), so best_k = 5 is chosen automatically.\n\nThis is the small-\\(p\\) regime where best-subset is easy. The point is that COMBSS gets it right without searching \\(\\binom{30}{5} = 142\\,506\\) subsets. The interesting case is the next demo."
+    "text": "What just happened\n\nCOMBSS scanned \\(k = 1, \\ldots, 10\\) in one pass and returned a nested-looking selection path.\nAt \\(k = 5\\) it picked the five true predictors exactly — same answer in R and Python.\nValidation MSE stops dropping past \\(k = 5\\), so best_k = 5 is chosen automatically.\n\nThis is the small-\\(p\\) regime where best-subset is easy. The point is that COMBSS gets it right without searching \\(\\binom{30}{5} = 142\\,506\\) subsets. The interesting case is the next demo.\n\n← Previous: Homotopy Frank-Wolfe\nNext: HD logistic simulation →"
   },
   {
     "objectID": "demos/05-comparisons.html",
@@ -452,7 +452,7 @@
     "href": "demos/05-comparisons.html#bottom-line",
     "title": "Head-to-head with the lasso",
     "section": "Bottom line",
-    "text": "Bottom line\n\nSimulation — COMBSS recovers the support exactly; lasso overshoots; MIO matches COMBSS when it can run.\nKhan — COMBSS gives a small gene panel with perfect classification, far smaller than the lasso panel.\nRuntime — COMBSS is in the same league as a CV lasso; MIO is the slow option even where it works."
+    "text": "Bottom line\n\nSimulation — COMBSS recovers the support exactly; lasso overshoots; MIO matches COMBSS when it can run.\nKhan — COMBSS gives a small gene panel with perfect classification, far smaller than the lasso panel.\nRuntime — COMBSS is in the same league as a CV lasso; MIO is the slow option even where it works.\n\n\n← Previous: Rice GWAS\nNext: References →"
   },
   {
     "objectID": "demos/02-simulation-hd.html",
@@ -508,7 +508,7 @@
     "href": "demos/02-simulation-hd.html#why-this-matters",
     "title": "High-dimensional logistic regression",
     "section": "Why this matters",
-    "text": "Why this matters\n\nThis is the design regime — high-dimensional, correlated predictors — where best-subset enumeration is infeasible (there are \\(\\binom{1000}{10} \\approx 2.6 \\times 10^{23}\\) candidate subsets).\nCOMBSS finishes in seconds and returns the right support.\nThe same code structure handles linear, logistic, and multinomial outcomes; only the family argument changes.\n\nThis is the bridge to the real biomedical applications: Khan SRBCT (multinomial, \\(p = 2308\\)) and Rice GWAS (binary, \\(p \\approx 1.6 \\times 10^5\\))."
+    "text": "Why this matters\n\nThis is the design regime — high-dimensional, correlated predictors — where best-subset enumeration is infeasible (there are \\(\\binom{1000}{10} \\approx 2.6 \\times 10^{23}\\) candidate subsets).\nCOMBSS finishes in seconds and returns the right support.\nThe same code structure handles linear, logistic, and multinomial outcomes; only the family argument changes.\n\nThis is the bridge to the real biomedical applications: Khan SRBCT (multinomial, \\(p = 2308\\)) and Rice GWAS (binary, \\(p \\approx 1.6 \\times 10^5\\)).\n\n← Previous: Linear simulation\nNext: Khan SRBCT →"
   },
   {
     "objectID": "motivation/03-lasso.html",
