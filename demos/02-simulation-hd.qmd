@@ -162,7 +162,7 @@ beta_l <- as.numeric(coef(cv_l, s = "lambda.min"))[-1]
 sel_l <- which(beta_l != 0)
 tp_l  <- length(intersect(sel_l, 1:k0))
 fp_l  <- length(setdiff(sel_l, 1:k0))
-c(selected = length(sel_l), true_pos = tp_l, false_pos = fp_l)
+cat(sprintf("selected = %d, true_pos = %d, false_pos = %d\n", length(sel_l), tp_l, fp_l))
 ```
 
 ## Python

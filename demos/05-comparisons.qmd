@@ -1,6 +1,6 @@
 ---
-title: "Head-to-head with the lasso"
-subtitle: "Same data, same train/validation split, three numbers each"
+title: "Head-to-head with the lasso and others"
+subtitle: "Same data, same train/validation split, different methods"
 ---
 
 ::: {.callout-note appearance="minimal"}
@@ -39,7 +39,7 @@ beta_l <- as.numeric(coef(cv_l, s = "lambda.min"))[-1]
 sel_l  <- which(beta_l != 0)
 pred_l <- predict(cv_l, newx = x[iva, ], s = "lambda.min")
 mse_l  <- mean((y[iva] - pred_l)^2)
-c(selected = length(sel_l), val_mse = round(mse_l, 4))
+cat(sprintf("selected = %d, val_mse = %.4f\n", length(sel_l), mse_l))
 ```
 
 ## Python
@@ -70,7 +70,7 @@ fit <- combss(x[itr, ], y[itr],
               family = "gaussian", q = 10)
 sel_c <- fit$subset_list[[fit$best_k]]
 mse_c <- min(fit$mse_path)
-c(selected = length(sel_c), val_mse = round(mse_c, 4))
+cat(sprintf("selected = %d, val_mse = %.4f\n", length(sel_c), mse_c))
 ```
 
 ## Python
@@ -108,6 +108,30 @@ knitr::kable(df, digits = c(NA, 0, 0, 4))
 
 COMBSS returns *exactly* the five true predictors; lasso typically overshoots in selected size while landing on a comparable validation MSE.
 
+## Benchmarks against SCAD and MCP
+
+The live block above pits COMBSS against the lasso on a single dataset. To see what happens systematically — and against the smarter non-convex penalties **SCAD** ([Fan & Li, 2001](#references)) and **MCP** ([Zhang, 2010](#references)) — we lift one figure from the COMBSS-GLM paper (Mathur et al. 2026).
+
+The setting: high-dimensional logistic regression, $n = 200$, $p = 1000$, true sparsity $k = 10$, AR(1) predictor correlation $\rho \in \{0,\,0.2,\,0.4,\,0.6\}$. Each method's tuning parameter is chosen on an independent 10,000-observation test set. Averages over 50 replications; error bars are one SE.
+
+::: {layout-ncol=3}
+
+![**MCC** — selection quality. Higher = closer to the true support.](../figures/sim/highcase1-MCC.png){fig-align="center"}
+
+![**F1 score** — harmonic mean of precision and recall.](../figures/sim/highcase1-F1.png){fig-align="center"}
+
+![**Prediction accuracy** on the held-out test set.](../figures/sim/highcase1-MCE.png){fig-align="center"}
+
+:::
+
+Three things to take away:
+
+- **MCC and F1.** COMBSS sits clearly above SCAD, MCP, and lasso across all correlations, and the gap *widens* as $\rho$ grows. SCAD is the closest competitor; MCP actually *deteriorates* at $\rho = 0.6$.
+- **Prediction accuracy.** All four methods land in a comparable band — the selection gains do not cost predictive performance.
+- **Selection vs prediction.** All four methods predict equally well — but lasso reaches that accuracy by keeping *many* features. MCC and F1 reward small, correct subsets; raw accuracy doesn't.
+
+See the paper for more settings, including weaker signals and a different correlation structure.
+
 ## Khan SRBCT
 
 Same train/test split as the [Khan SRBCT demo](03-khan.qmd).
@@ -135,7 +159,7 @@ beta_l <- coef(cv_l, s = "lambda.min")
 sel_l_khan <- sort(unique(unlist(lapply(beta_l, function(B) which(B[-1, 1] != 0)))))
 pred_l <- predict(cv_l, newx = x_test, s = "lambda.min", type = "class")
 acc_l_khan <- mean(pred_l == y_test)
-c(selected = length(sel_l_khan), test_acc = round(acc_l_khan, 3))
+cat(sprintf("selected = %d, test_acc = %.3f\n", length(sel_l_khan), acc_l_khan))
 ```
 
 ## Python
@@ -168,7 +192,7 @@ fit_khan <- combss(x_train, as.character(y_train),
                    x_val = x_test, y_val = as.character(y_test),
                    family = "multinomial", q = 20)
 acc_c_khan <- max(fit_khan$accuracy_path)
-c(selected = fit_khan$best_k, test_acc = round(acc_c_khan, 3))
+cat(sprintf("selected = %d, test_acc = %.3f\n", fit_khan$best_k, acc_c_khan))
 ```
 
 ## Python
@@ -198,6 +222,29 @@ knitr::kable(df, digits = c(NA, 0, 3))
 ```
 
 COMBSS finds a far smaller, interpretable gene panel without sacrificing accuracy — the headline result of this dataset.
+
+### Group-lasso comparison at multiple operating points
+
+The paper compares COMBSS against the **multinomial group lasso** at three principled $\lambda$ choices — the headline number is *35 genes for the group lasso vs 12 genes for COMBSS* at the same 100% accuracy:
+
+```{r}
+#| label: khan-paper-table
+#| echo: false
+df <- data.frame(
+  Method = c("COMBSS-GLM (k = 10)",
+             "COMBSS-GLM (k = 13)",
+             "COMBSS-GLM (k = 16)",
+             "Group lasso ($\\lambda_{1\\text{se}}$)",
+             "Group lasso ($\\lambda_{\\min}$)",
+             "Group lasso (best $\\lambda$)"),
+  `Genes selected` = c(5, 8, 12, 28, 30, 35),
+  `Test accuracy`  = c(0.85, 0.95, 1.00, 0.95, 0.95, 1.00),
+  check.names = FALSE
+)
+knitr::kable(df, digits = c(NA, 0, 2))
+```
+
+Source: Mathur, et al (2026), Table 1. The three COMBSS rows are different model sizes from the *same* run (the homotopy returns a path); the three group lasso rows are different $\lambda$ choices on a single CV path.
 
 ## What about MIO?
 
