@@ -27,9 +27,15 @@ The CSVs in `data/` are formatted with the class label in the first column (`y`)
 ## R
 
 ```{r}
+#| label: khan-setup
+#| include: false
+knitr::opts_knit$set(root.dir = normalizePath(".."))
+```
+
+```{r}
 #| label: khan-load-r
-train <- read.csv("../data/Khan_train.csv")
-test  <- read.csv("../data/Khan_test.csv")
+train <- read.csv("data/Khan_train.csv")
+test  <- read.csv("data/Khan_test.csv")
 
 x_train <- as.matrix(train[, -1]); y_train <- train$y
 x_test  <- as.matrix(test[, -1]);  y_test  <- test$y
@@ -42,8 +48,8 @@ dim(x_train); table(y_train)
 ```python
 import pandas as pd
 
-train = pd.read_csv("../data/Khan_train.csv")
-test  = pd.read_csv("../data/Khan_test.csv")
+train = pd.read_csv("data/Khan_train.csv")
+test  = pd.read_csv("data/Khan_test.csv")
 
 X_train = train.drop(columns="y").to_numpy()
 y_train = train["y"].to_numpy()

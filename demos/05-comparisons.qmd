@@ -21,7 +21,7 @@ The same data-generating mechanism as [Demo 1](01-simulation.qmd) — $n = 300$,
 
 ```{r}
 #| label: sim-data
-set.seed(102)
+set.seed(2026)
 n <- 300; p <- 30
 beta <- c(3, 2, 1.5, 1, 0.5, rep(0, p - 5))
 x <- matrix(rnorm(n * p), n, p)
@@ -156,10 +156,16 @@ See the paper for more settings, including weaker signals and a different correl
 Same train/test split as the [Khan SRBCT demo](03-khan.qmd).
 
 ```{r}
+#| label: khan-setup
+#| include: false
+knitr::opts_knit$set(root.dir = normalizePath(".."))
+```
+
+```{r}
 #| label: khan-data
 #| message: false
-train <- read.csv("../data/Khan_train.csv")
-test  <- read.csv("../data/Khan_test.csv")
+train <- read.csv("data/Khan_train.csv")
+test  <- read.csv("data/Khan_test.csv")
 x_train <- as.matrix(train[, -1]); y_train <- factor(train$y)
 x_test  <- as.matrix(test[, -1]);  y_test  <- factor(test$y)
 ```

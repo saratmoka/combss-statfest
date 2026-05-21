@@ -79,7 +79,7 @@ The simplest case: a single predictor with a Gaussian response. The relaxed obje
 #| fig-height: 4
 #| fig-cap: "The relaxed objective $f_\\delta(t)$ for a single-feature Gaussian regression, plotted over $t \\in [0, 1]$ for several values of $\\delta$. The endpoints are fixed: $f_\\delta(0)$ equals the null-model loss; $f_\\delta(1)$ equals the OLS-fit loss. As $\\delta$ grows, the curve becomes more peaked toward the vertex $t = 1$."
 
-set.seed(1)
+set.seed(2026)
 n <- 100
 x <- rnorm(n)
 beta_true <- 1.5

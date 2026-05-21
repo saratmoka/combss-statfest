@@ -62,7 +62,7 @@ Setup: $n = 300$ ($200$ train + $100$ validation), $p = 30$, $\sigma = 0.5$, tru
 library(glmnet)
 library(combss)
 
-set.seed(102)
+set.seed(2026)
 n <- 300; p <- 30
 beta_true <- c(3, 2, 1.5, 1, 0.5, rep(0, p - 5))
 X <- matrix(rnorm(n * p), n, p)
@@ -86,7 +86,7 @@ fit_c <- combss(X[itr, ], y[itr],
 #| echo: false
 #| fig-width: 7
 #| fig-height: 3.5
-#| fig-cap: "Coefficients at $k=5$: True (grey), Lasso at the path-$\\lambda$ that gives 5 features and minimises training MSE (coral), and COMBSS (teal, OLS-refit on its $k=5$ subset). Squared $\\ell_2$ error to the truth across all 30 dimensions: **lasso 0.099, COMBSS 0.003** — ~35x smaller."
+#| fig-cap: "Coefficients at $k=5$: True (grey), Lasso at the path-$\\lambda$ that gives 5 features and minimises training MSE (coral), and COMBSS (teal, OLS-refit on its $k=5$ subset). Squared $\\ell_2$ error to the truth across all 30 dimensions: **lasso 0.075, COMBSS 0.009** — ~8x smaller."
 
 # Lasso at the lambda giving k=5 with smallest training MSE
 idx5 <- which(nz == 5)

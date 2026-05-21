@@ -28,7 +28,7 @@ The goal: COMBSS should return $\{1, 2, 3, 4, 5\}$ at $k = 5$ and pick $\hat k =
 #| label: sim-r
 library(combss)
 
-set.seed(102)
+set.seed(2026)
 n <- 300; p <- 30
 beta <- c(3, 2, 1.5, 1, 0.5, rep(0, p - 5))
 x <- matrix(rnorm(n * p), n, p)

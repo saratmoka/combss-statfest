@@ -13,7 +13,7 @@ Best subset selection — identifying the optimal $k$ predictors from $p$ candid
 
 This presentation walks through the framework for linear, logistic, and multinomial regression, illustrates its performance on simulated data and two real biomedical applications — cancer gene-expression classification ($p = 2{,}308$ genes) and a rice GWAS ($p \approx 158{,}000$ SNPs) — and demonstrates the open-source `combss` (R and Python) packages with practical examples.
 
-## Collaborators
+## Research collaborators
 
 | Name | Affiliation |
 |---|---|
@@ -26,7 +26,7 @@ This presentation walks through the framework for linear, logistic, and multinom
 
 ## How this demonstration is structured
 
-This site is the talk. Each section below has its own page; navigate via the top menu or click through in order.
+Each section below has its own page; navigate via the top menu or click through in order.
 
 | Section | Pages |
 |---|---|
