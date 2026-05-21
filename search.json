@@ -508,7 +508,7 @@
     "href": "demos/04-rice.html#correlation-among-selected-snps",
     "title": "Rice GWAS",
     "section": "Correlation among selected SNPs",
-    "text": "Correlation among selected SNPs\n\n\n\n\n\nCorrelation matrix of the SNPs selected across all model sizes. Strong off-diagonal blocks reveal linkage disequilibrium within each chromosomal cluster.\n\n\n\n\nThe block-diagonal structure tells the right biological story: SNPs from the same chromosomal region are in strong linkage disequilibrium, while across chromosomes they are nearly uncorrelated."
+    "text": "Correlation among selected SNPs\n\n\n\n\n\nCorrelation matrix of the SNPs selected across all model sizes up to \\(k = 10\\). Strong off-diagonal blocks reveal linkage disequilibrium within each chromosomal cluster.\n\n\n\n\nThe block-diagonal structure tells the right biological story: SNPs from the same chromosomal region are in strong linkage disequilibrium, while across chromosomes they are nearly uncorrelated."
   },
   {
     "objectID": "demos/04-rice.html#why-this-matters",
