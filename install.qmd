@@ -72,8 +72,8 @@ The Khan SRBCT train/test CSVs live under `data/`; simulations use inline `set.s
 
 If you'd rather start completely fresh — clean `conda` environment, paste-and-run code, no Quarto — these two PDFs walk you through the same demos as the site, end-to-end:
 
-- [`handout-r.pdf`](handouts/handout-r.pdf) — R quick-start (conda env, R inside the env, RStudio Desktop, Demos 1–4)
-- [`handout-python.pdf`](handouts/handout-python.pdf) — Python quick-start (same env, Spyder, Demos 1–4 with the v2 API)
+- [`handout-r.pdf`](handouts/handout-r.pdf){target="_blank"} — R quick-start (conda env, R inside the env, RStudio Desktop, Demos 1–4)
+- [`handout-python.pdf`](handouts/handout-python.pdf){target="_blank"} — Python quick-start (same env, Spyder, Demos 1–4)
 
 
 ## Trouble?
