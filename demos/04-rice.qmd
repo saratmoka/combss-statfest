@@ -9,7 +9,7 @@ This demo uses pre-computed results — the raw genotype data is too large to sh
 
 ## The biology
 
-Grain length is one of the most economically important traits in rice breeding. The major effect locus has been mapped to the **GS3 gene on chromosome 3**, identified independently by multiple GWAS groups using thousands of accessions.
+Grain length is one of the most economically important traits in rice breeding. The major effect locus has been mapped to the **GS3 gene on chromosome 3**, identified independently by multiple Genome-Wide Association Study (GWAS) groups using thousands of accessions.
 
 Can COMBSS recover this locus *de novo* from raw SNP data, working at the scale of a real GWAS?
 
