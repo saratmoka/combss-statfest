@@ -347,7 +347,7 @@
     "href": "install.html#print-friendly-handouts-conda-from-scratch",
     "title": "Install",
     "section": "Print-friendly handouts (conda from scratch)",
-    "text": "Print-friendly handouts (conda from scratch)\nIf you’d rather start completely fresh — clean conda environment, paste-and-run code, no Quarto — these two PDFs walk you through the same demos as the site, end-to-end:\n\nhandout-r.pdf — R quick-start (conda env, R inside the env, RStudio Desktop, Demos 1–4)\nhandout-python.pdf — Python quick-start (same env, Spyder, Demos 1–4 with the v2 API)"
+    "text": "Print-friendly handouts (conda from scratch)\nIf you’d rather start completely fresh — clean conda environment, paste-and-run code, no Quarto — these two PDFs walk you through the same demos as the site, end-to-end:\n\nhandout-r.pdf — R quick-start (conda env, R inside the env, RStudio Desktop, Demos 1–4)\nhandout-python.pdf — Python quick-start (same env, Spyder, Demos 1–4)"
   },
   {
     "objectID": "install.html#trouble",
