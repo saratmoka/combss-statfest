@@ -269,7 +269,7 @@ df <- data.frame(
 knitr::kable(df, digits = c(NA, 0, 2))
 ```
 
-Source: Mathur, et al (2026), Table 1. The three COMBSS rows are different model sizes from the *same* run (the homotopy returns a path); the three group lasso rows are different $\lambda$ choices on a single CV path.
+Source: Mathur, et al (2026), Table 1. The three COMBSS rows are different model sizes from the *same* run (the homotopy returns a path); the three group lasso rows are different $\lambda$ choices on a single CV path. $\lambda_{1\text{se}}$ and $\lambda_{\min}$ are honest cross-validation choices (training set only); **best $\lambda$ is picked by evaluating each $\lambda$ on the test set** — a deliberate ceiling for the group lasso. Even at that ceiling it still needs $35$ genes to match COMBSS's $12$.
 
 **Why *grouped*?** With four classes, ordinary multinomial lasso would fit three separate sets of $p$ coefficients (one per non-reference class) and shrink each independently — so a gene could end up "active" for one class and not another. The grouped variant (`glmnet` with `type.multinomial = "grouped"`) ties those three coefficients together under a single group $\ell_2$ penalty, so each gene is either kept (all three nonzero) or dropped (all three zero). That gives one coherent selected gene set across all classes, directly comparable to COMBSS's subset.
 
