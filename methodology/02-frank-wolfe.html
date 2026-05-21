@@ -291,7 +291,7 @@ window.Quarto = {
 
 <section id="envelope-gradient" class="level2">
 <h2 class="anchored" data-anchor-id="envelope-gradient">Envelope gradient</h2>
-<p>The outer problem <span class="math display">\[\min_{\boldsymbol{t} \in \mathcal{T}_k} f_\delta(\boldsymbol{t}), \qquad \mathcal{T}_k \;=\; \Bigl\{\, \boldsymbol{t} \in [0,1]^p \;:\; \textstyle\sum_{j=1}^{p} t_j \le k \,\Bigr\},\]</span> is a smooth optimisation, but <span class="math inline">\(f_\delta\)</span> is itself the value of an <em>inner</em> minimisation over <span class="math inline">\(\boldsymbol{\beta}\)</span>: recall that <span class="math display">\[
+<p>The outer problem <span class="math display">\[\min_{\boldsymbol{t} \in \mathcal{T}_k} f_\delta(\boldsymbol{t}), \qquad \mathcal{T}_k \;=\; \Bigl\{\, \boldsymbol{t} \in [0,1]^p \;:\; \textstyle\sum_{j=1}^{p} t_j = k \,\Bigr\},\]</span> is a smooth optimisation, but <span class="math inline">\(f_\delta\)</span> is itself the value of an <em>inner</em> minimisation over <span class="math inline">\(\boldsymbol{\beta}\)</span>: recall that <span class="math display">\[
 f_{\delta}(\boldsymbol{t})
 \;=\;
 \min_{\beta_0,\,\boldsymbol{\beta}}\;
@@ -893,7 +893,7 @@ Linear convergence to the chosen vertex once the LMO direction settles.
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">## Envelope gradient</span></span>
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>The outer problem </span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>$$\min_{\boldsymbol{t} \in \mathcal{T}_k} f_\delta(\boldsymbol{t}), \qquad \mathcal{T}_k \;=\; \Bigl\{\, \boldsymbol{t} \in [0,1]^p \;:\; \textstyle\sum_{j=1}^{p} t_j \le k \,\Bigr<span class="sc">\}</span>,$$ </span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>$$\min_{\boldsymbol{t} \in \mathcal{T}_k} f_\delta(\boldsymbol{t}), \qquad \mathcal{T}_k \;=\; \Bigl\{\, \boldsymbol{t} \in [0,1]^p \;:\; \textstyle\sum_{j=1}^{p} t_j = k \,\Bigr<span class="sc">\}</span>,$$ </span>
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>is a smooth optimisation, but $f_\delta$ is itself the value of an *inner* minimisation over $\boldsymbol{\beta}$: recall that </span>
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>f_{\delta}(\boldsymbol{t})</span>
