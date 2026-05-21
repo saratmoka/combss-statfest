@@ -343,6 +343,13 @@
     "text": "Cloning the demo repository\ngit clone https://github.com/saratmoka/combss-statfest.git\ncd combss-statfest\nThe Khan SRBCT train/test CSVs live under data/; simulations use inline set.seed() / np.random.default_rng() calls. The rice GWAS demo is precomputed (the raw SNP matrix is too large to ship), and the figures are in figures/rice/. No external downloads at run time."
   },
   {
+    "objectID": "install.html#print-friendly-handouts-conda-from-scratch",
+    "href": "install.html#print-friendly-handouts-conda-from-scratch",
+    "title": "Install",
+    "section": "Print-friendly handouts (conda from scratch)",
+    "text": "Print-friendly handouts (conda from scratch)\nIf you’d rather start completely fresh — clean conda environment, paste-and-run code, no Quarto — these two PDFs walk you through the same demos as the site, end-to-end:\n\nhandout-r.pdf — R quick-start (conda env, R inside the env, RStudio Desktop, Demos 1–4)\nhandout-python.pdf — Python quick-start (same env, Spyder, Demos 1–4 with the v2 API)"
+  },
+  {
     "objectID": "install.html#trouble",
     "href": "install.html#trouble",
     "title": "Install",
@@ -606,7 +613,7 @@
     "href": "whats-next.html#more-glm-families",
     "title": "What’s next",
     "section": "More GLM families",
-    "text": "More GLM families\nThe three families already in the package — Gaussian, binomial, multinomial — are the most commonly used GLMs, but the underlying recipe fits any GLM whose inner ridge problem can be solved efficiently. Natural next additions:\n\nPoisson — count data (event counts, sequencing reads)\nNegative binomial — over-dispersed counts\nGamma — positive continuous outcomes (insurance losses, reaction times)\nOrdinal logistic — ordered categories (disease severity, ratings)\n\nThe plan is to expose a generic combss.general(family = ...) entry point so that any glmnet-style family becomes a COMBSS-supported family without per-family glue code."
+    "text": "More GLM families\nThe three families already in the package — Gaussian, binomial, multinomial — are the most commonly used GLMs, but the underlying recipe fits any GLM whose inner ridge problem can be solved efficiently. Natural next additions:\n\nPoisson — count data (event counts, sequencing reads)\nNegative binomial — over-dispersed counts\nGamma — positive continuous outcomes (insurance losses, reaction times)\netc…..\n\nThe plan is to expose a generic combss.general(...) entry point so that any glmnet-style family becomes a COMBSS-supported family without per-family glue code."
   },
   {
     "objectID": "whats-next.html#group-selection-group-combss",

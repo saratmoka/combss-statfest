@@ -266,6 +266,7 @@ window.Quarto = {
   </ul></li>
   <li><a href="#editor-recommendations" id="toc-editor-recommendations" class="nav-link" data-scroll-target="#editor-recommendations">Editor recommendations</a></li>
   <li><a href="#cloning-the-demo-repository" id="toc-cloning-the-demo-repository" class="nav-link" data-scroll-target="#cloning-the-demo-repository">Cloning the demo repository</a></li>
+  <li><a href="#print-friendly-handouts-conda-from-scratch" id="toc-print-friendly-handouts-conda-from-scratch" class="nav-link" data-scroll-target="#print-friendly-handouts-conda-from-scratch">Print-friendly handouts (conda from scratch)</a></li>
   <li><a href="#trouble" id="toc-trouble" class="nav-link" data-scroll-target="#trouble">Trouble?</a></li>
   </ul>
 </nav>
@@ -342,6 +343,14 @@ window.Quarto = {
 <div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/saratmoka/combss-statfest.git</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> combss-statfest</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>The Khan SRBCT train/test CSVs live under <code>data/</code>; simulations use inline <code>set.seed()</code> / <code>np.random.default_rng()</code> calls. The rice GWAS demo is precomputed (the raw SNP matrix is too large to ship), and the figures are in <code>figures/rice/</code>. No external downloads at run time.</p>
+</section>
+<section id="print-friendly-handouts-conda-from-scratch" class="level2">
+<h2 class="anchored" data-anchor-id="print-friendly-handouts-conda-from-scratch">Print-friendly handouts (conda from scratch)</h2>
+<p>If you’d rather start completely fresh — clean <code>conda</code> environment, paste-and-run code, no Quarto — these two PDFs walk you through the same demos as the site, end-to-end:</p>
+<ul>
+<li><a href="handouts/handout-r.pdf"><code>handout-r.pdf</code></a> — R quick-start (conda env, R inside the env, RStudio Desktop, Demos 1–4)</li>
+<li><a href="handouts/handout-python.pdf"><code>handout-python.pdf</code></a> — Python quick-start (same env, Spyder, Demos 1–4 with the v2 API)</li>
+</ul>
 </section>
 <section id="trouble" class="level2">
 <h2 class="anchored" data-anchor-id="trouble">Trouble?</h2>
@@ -878,11 +887,19 @@ window.Quarto = {
 <span id="cb6-68"><a href="#cb6-68" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-69"><a href="#cb6-69" aria-hidden="true" tabindex="-1"></a>The Khan SRBCT train/test CSVs live under <span class="in">`data/`</span>; simulations use inline <span class="in">`set.seed()`</span> / <span class="in">`np.random.default_rng()`</span> calls. The rice GWAS demo is precomputed (the raw SNP matrix is too large to ship), and the figures are in <span class="in">`figures/rice/`</span>. No external downloads at run time.</span>
 <span id="cb6-70"><a href="#cb6-70" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-71"><a href="#cb6-71" aria-hidden="true" tabindex="-1"></a><span class="fu">## Trouble?</span></span>
+<span id="cb6-71"><a href="#cb6-71" aria-hidden="true" tabindex="-1"></a><span class="fu">## Print-friendly handouts (conda from scratch)</span></span>
 <span id="cb6-72"><a href="#cb6-72" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-73"><a href="#cb6-73" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>R cannot find the package: make sure you are on R ≥ 4.0 and check <span class="in">`available.packages()`</span> lists <span class="in">`combss`</span>. If not, your CRAN mirror may be stale; pick another with <span class="in">`chooseCRANmirror()`</span>.</span>
-<span id="cb6-74"><a href="#cb6-74" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Python <span class="in">`pip install`</span> fails on <span class="in">`combss`</span>: confirm you are on Python ≥ 3.9 with <span class="in">`python --version`</span>; older versions are unsupported.</span>
-<span id="cb6-75"><a href="#cb6-75" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Anything else: open an issue at <span class="ot">&lt;https://github.com/saratmoka/combss-statfest/issues&gt;</span>.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
+<span id="cb6-73"><a href="#cb6-73" aria-hidden="true" tabindex="-1"></a>If you'd rather start completely fresh — clean <span class="in">`conda`</span> environment, paste-and-run code, no Quarto — these two PDFs walk you through the same demos as the site, end-to-end:</span>
+<span id="cb6-74"><a href="#cb6-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-75"><a href="#cb6-75" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">`handout-r.pdf`</span><span class="co">](handouts/handout-r.pdf)</span> — R quick-start (conda env, R inside the env, RStudio Desktop, Demos 1–4)</span>
+<span id="cb6-76"><a href="#cb6-76" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span><span class="co">[</span><span class="ot">`handout-python.pdf`</span><span class="co">](handouts/handout-python.pdf)</span> — Python quick-start (same env, Spyder, Demos 1–4 with the v2 API)</span>
+<span id="cb6-77"><a href="#cb6-77" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-78"><a href="#cb6-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-79"><a href="#cb6-79" aria-hidden="true" tabindex="-1"></a><span class="fu">## Trouble?</span></span>
+<span id="cb6-80"><a href="#cb6-80" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-81"><a href="#cb6-81" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>R cannot find the package: make sure you are on R ≥ 4.0 and check <span class="in">`available.packages()`</span> lists <span class="in">`combss`</span>. If not, your CRAN mirror may be stale; pick another with <span class="in">`chooseCRANmirror()`</span>.</span>
+<span id="cb6-82"><a href="#cb6-82" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Python <span class="in">`pip install`</span> fails on <span class="in">`combss`</span>: confirm you are on Python ≥ 3.9 with <span class="in">`python --version`</span>; older versions are unsupported.</span>
+<span id="cb6-83"><a href="#cb6-83" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Anything else: open an issue at <span class="ot">&lt;https://github.com/saratmoka/combss-statfest/issues&gt;</span>.</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
 
