@@ -102,7 +102,7 @@ The earliest-included SNPs are tightly clustered on chromosome 3 — the GS3 loc
 ```{r}
 #| label: rice-corplot
 #| echo: false
-#| fig-cap: "Correlation matrix of the SNPs selected across all model sizes. Strong off-diagonal blocks reveal linkage disequilibrium within each chromosomal cluster."
+#| fig-cap: "Correlation matrix of the SNPs selected across all model sizes up to $k = 10$. Strong off-diagonal blocks reveal linkage disequilibrium within each chromosomal cluster."
 knitr::include_graphics("../figures/rice/snp_correlation_matrix.png")
 ```
 
