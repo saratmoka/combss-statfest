@@ -31,10 +31,10 @@ so that feature $j$ is *scaled* by $t_j$:
 - $t_j = 0$: feature $j$ is **out** (effective coefficient is zero, regardless of $\beta_j$).
 - $0 < t_j < 1$: a continuous "partial inclusion".
 
-Vertices of the hypercube $[0,1]^p$ correspond exactly to discrete supports, and the cardinality constraint $\sum s_j \le k$ becomes
+Vertices of the hypercube $[0,1]^p$ correspond exactly to discrete supports. We run COMBSS for a fixed model size $k$ (sweeping $k = 1, 2, \ldots$ along the path), so the cardinality constraint $\sum s_j = k$ relaxes to the simplex slice
 
 $$
-\boldsymbol{t} \;\in\; \mathcal{T}_k \;=\; \Bigl\{\, \boldsymbol{t} \in [0,1]^p \;:\; \textstyle\sum_{j=1}^{p} t_j \le k \,\Bigr\},
+\boldsymbol{t} \;\in\; \mathcal{T}_k \;=\; \Bigl\{\, \boldsymbol{t} \in [0,1]^p \;:\; \textstyle\sum_{j=1}^{p} t_j = k \,\Bigr\},
 $$
 
 a polytope whose vertices are exactly the binary $k$-supports.

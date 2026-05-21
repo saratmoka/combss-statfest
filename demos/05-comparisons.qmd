@@ -15,6 +15,10 @@ We compare on three numbers: how many features each method selects, how it does 
 
 The same data-generating mechanism as [Demo 1](01-simulation.qmd) — $n = 300$, $p = 30$, five true predictors.
 
+::: {.panel-tabset group="lang"}
+
+## R
+
 ```{r}
 #| label: sim-data
 set.seed(102)
@@ -24,6 +28,20 @@ x <- matrix(rnorm(n * p), n, p)
 y <- as.numeric(x %*% beta + rnorm(n) * 0.5)
 itr <- 1:200; iva <- 201:300
 ```
+
+## Python
+
+```python
+import numpy as np
+rng = np.random.default_rng(2024)
+n, p = 300, 30
+beta = np.r_[[3, 2, 1.5, 1, 0.5], np.zeros(p - 5)]
+X = rng.standard_normal((n, p))
+y = X @ beta + 0.5 * rng.standard_normal(n)
+itr, iva = slice(0, 200), slice(200, 300)
+```
+
+:::
 
 ### Lasso
 
@@ -48,9 +66,9 @@ cat(sprintf("selected = %d, val_mse = %.4f\n", length(sel_l), mse_l))
 from sklearn.linear_model import LassoCV
 import numpy as np
 
-cv_l = LassoCV(cv=10).fit(x[itr], y[itr])
+cv_l = LassoCV(cv=10).fit(X[itr], y[itr])
 sel_l = np.where(cv_l.coef_ != 0)[0]
-mse_l = np.mean((y[iva] - cv_l.predict(x[iva])) ** 2)
+mse_l = np.mean((y[iva] - cv_l.predict(X[iva])) ** 2)
 print({"selected": len(sel_l), "val_mse": round(mse_l, 4)})
 ```
 
@@ -81,10 +99,11 @@ from numpy.linalg import lstsq
 from combss import linear
 
 fit = linear.model()
-fit.fit(x[itr], y[itr], X_val=x[iva], y_val=y[iva], q=10, verbose=False)
-sel_c = fit.subset
-mse_c = fit.mse
-print({"selected": len(sel_c), "val_mse": round(mse_c, 4)})
+fit.fit(X[itr], y[itr], X_val=X[iva], y_val=y[iva], q=10, verbose=False)
+s5 = fit.subset_list[4]
+b, *_ = lstsq(X[itr][:, s5], y[itr], rcond=None)
+mse_c = float(np.mean((y[iva] - X[iva][:, s5] @ b) ** 2))
+print({"selected": len(s5), "val_mse": round(mse_c, 4)})
 ```
 
 :::

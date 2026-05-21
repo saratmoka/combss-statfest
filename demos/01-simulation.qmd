@@ -47,7 +47,7 @@ fit
 import numpy as np
 from combss import linear
 
-rng = np.random.default_rng(102)
+rng = np.random.default_rng(2024)
 n, p = 300, 30
 beta = np.r_[[3, 2, 1.5, 1, 0.5], np.zeros(p - 5)]
 X = rng.standard_normal((n, p))

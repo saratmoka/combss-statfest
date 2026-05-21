@@ -6,7 +6,7 @@ subtitle: "Linear minimisation oracle, no projections"
 ## Envelope gradient
 
 The outer problem 
-$$\min_{\boldsymbol{t} \in \mathcal{T}_k} f_\delta(\boldsymbol{t}), \qquad \mathcal{T}_k \;=\; \Bigl\{\, \boldsymbol{t} \in [0,1]^p \;:\; \textstyle\sum_{j=1}^{p} t_j \le k \,\Bigr\},$$ 
+$$\min_{\boldsymbol{t} \in \mathcal{T}_k} f_\delta(\boldsymbol{t}), \qquad \mathcal{T}_k \;=\; \Bigl\{\, \boldsymbol{t} \in [0,1]^p \;:\; \textstyle\sum_{j=1}^{p} t_j = k \,\Bigr\},$$ 
 is a smooth optimisation, but $f_\delta$ is itself the value of an *inner* minimisation over $\boldsymbol{\beta}$: recall that 
 $$
 f_{\delta}(\boldsymbol{t})
