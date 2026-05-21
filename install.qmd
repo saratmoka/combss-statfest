@@ -68,6 +68,14 @@ cd combss-statfest
 
 The Khan SRBCT train/test CSVs live under `data/`; simulations use inline `set.seed()` / `np.random.default_rng()` calls. The rice GWAS demo is precomputed (the raw SNP matrix is too large to ship), and the figures are in `figures/rice/`. No external downloads at run time.
 
+## Print-friendly handouts (conda from scratch)
+
+If you'd rather start completely fresh — clean `conda` environment, paste-and-run code, no Quarto — these two PDFs walk you through the same demos as the site, end-to-end:
+
+- [`handout-r.pdf`](handouts/handout-r.pdf) — R quick-start (conda env, R inside the env, RStudio Desktop, Demos 1–4)
+- [`handout-python.pdf`](handouts/handout-python.pdf) — Python quick-start (same env, Spyder, Demos 1–4 with the v2 API)
+
+
 ## Trouble?
 
 - R cannot find the package: make sure you are on R ≥ 4.0 and check `available.packages()` lists `combss`. If not, your CRAN mirror may be stale; pick another with `chooseCRANmirror()`.

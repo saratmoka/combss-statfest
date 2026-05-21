@@ -12,9 +12,9 @@ The three families already in the package — Gaussian, binomial, multinomial �
 - **Poisson** — count data (event counts, sequencing reads)
 - **Negative binomial** — over-dispersed counts
 - **Gamma** — positive continuous outcomes (insurance losses, reaction times)
-- **Ordinal logistic** — ordered categories (disease severity, ratings)
+- **etc.....** 
 
-The plan is to expose a generic `combss.general(family = ...)` entry point so that any `glmnet`-style family becomes a COMBSS-supported family without per-family glue code.
+The plan is to expose a generic `combss.general(...)` entry point so that any `glmnet`-style family becomes a COMBSS-supported family without per-family glue code.
 
 ## Group selection (group COMBSS)
 
