@@ -473,7 +473,7 @@
     "href": "demos/04-rice.html#the-biology",
     "title": "Rice GWAS",
     "section": "The biology",
-    "text": "The biology\nGrain length is one of the most economically important traits in rice breeding. The major effect locus has been mapped to the GS3 gene on chromosome 3, identified independently by multiple GWAS groups using thousands of accessions.\nCan COMBSS recover this locus de novo from raw SNP data, working at the scale of a real GWAS?"
+    "text": "The biology\nGrain length is one of the most economically important traits in rice breeding. The major effect locus has been mapped to the GS3 gene on chromosome 3, identified independently by multiple Genome-Wide Association Study (GWAS) groups using thousands of accessions.\nCan COMBSS recover this locus de novo from raw SNP data, working at the scale of a real GWAS?"
   },
   {
     "objectID": "demos/04-rice.html#the-data",
