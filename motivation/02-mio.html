@@ -291,7 +291,7 @@ window.Quarto = {
 <p><span class="math display">\[
 \begin{aligned}
 &amp;\min_{\beta_0,\,\boldsymbol{\beta},\,\boldsymbol{s}}\;\; -\tfrac{1}{n}\,\ell(\beta_0, \boldsymbol{\beta}) \\
-&amp;\text{subject to} \quad s_j \in \{0,1\},\quad \textstyle\sum_j s_j \le k,\quad |\beta_j| \le M s_j.
+&amp;\text{subject to} \quad s_j \in \{0,1\},\quad \textstyle\sum_j s_j = k,\quad |\beta_j| \le M s_j.
 \end{aligned}
 \]</span></p>
 <p>The Big-<span class="math inline">\(M\)</span> constraint <span class="math inline">\(|\beta_j| \le M s_j\)</span> links the two: if <span class="math inline">\(s_j = 0\)</span>, then <span class="math inline">\(\beta_j\)</span> is forced to zero; if <span class="math inline">\(s_j = 1\)</span>, the coefficient is free up to magnitude <span class="math inline">\(M\)</span>.</p>
@@ -787,7 +787,7 @@ window.Quarto = {
 <span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>\begin{aligned}</span>
 <span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>&amp;\min_{\beta_0,\,\boldsymbol{\beta},\,\boldsymbol{s}}\;\; -\tfrac{1}{n}\,\ell(\beta_0, \boldsymbol{\beta}) <span class="sc">\\</span></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>&amp;\text{subject to} \quad s_j \in <span class="sc">\{</span>0,1<span class="sc">\}</span>,\quad \textstyle\sum_j s_j \le k,\quad |\beta_j| \le M s_j.</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>&amp;\text{subject to} \quad s_j \in <span class="sc">\{</span>0,1<span class="sc">\}</span>,\quad \textstyle\sum_j s_j = k,\quad |\beta_j| \le M s_j.</span>
 <span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>\end{aligned}</span>
 <span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
