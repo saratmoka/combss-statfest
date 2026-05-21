@@ -58,7 +58,7 @@ title: "References"
 
 ## Acknowledgements
 
-The R port was developed and maintained by Sarat Moka with review from Benoit Liquet and Anant Mathur.
+The R package is maintained by Benoit Liquet; the Python package is maintained by Sarat Moka. Anant Mathur contributed to the development of both.
 
 ::: {.page-nav}
 [← Previous: What's next](whats-next.qmd)
