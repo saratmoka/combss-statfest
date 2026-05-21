@@ -271,6 +271,8 @@ knitr::kable(df, digits = c(NA, 0, 2))
 
 Source: Mathur, et al (2026), Table 1. The three COMBSS rows are different model sizes from the *same* run (the homotopy returns a path); the three group lasso rows are different $\lambda$ choices on a single CV path.
 
+**Why *grouped*?** With four classes, ordinary multinomial lasso would fit three separate sets of $p$ coefficients (one per non-reference class) and shrink each independently — so a gene could end up "active" for one class and not another. The grouped variant (`glmnet` with `type.multinomial = "grouped"`) ties those three coefficients together under a single group $\ell_2$ penalty, so each gene is either kept (all three nonzero) or dropped (all three zero). That gives one coherent selected gene set across all classes, directly comparable to COMBSS's subset.
+
 ## What about MIO?
 
 Mixed-integer best subset (Bertsimas, King, Mazumder, 2016) is the natural exact comparator. It is computationally feasible on the simulation but does **not** scale to the Khan setting at $p = 2308$ in any reasonable wall-clock budget. For the simulation, an MIO run produces exactly the same five-feature selection as COMBSS; the difference is wall-clock time.
