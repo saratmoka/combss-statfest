@@ -395,7 +395,7 @@ window.Quarto = {
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="04-combss_files/figure-html/combss-bias-1.png" class="img-fluid figure-img" width="672"></p>
-<figcaption>Coefficients at <span class="math inline">\(k=5\)</span>: True (grey), Lasso at the path-<span class="math inline">\(\lambda\)</span> that gives 5 features and minimises training MSE (coral), and COMBSS (teal, OLS-refit on its <span class="math inline">\(k=5\)</span> subset). Squared <span class="math inline">\(\ell_2\)</span> error to the truth across all 30 dimensions: <strong>lasso 0.099, COMBSS 0.003</strong> — ~35x smaller.</figcaption>
+<figcaption>Coefficients at <span class="math inline">\(k=5\)</span>: True (grey), Lasso at the path-<span class="math inline">\(\lambda\)</span> that gives 5 features and minimises training MSE (coral), and COMBSS (teal, OLS-refit on its <span class="math inline">\(k=5\)</span> subset). Squared <span class="math inline">\(\ell_2\)</span> error to the truth across all 30 dimensions: <strong>lasso 0.075, COMBSS 0.009</strong> — ~8x smaller.</figcaption>
 </figure>
 </div>
 </div>
@@ -949,7 +949,7 @@ window.Quarto = {
 <span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(glmnet)</span>
 <span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(combss)</span>
 <span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">102</span>)</span>
+<span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2026</span>)</span>
 <span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="dv">300</span>; p <span class="ot">&lt;-</span> <span class="dv">30</span></span>
 <span id="cb1-69"><a href="#cb1-69" aria-hidden="true" tabindex="-1"></a>beta_true <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">2</span>, <span class="fl">1.5</span>, <span class="dv">1</span>, <span class="fl">0.5</span>, <span class="fu">rep</span>(<span class="dv">0</span>, p <span class="sc">-</span> <span class="dv">5</span>))</span>
 <span id="cb1-70"><a href="#cb1-70" aria-hidden="true" tabindex="-1"></a>X <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">rnorm</span>(n <span class="sc">*</span> p), n, p)</span>
@@ -973,7 +973,7 @@ window.Quarto = {
 <span id="cb1-90"><a href="#cb1-90" aria-hidden="true" tabindex="-1"></a><span class="co">#| echo: false</span></span>
 <span id="cb1-91"><a href="#cb1-91" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-width: 7</span></span>
 <span id="cb1-92"><a href="#cb1-92" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-height: 3.5</span></span>
-<span id="cb1-93"><a href="#cb1-93" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Coefficients at $k=5$: True (grey), Lasso at the path-$\\lambda$ that gives 5 features and minimises training MSE (coral), and COMBSS (teal, OLS-refit on its $k=5$ subset). Squared $\\ell_2$ error to the truth across all 30 dimensions: **lasso 0.099, COMBSS 0.003** — ~35x smaller."</span></span>
+<span id="cb1-93"><a href="#cb1-93" aria-hidden="true" tabindex="-1"></a><span class="co">#| fig-cap: "Coefficients at $k=5$: True (grey), Lasso at the path-$\\lambda$ that gives 5 features and minimises training MSE (coral), and COMBSS (teal, OLS-refit on its $k=5$ subset). Squared $\\ell_2$ error to the truth across all 30 dimensions: **lasso 0.075, COMBSS 0.009** — ~8x smaller."</span></span>
 <span id="cb1-94"><a href="#cb1-94" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-95"><a href="#cb1-95" aria-hidden="true" tabindex="-1"></a><span class="co"># Lasso at the lambda giving k=5 with smallest training MSE</span></span>
 <span id="cb1-96"><a href="#cb1-96" aria-hidden="true" tabindex="-1"></a>idx5 <span class="ot">&lt;-</span> <span class="fu">which</span>(nz <span class="sc">==</span> <span class="dv">5</span>)</span>
