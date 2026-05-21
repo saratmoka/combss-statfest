@@ -403,7 +403,7 @@
     "href": "references.html#acknowledgements",
     "title": "References",
     "section": "Acknowledgements",
-    "text": "Acknowledgements\nThe R port was developed and maintained by Sarat Moka with review from Benoit Liquet and Anant Mathur.\n\n← Previous: What’s next"
+    "text": "Acknowledgements\nThe R package is maintained by Benoit Liquet; the Python package is maintained by Sarat Moka. Anant Mathur contributed to the development of both.\n\n← Previous: What’s next"
   },
   {
     "objectID": "demos/03-khan.html",
