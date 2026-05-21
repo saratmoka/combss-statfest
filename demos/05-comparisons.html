@@ -624,6 +624,7 @@ window.Quarto = {
 </div>
 </div>
 <p>Source: Mathur, et al (2026), Table 1. The three COMBSS rows are different model sizes from the <em>same</em> run (the homotopy returns a path); the three group lasso rows are different <span class="math inline">\(\lambda\)</span> choices on a single CV path.</p>
+<p><strong>Why <em>grouped</em>?</strong> With four classes, ordinary multinomial lasso would fit three separate sets of <span class="math inline">\(p\)</span> coefficients (one per non-reference class) and shrink each independently — so a gene could end up “active” for one class and not another. The grouped variant (<code>glmnet</code> with <code>type.multinomial = "grouped"</code>) ties those three coefficients together under a single group <span class="math inline">\(\ell_2\)</span> penalty, so each gene is either kept (all three nonzero) or dropped (all three zero). That gives one coherent selected gene set across all classes, directly comparable to COMBSS’s subset.</p>
 </section>
 </section>
 <section id="what-about-mio" class="level2">
@@ -1372,21 +1373,23 @@ window.Quarto = {
 <span id="cb16-291"><a href="#cb16-291" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb16-292"><a href="#cb16-292" aria-hidden="true" tabindex="-1"></a>Source: Mathur, et al (2026), Table 1. The three COMBSS rows are different model sizes from the *same* run (the homotopy returns a path); the three group lasso rows are different $\lambda$ choices on a single CV path.</span>
 <span id="cb16-293"><a href="#cb16-293" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-294"><a href="#cb16-294" aria-hidden="true" tabindex="-1"></a><span class="fu">## What about MIO?</span></span>
+<span id="cb16-294"><a href="#cb16-294" aria-hidden="true" tabindex="-1"></a>**Why *grouped*?** With four classes, ordinary multinomial lasso would fit three separate sets of $p$ coefficients (one per non-reference class) and shrink each independently — so a gene could end up "active" for one class and not another. The grouped variant (<span class="in">`glmnet`</span> with <span class="in">`type.multinomial = "grouped"`</span>) ties those three coefficients together under a single group $\ell_2$ penalty, so each gene is either kept (all three nonzero) or dropped (all three zero). That gives one coherent selected gene set across all classes, directly comparable to COMBSS's subset.</span>
 <span id="cb16-295"><a href="#cb16-295" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-296"><a href="#cb16-296" aria-hidden="true" tabindex="-1"></a>Mixed-integer best subset (Bertsimas, King, Mazumder, 2016) is the natural exact comparator. It is computationally feasible on the simulation but does **not** scale to the Khan setting at $p = 2308$ in any reasonable wall-clock budget. For the simulation, an MIO run produces exactly the same five-feature selection as COMBSS; the difference is wall-clock time.</span>
+<span id="cb16-296"><a href="#cb16-296" aria-hidden="true" tabindex="-1"></a><span class="fu">## What about MIO?</span></span>
 <span id="cb16-297"><a href="#cb16-297" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-298"><a href="#cb16-298" aria-hidden="true" tabindex="-1"></a><span class="fu">## Bottom line</span></span>
+<span id="cb16-298"><a href="#cb16-298" aria-hidden="true" tabindex="-1"></a>Mixed-integer best subset (Bertsimas, King, Mazumder, 2016) is the natural exact comparator. It is computationally feasible on the simulation but does **not** scale to the Khan setting at $p = 2308$ in any reasonable wall-clock budget. For the simulation, an MIO run produces exactly the same five-feature selection as COMBSS; the difference is wall-clock time.</span>
 <span id="cb16-299"><a href="#cb16-299" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-300"><a href="#cb16-300" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Simulation** — COMBSS recovers the support exactly; lasso overshoots; MIO matches COMBSS when it can run.</span>
-<span id="cb16-301"><a href="#cb16-301" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Khan** — COMBSS gives a small gene panel with perfect classification, far smaller than the lasso panel.</span>
-<span id="cb16-302"><a href="#cb16-302" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Runtime** — COMBSS is in the same league as a CV lasso; MIO is the slow option even where it works.</span>
-<span id="cb16-303"><a href="#cb16-303" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-304"><a href="#cb16-304" aria-hidden="true" tabindex="-1"></a>::: {.page-nav}</span>
-<span id="cb16-305"><a href="#cb16-305" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">← Previous: Rice GWAS</span><span class="co">](04-rice.qmd)</span></span>
-<span id="cb16-306"><a href="#cb16-306" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-307"><a href="#cb16-307" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">Next: What's next →</span><span class="co">](../whats-next.qmd)</span></span>
-<span id="cb16-308"><a href="#cb16-308" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb16-300"><a href="#cb16-300" aria-hidden="true" tabindex="-1"></a><span class="fu">## Bottom line</span></span>
+<span id="cb16-301"><a href="#cb16-301" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-302"><a href="#cb16-302" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Simulation** — COMBSS recovers the support exactly; lasso overshoots; MIO matches COMBSS when it can run.</span>
+<span id="cb16-303"><a href="#cb16-303" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Khan** — COMBSS gives a small gene panel with perfect classification, far smaller than the lasso panel.</span>
+<span id="cb16-304"><a href="#cb16-304" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Runtime** — COMBSS is in the same league as a CV lasso; MIO is the slow option even where it works.</span>
+<span id="cb16-305"><a href="#cb16-305" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-306"><a href="#cb16-306" aria-hidden="true" tabindex="-1"></a>::: {.page-nav}</span>
+<span id="cb16-307"><a href="#cb16-307" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">← Previous: Rice GWAS</span><span class="co">](04-rice.qmd)</span></span>
+<span id="cb16-308"><a href="#cb16-308" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-309"><a href="#cb16-309" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">Next: What's next →</span><span class="co">](../whats-next.qmd)</span></span>
+<span id="cb16-310"><a href="#cb16-310" aria-hidden="true" tabindex="-1"></a>:::</span>
 </code></pre></div><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
