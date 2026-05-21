@@ -10,7 +10,7 @@ From the [Sparse GLM](../motivation/01-sparse-glm.qmd) page, the problem we want
 $$
 \begin{aligned}
 &\min_{\beta_0 \in \mathbb{R},\; \boldsymbol{\beta} \in \mathbb{R}^p}\;\; -\tfrac{1}{n}\,\ell(\beta_0, \boldsymbol{\beta}) \\
-&\text{subject to} \quad \|\boldsymbol{\beta}\|_0 \le k.
+&\text{subject to} \quad \|\boldsymbol{\beta}\|_0 = k.
 \end{aligned}
 $$
 

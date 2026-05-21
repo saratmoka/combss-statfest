@@ -10,7 +10,7 @@ The sparse-constrained GLM problem from the [previous page](01-sparse-glm.qmd) i
 $$
 \begin{aligned}
 &\min_{\beta_0,\,\boldsymbol{\beta}}\;\; -\tfrac{1}{n}\,\ell(\beta_0, \boldsymbol{\beta}) \\
-&\text{subject to} \quad \|\boldsymbol{\beta}\|_0 \le k.
+&\text{subject to} \quad \|\boldsymbol{\beta}\|_0 = k.
 \end{aligned}
 $$
 
@@ -25,10 +25,11 @@ $$
 \;}
 $$
 
-Three things changed:
+Four things changed:
 
 - The constraint set is now convex (the $\ell_1$-ball), and the objective is convex.
 - The budget $\tau \ge 0$ is **real-valued**, not an integer count. The smaller $\tau$, the more shrunken (and therefore sparser) the solution.
+- The constraint also flips from **equality** ($\|\boldsymbol{\beta}\|_0 = k$) to **inequality** ($\|\boldsymbol{\beta}\|_1 \le \tau$). Lasso does not try to hit a specific number of features — it bounds the total coefficient magnitude.
 - The whole problem is a **convex optimisation** — every local optimum is global, and there are mature solvers (i.e., [glmnet](https://cran.r-project.org/web/packages/glmnet/index.html){target="_blank"}).
 
 ## The penalised form

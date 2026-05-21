@@ -10,7 +10,7 @@ subtitle: "Solve the discrete problem directly"
 $$
 \begin{aligned}
 &\min_{\beta_0,\,\boldsymbol{\beta},\,\boldsymbol{s}}\;\; -\tfrac{1}{n}\,\ell(\beta_0, \boldsymbol{\beta}) \\
-&\text{subject to} \quad s_j \in \{0,1\},\quad \textstyle\sum_j s_j \le k,\quad |\beta_j| \le M s_j.
+&\text{subject to} \quad s_j \in \{0,1\},\quad \textstyle\sum_j s_j = k,\quad |\beta_j| \le M s_j.
 \end{aligned}
 $$
 
