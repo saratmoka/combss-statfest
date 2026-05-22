@@ -74,7 +74,7 @@
     "href": "index.html#research-collaborators",
     "title": "COMBSS: Scalable Best Subset Selection for Generalised Linear Models",
     "section": "Research collaborators",
-    "text": "Research collaborators\n\n\n\n\n\n\n\nName\nAffiliation\n\n\n\n\nSarat Moka (presenter)\nUNSW Sydney\n\n\nZdravko Botev\nUNSW Sydney\n\n\nBenoit Liquet\nUniversité de Pau et des Pays de l’Adour & Macquarie University\n\n\nAnant Mathur\nUNSW Sydney\n\n\nSamuel Muller\nMacquarie University\n\n\nHouying Zhu\nMacquarie University"
+    "text": "Research collaborators\n\n\n\nName\nAffiliation\n\n\n\n\nSarat Moka (presenter)\nUNSW Sydney\n\n\nZdravko Botev\nUNSW Sydney\n\n\nBenoit Liquet\nUniversité de Pau et des Pays de l’Adour & Macquarie University\n\n\nAnant Mathur\nUNSW Sydney\n\n\nSamuel Muller\nMacquarie University\n\n\nHouying Zhu\nMacquarie University"
   },
   {
     "objectID": "index.html#how-this-demonstration-is-structured",
@@ -564,7 +564,7 @@
     "href": "motivation/01-sparse-glm.html#where-this-matters",
     "title": "Sparse-constrained GLM",
     "section": "Where this matters",
-    "text": "Where this matters\nThe setting \\(p \\gg n\\) with a sparse truth is the bread and butter of modern applied statistics:\n\nGenomics — GWAS with \\(10^5\\) SNPs, gene-expression panels with \\(10^3\\)–\\(10^4\\) probes.\nSurvey data — patient registries with hundreds of recorded variables and a few hundred outcomes.\nSensor data — many channels, few labelled trials.\nFinancial markets — predicting asset returns or default risk from hundreds of candidate factors (macroeconomic indicators, fundamentals, sentiment, technical signals); a small interpretable factor model is preferred over a dense black-box.\n\nEvery one of these calls for a sparsity-constrained GLM, not just a regularised one."
+    "text": "Where this matters\nThe setting \\(p \\gg n\\) with a sparse truth is the bread and butter of modern applied statistics:\n\nGenomics — GWAS with \\(10^5\\) SNPs, gene-expression panels with \\(10^3\\) to \\(10^4\\) probes.\nSurvey data — patient registries with hundreds of recorded variables and a few hundred outcomes.\nSensor data — many channels, few labelled trials.\nFinancial markets — predicting asset returns or default risk from hundreds of candidate factors (macroeconomic indicators, fundamentals, sentiment, technical signals); a small interpretable factor model is preferred over a dense black-box.\n\nEvery one of these calls for a sparsity-constrained GLM, not just a regularised one."
   },
   {
     "objectID": "motivation/01-sparse-glm.html#the-plan-from-here",
