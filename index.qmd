@@ -1,7 +1,7 @@
 ---
 title: "COMBSS: Scalable Best Subset Selection for Generalised Linear Models"
 subtitle: "An interactive demonstration — [StatFest 2026](https://events.humanitix.com/statfest)"
-author: "Sarat Moka (UNSW Sydney)"
+author: "[Sarat Moka](https://saratmoka.com) (UNSW Sydney)"
 date: "today"
 ---
 
@@ -17,7 +17,7 @@ This presentation walks through the framework for linear, logistic, and multinom
 
 | Name | Affiliation |
 |---|---|
-| **Sarat Moka** *(presenter)* | UNSW Sydney |
+| **[Sarat Moka](https://saratmoka.com)** *(presenter)* | UNSW Sydney |
 | Zdravko Botev | UNSW Sydney |
 | Benoit Liquet | Université de Pau et des Pays de l'Adour & Macquarie University |
 | Anant Mathur | UNSW Sydney |

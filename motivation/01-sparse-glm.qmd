@@ -136,7 +136,7 @@ In fact the problem is **NP-hard** (Natarajan 1995). No polynomial-time algorith
 
 The setting $p \gg n$ with a sparse truth is the bread and butter of modern applied statistics:
 
-- **Genomics** — GWAS with $10^5$ SNPs, gene-expression panels with $10^3$–$10^4$ probes.
+- **Genomics** — GWAS with $10^5$ SNPs, gene-expression panels with $10^3$ to $10^4$ probes.
 - **Survey data** — patient registries with hundreds of recorded variables and a few hundred outcomes.
 - **Sensor data** — many channels, few labelled trials.
 - **Financial markets** — predicting asset returns or default risk from hundreds of candidate factors (macroeconomic indicators, fundamentals, sentiment, technical signals); a small interpretable factor model is preferred over a dense black-box.
